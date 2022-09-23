@@ -1,6 +1,5 @@
 {
-  "name": "yy-studio",
-  "version": "0.1.0",
+  "name": "yy",
   "private": true,
   "scripts": {
     "dev": "next dev",
