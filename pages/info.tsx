@@ -1,9 +1,11 @@
 import type { NextPage } from 'next'
-import Header from '../lib/header'
+import Link from 'next/link'
 
 const Info: NextPage = props => {
     return <>
-        <Header />
+        <Link href="/login" passHref>
+            <a>Edit content</a>
+        </Link>
     </>
 }
 
