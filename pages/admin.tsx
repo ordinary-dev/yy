@@ -18,12 +18,11 @@ export const getServerSideProps = withIronSessionSsr(
         const prisma = new PrismaClient()
         const photos = await prisma.photo.findMany({})
         
-        return {
-            props: {
-                isAdmin: user !== undefined && user.isAdmin,
-                photos: photos
-            }
+        const props: PageProps = {
+            isAdmin: user !== undefined && user.isAdmin,
+            photos
         }
+        return { props }
     }, sessionOptions
 )
 
@@ -31,7 +30,7 @@ export const getServerSideProps = withIronSessionSsr(
 const AdminPage: NextPage<PageProps> = props => {
     // Redirect to login page
     // If user is not authorized
-    useEffect(()=>{
+    useEffect(() => {
         if (!props.isAdmin) {
             setTimeout(() => Router.push('/login'), 1000)
         }
