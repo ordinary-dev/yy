@@ -4,18 +4,24 @@ import { useEffect } from 'react'
 import { withIronSessionSsr } from "iron-session/next"
 import { sessionOptions } from "../lib/session"
 import styles from '../styles/admin.module.css'
+import { PrismaClient, Photo } from '@prisma/client'
 
 type PageProps = {
     isAdmin: boolean
+    photos: Photo[]
 }
 
 export const getServerSideProps = withIronSessionSsr(
     async(context) => {
         const user = context.req.session.user;
 
+        const prisma = new PrismaClient()
+        const photos = await prisma.photo.findMany({})
+        
         return {
             props: {
-                isAdmin: user !== undefined && user.isAdmin
+                isAdmin: user !== undefined && user.isAdmin,
+                photos: photos
             }
         }
     }, sessionOptions
@@ -32,9 +38,13 @@ const AdminPage: NextPage<PageProps> = props => {
     }, [props.isAdmin])
 
     if (props.isAdmin) return <div className={ styles.Container }>
-        Hi, admin
+        <div>Hi, admin</div>
+        <div>List of photos:</div>
+        { props.photos.map((photo, index) =>
+            <div key={ index }>{ index }. { photo.descriptionEn }</div>) }
         <button onClick={(e) => logout()}>Logout</button>
     </div>
+    
     return <div className={ styles.Container }>
         You are not the admin
     </div>
