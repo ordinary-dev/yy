@@ -6,8 +6,6 @@ services:
     volumes:
       - ./:/app
     restart: unless-stopped
-    ports:
-      - 3000:3000
     depends_on:
       - postgres
 
@@ -20,6 +18,20 @@ services:
       - POSTGRES_PASSWORD=e2t6dm0f
       - POSTGRES_DB=yydb
     restart: unless-stopped
+  
+  router:
+    build:
+      dockerfile: docker/router.Dockerfile
+      context: .
+    volumes:
+      - ./:/app
+    restart: unless-stopped
+    ports:
+      - 3000:80
+    depends_on:
+      - nextjs
+    environment:
+      - NEXTJS_URL=http://nextjs:3000
 
 volumes:
   yy-postgres-dev:

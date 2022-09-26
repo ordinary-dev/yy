@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 import Router from 'next/router'
-import { useEffect, FormEvent } from 'react'
+import { useEffect, useState, FormEvent } from 'react'
 import { withIronSessionSsr } from "iron-session/next"
 import { sessionOptions } from "../lib/session"
 import styles from '../styles/admin.module.css'
 import { PrismaClient, Photo } from '@prisma/client'
+import Image from 'next/image'
 
 type PageProps = {
     isAdmin: boolean
@@ -40,7 +41,10 @@ const AdminPage: NextPage<PageProps> = props => {
         <div>Hi, admin</div>
         <div>List of photos:</div>
         { props.photos.map((photo, index) =>
-            <div key={ index }>{ index }. { photo.descriptionEn }</div>) }
+            <Photo key={ index }
+                   id={ photo.id }
+                   descEn={ photo.descriptionEn }
+                   descRu={ photo.descriptionRu } />) }
         <UploadForm />
         <button onClick={(e) => logout()}>Logout</button>
     </div>
@@ -48,6 +52,41 @@ const AdminPage: NextPage<PageProps> = props => {
     return <div className={ styles.Container }>
         You are not the admin
     </div>
+}
+
+const Photo = (props: { id: number, descEn: string | null, descRu: string | null }) => {
+    const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
+    const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
+
+    return <div>
+        <Image src={ `http://router/photos/${props.id}/original.jpg` } width="50" height="50" alt="Uploaded photo" />
+        <input placeholder="English description" value={ descEn } onChange={ (e) => setDescEn(e.target.value) } />
+        <input placeholder="Russian description" value={ descRu } onChange={ (e) => setDescRu(e.target.value) } />
+        <button onClick={ () => updatePhoto(props.id, descEn, descRu ) }>Save</button>
+        <button onClick={ () => deletePhoto(props.id) }>Delete</button>
+    </div>
+}
+
+const updatePhoto = async(id: number, descEn: string, descRu: string) => {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, descEn, descRu })
+    }
+    await fetch('/api/update', options)
+}
+
+const deletePhoto = async(id: number ) => {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+    }
+    await fetch('/api/delete', options)
 }
 
 const logout = async() => {

@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ['localhost', '127.0.0.1', 'router'],
+  },
 }
 
 module.exports = nextConfig
