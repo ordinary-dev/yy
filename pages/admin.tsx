@@ -43,8 +43,10 @@ const AdminPage: NextPage<PageProps> = props => {
         { props.photos.map((photo, index) =>
             <Photo key={ index }
                    id={ photo.id }
+                   ext={ photo.ext }
                    descEn={ photo.descriptionEn }
-                   descRu={ photo.descriptionRu } />) }
+                   descRu={ photo.descriptionRu }
+                   width={ photo.width } height={ photo.height } />) }
         <UploadForm />
         <button onClick={(e) => logout()}>Logout</button>
     </div>
@@ -54,14 +56,29 @@ const AdminPage: NextPage<PageProps> = props => {
     </div>
 }
 
-const Photo = (props: { id: number, descEn: string | null, descRu: string | null }) => {
+const Photo = (props: {
+    id: number,
+    ext: string,
+    height: number, width: number,
+    descEn: string | null, descRu: string | null
+}) => {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
 
+    const div = props.width > props.height ? props.width / 100 : props.height / 100
+    const height = Math.floor(props.height / div)
+    const width = Math.floor(props.width / div)
+
     return <div>
-        <Image src={ `http://router/photos/${props.id}/original.jpg` } width="50" height="50" alt="Uploaded photo" />
-        <input placeholder="English description" value={ descEn } onChange={ (e) => setDescEn(e.target.value) } />
-        <input placeholder="Russian description" value={ descRu } onChange={ (e) => setDescRu(e.target.value) } />
+        <Image src={ `http://router/photos/${props.id}/original.${props.ext}` } width={ width } height={ height } alt="Uploaded photo" />
+        <input placeholder="English description"
+               value={ descEn }
+               onChange={ (e) => setDescEn(e.target.value) }
+               type="text" />
+        <input placeholder="Russian description"
+               value={ descRu }
+               onChange={ (e) => setDescRu(e.target.value) }
+               type="text" />
         <button onClick={ () => updatePhoto(props.id, descEn, descRu ) }>Save</button>
         <button onClick={ () => deletePhoto(props.id) }>Delete</button>
     </div>

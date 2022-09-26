@@ -4,6 +4,7 @@ import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../lib/session'
 import { PrismaClient } from '@prisma/client'
 import fs from 'fs'
+import sharp from 'sharp'
 
 // disable the default body parser
 export const config = {
@@ -43,10 +44,18 @@ async function handle(req: NextApiRequest, res: NextApiResponse<MyResponse>) {
         const ext = getExtensionFromMimeType(imageFile)
         if (!ext) throw new Error("Wrong mime type")
 
+        // Get metadata
+        const meta = await sharp(imageFile.filepath).metadata()
+        if (!meta.height || !meta.width) throw new Error("Cannot get metadata")
+
         // Save photo
         const prisma = new PrismaClient()
         const photo = await prisma.photo.create({
-            data: {}
+            data: {
+                ext: ext,
+                width: meta.width,
+                height: meta.height
+            }
         })
         if (!photo) throw new Error("Cannot save photo")
         const imageDir = `photos/${photo.id}`
