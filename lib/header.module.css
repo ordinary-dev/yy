@@ -23,3 +23,8 @@
 .Link:hover {
     text-decoration: underline;
 }
+
+.Lang {
+    min-width: 103px;
+    text-align: right;
+}

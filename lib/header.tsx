@@ -20,7 +20,7 @@ const Header = () => {
             <HLink text="HOME" href="/" currentPath={ path } />
             <HLink text="INFO" href="/info" currentPath={ path } />
             <Space />
-            <div>RU/EN</div>
+            <div className={ styles.Lang }>RU/EN</div>
         </div>
     )
 }
