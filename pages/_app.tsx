@@ -1,6 +1,8 @@
 import '../styles/globals.css'
 import Header from '../lib/header'
-import '@fontsource/montserrat'
+import '@fontsource/montserrat/400.css'
+import '@fontsource/montserrat/200.css'
+import '@fontsource/montserrat/300.css'
 import type { AppProps } from 'next/app'
 
 
