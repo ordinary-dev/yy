@@ -2,4 +2,5 @@
 /.next
 /.git
 /.gitignore
+/node_modules
 /README.md
