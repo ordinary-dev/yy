@@ -7,7 +7,7 @@
     gap: 1em;
 }
 
-.Container > button {
+.Button {
     padding: 8px;
     background-color: transparent;
     border: 1px solid black;
@@ -18,7 +18,23 @@
     font-family: inherit;
 }
 
-.Container > button:hover {
+.Button:hover {
     background-color: black;
     color: white;
+}
+
+.Photo {
+    display: flex;
+    gap: 10px;
+}
+
+.Stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Stack > input {
+    min-width: 250px;
+    height: 30px;
 }

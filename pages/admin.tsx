@@ -6,6 +6,7 @@ import { sessionOptions } from "../lib/session"
 import styles from '../styles/admin.module.css'
 import { PrismaClient, Photo } from '@prisma/client'
 import Image from 'next/image'
+import { DeleteOutlined, SaveOutlined, CloudUploadOutlined } from '@ant-design/icons'
 
 type PageProps = {
     isAdmin: boolean
@@ -48,7 +49,7 @@ const AdminPage: NextPage<PageProps> = props => {
                    descRu={ photo.descriptionRu }
                    width={ photo.width } height={ photo.height } />) }
         <UploadForm />
-        <button onClick={(e) => logout()}>Logout</button>
+        <button className={ styles.Button } onClick={(e) => logout()}>Logout</button>
     </div>
     
     return <div className={ styles.Container }>
@@ -65,22 +66,32 @@ const Photo = (props: {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
 
-    const div = props.width > props.height ? props.width / 100 : props.height / 100
+    const maxSize = 150
+    const div = props.width > props.height ? props.width / maxSize : props.height / maxSize
     const height = Math.floor(props.height / div)
     const width = Math.floor(props.width / div)
 
-    return <div>
-        <Image src={ `http://router/photos/${props.id}/original.${props.ext}` } width={ width } height={ height } alt="Uploaded photo" />
-        <input placeholder="English description"
-               value={ descEn }
-               onChange={ (e) => setDescEn(e.target.value) }
-               type="text" />
-        <input placeholder="Russian description"
-               value={ descRu }
-               onChange={ (e) => setDescRu(e.target.value) }
-               type="text" />
-        <button onClick={ () => updatePhoto(props.id, descEn, descRu ) }>Save</button>
-        <button onClick={ () => deletePhoto(props.id) }>Delete</button>
+    return <div className={ styles.Photo }>
+        <Image src={ `http://router/photos/${props.id}/original.${props.ext}` }
+               width={ width }
+               height={ height }
+               alt="Uploaded photo" />
+        <div className={ styles.Stack }>
+            <input placeholder="English description"
+                   value={ descEn }
+                   onChange={ (e) => setDescEn(e.target.value) }
+                   type="text" />
+            <input placeholder="Russian description"
+                   value={ descRu }
+                   onChange={ (e) => setDescRu(e.target.value) }
+                   type="text" />
+            <button className={ styles.Button } onClick={ () => updatePhoto(props.id, descEn, descRu ) }>
+                <SaveOutlined /> Save
+            </button>
+            <button className={ styles.Button } onClick={ () => deletePhoto(props.id) }>
+                <DeleteOutlined /> Delete
+            </button>
+        </div>
     </div>
 }
 
@@ -120,7 +131,9 @@ const UploadForm = () => {
                    accept="image/png, image/jpeg, image/webp"
                    name="image"
                    required />
-            <button type="submit">Submit</button>
+            <button type="submit" className={ styles.Button }>
+                <CloudUploadOutlined />
+            </button>
         </form>
     </>
 }
