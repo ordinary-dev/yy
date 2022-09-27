@@ -13,3 +13,17 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.PageContainer {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
