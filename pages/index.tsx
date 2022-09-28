@@ -1,7 +1,8 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
 import { GetServerSideProps } from 'next'
-import { PrismaClient, Photo } from '@prisma/client'
+import { Photo } from '@prisma/client'
+import { prisma } from '../lib/prisma'
 import { useState, ReactNode, useEffect } from 'react'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import styles from '../styles/index.module.css'
@@ -11,7 +12,6 @@ type PageProps = {
 }
 
 export const getServerSideProps: GetServerSideProps = async(context) => {
-    const prisma = new PrismaClient()
     const photos = await prisma.photo.findMany({})
     const props = {
         photos

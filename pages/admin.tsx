@@ -4,7 +4,8 @@ import { useEffect, useState, FormEvent } from 'react'
 import { withIronSessionSsr } from "iron-session/next"
 import { sessionOptions } from "../lib/session"
 import styles from '../styles/admin.module.css'
-import { PrismaClient, Photo } from '@prisma/client'
+import { Photo } from '@prisma/client'
+import { prisma } from '../lib/prisma'
 import Image from 'next/image'
 import { DeleteOutlined, SaveOutlined, CloudUploadOutlined } from '@ant-design/icons'
 
@@ -17,7 +18,6 @@ export const getServerSideProps = withIronSessionSsr(
     async(context) => {
         const user = context.req.session.user;
 
-        const prisma = new PrismaClient()
         const photos = await prisma.photo.findMany({})
         
         const props: PageProps = {

@@ -1,6 +1,6 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../lib/session'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../../lib/prisma'
 
 export default withIronSessionApiRoute(
     async function(req, res) {
@@ -16,7 +16,6 @@ export default withIronSessionApiRoute(
             if (!req.body.id) throw new Error("Please provide photo id")
 
             // Delete post
-            const prisma = new PrismaClient()
             const deletedPhoto = await prisma.photo.delete({
                 where: {
                     id: req.body.id

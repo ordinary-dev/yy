@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { IncomingForm, Files, File } from 'formidable'
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../lib/session'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../../lib/prisma'
 import fs from 'fs'
 import sharp from 'sharp'
 
@@ -49,7 +49,6 @@ async function handle(req: NextApiRequest, res: NextApiResponse<MyResponse>) {
         if (!meta.height || !meta.width) throw new Error("Cannot get metadata")
 
         // Save photo
-        const prisma = new PrismaClient()
         const photo = await prisma.photo.create({
             data: {
                 ext: ext,

@@ -1,6 +1,6 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../lib/session'
-import { PrismaClient } from '@prisma/client'
+import { prisma } from '../../lib/prisma'
 
 export default withIronSessionApiRoute(
     async function(req, res) {
@@ -19,7 +19,6 @@ export default withIronSessionApiRoute(
             const descriptionRu = req.body.descRu ? req.body.descRu : undefined
             const descriptionEn = req.body.descEn ? req.body.descEn : undefined
             
-            const prisma = new PrismaClient()
             const updatedPhoto = await prisma.photo.update({
                 where: {
                     id: req.body.id
