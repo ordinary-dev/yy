@@ -14,7 +14,7 @@ const Header = () => {
 
     return (
         <div className={ styles.Container }>
-            <Image src="/logo.png" width="103px" height="80px" alt="Logo" />
+            <Image src="/logo.png" width="50px" height="40px" alt="Logo" />
             <Space />
             <HLink text="ARTISTS" href="/artists" currentPath={ path } />
             <HLink text="HOME" href="/" currentPath={ path } />
