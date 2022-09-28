@@ -6,6 +6,7 @@ import { useEffect, FormEvent } from 'react'
 import { withIronSessionSsr } from "iron-session/next"
 import { sessionOptions } from "../lib/session"
 import styles from '../styles/login.module.css'
+import Head from 'next/head'
 
 type PageProps = {
     isAdmin: boolean
@@ -31,6 +32,7 @@ const LoginPage: NextPage<PageProps> = props => {
     }, [props.isAdmin])
 
     return <div className={ styles.Container }>
+        <Head><title>Login | YY studios</title></Head>
         <div>&#47;&#47; Login form</div>
         <form className={ styles.Form } onSubmit={(e) => handleSubmit(e)} >
             <input placeholder="Login" type="text" name="login" required />

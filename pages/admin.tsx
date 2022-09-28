@@ -7,6 +7,7 @@ import styles from '../styles/admin.module.css'
 import { Photo } from '@prisma/client'
 import { prisma } from '../lib/prisma'
 import Image from 'next/image'
+import Head from 'next/head'
 import { DeleteOutlined, SaveOutlined, CloudUploadOutlined } from '@ant-design/icons'
 
 type PageProps = {
@@ -39,6 +40,7 @@ const AdminPage: NextPage<PageProps> = props => {
     }, [props.isAdmin])
 
     if (props.isAdmin) return <div className={ styles.Container }>
+        <Head><title>Admin | YY studios</title></Head>
         <div>Hi, admin</div>
         <div>List of photos:</div>
         { props.photos.map((photo, index) =>
@@ -53,6 +55,7 @@ const AdminPage: NextPage<PageProps> = props => {
     </div>
     
     return <div className={ styles.Container }>
+        <Head><title>Redirecting... | YY studios</title></Head>
         You are not the admin
     </div>
 }

@@ -1,9 +1,11 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
 import styles from '../styles/info.module.css'
+import Head from 'next/head'
 
 const Info: NextPage = props => {
     return <>
+        <Head><title>Info | YY studios</title></Head>
         <div className={ styles.Info }>
             <div className={ styles.MainColumn }>
                 <div className={ styles.Title }>ABOUT</div>

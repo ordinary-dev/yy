@@ -6,6 +6,7 @@ import { prisma } from '../lib/prisma'
 import { useState, ReactNode, useEffect } from 'react'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import styles from '../styles/index.module.css'
+import Head from 'next/head'
 
 type PageProps = {
     photos: Photo[]
@@ -62,6 +63,7 @@ const Home: NextPage<PageProps> = (props) => {
     }
 
     return <div className={styles.Container} >
+        <Head><title>YY studios</title></Head>
         <Button onClick={ prev } isVisible={ () => index > 0 }>
             <LeftOutlined />
         </Button>
