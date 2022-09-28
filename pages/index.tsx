@@ -57,14 +57,16 @@ const Home: NextPage<PageProps> = (props) => {
     // Functions that change the current photo
     const prev = () => {
         if (index > 0) setIndex(index - 1)
+        else setIndex(imageList.length - 1)
     }
     const next = () => {
         if (index + 1 < imageList.length) setIndex(index + 1)
+        else setIndex(0)
     }
 
     return <div className={styles.Container} >
         <Head><title>YY studios</title></Head>
-        <Button onClick={ prev } isVisible={ () => index > 0 }>
+        <Button onClick={ prev }>
             <LeftOutlined />
         </Button>
         
@@ -72,7 +74,7 @@ const Home: NextPage<PageProps> = (props) => {
             { imageList.length > 0 && imageList[index] }
         </div>
         
-        <Button onClick={ next } isVisible={ () => index + 1 < imageList.length }>
+        <Button onClick={ next }>
             <RightOutlined />
         </Button>
     </div>
@@ -80,12 +82,9 @@ const Home: NextPage<PageProps> = (props) => {
 
 const Button = (props: {
     onClick: () => void,
-    isVisible: () => boolean,
     children: ReactNode
 }) => {
-    if (props.isVisible())
-        return <button className={ styles.Button } onClick={ props.onClick }>{props.children}</button>
-    return <button className={ styles.Button }></button>
+    return <button className={ styles.Button } onClick={ props.onClick }>{props.children}</button>
 }
 
 export default Home
