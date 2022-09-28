@@ -27,9 +27,13 @@ const Home: NextPage<PageProps> = (props) => {
     // Calculate max photo size
     useEffect(() => {
         function handleResize() {
+            const headerHeight = 127
+            const margin = 150
+            
             const width = window.innerWidth
-            const height = window.innerHeight - 127
-            setMaxSize(width < height ? width - 150 : height - 150)
+            const height = window.innerHeight - headerHeight
+            
+            setMaxSize(Math.min(width - margin, height - margin, 1024))
         }
 
         window.addEventListener("resize", handleResize)
