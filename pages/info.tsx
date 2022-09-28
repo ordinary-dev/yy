@@ -21,23 +21,37 @@ const Info: NextPage = props => {
             </div>
             <div className={ styles.Column }>
                 <div className={ styles.Title }>SOCIAL MEDIA</div>
-                <div className={ styles.Text }>INSTAGRAM</div>
-                <div className={ styles.Text }>TELEGRAM</div>
+                <a href="https://instagram.com/yy_studios" target="_blank" rel="noreferrer">
+                    <div className={ styles.Link }>INSTAGRAM</div>
+                </a>
+                <a href="https://t.me/yy_studios" target="_blank" rel="noreferrer">
+                    <div className={ styles.Link }>TELEGRAM</div>
+                </a>
             </div>
             <div className={ styles.Column }>
                 <div className={ styles.Title }>GLOBAL ENQUIRES</div>
-                <div className={ styles.Text }>INFO@YY-STUDIOS.ART</div>
-                <div className={ styles.Text }>+7(982) 450-09-26</div>
+                <a href="mailto:info@yy-studios.ru" target="_blank" rel="noreferrer">
+                    <div className={ styles.Link }>INFO@YY-STUDIOS.RU</div>
+                </a>
+                <a href="tel:+79824500926">
+                    <div className={ styles.Link }>+7 (982) 450-09-26</div>
+                </a>
                 <div className={ styles.Text }>SERGEY</div>
 
                 <div className={ styles.Title }>BOOKING IN MOSCOW</div>
-                <div className={ styles.Text }>MSC@YY-STUDIOS.ART</div>
+                <a href="mailto:msc@yy-studios.ru" target="_blank" rel="noreferrer">
+                    <div className={ styles.Link }>MSC@YY-STUDIOS.RU</div>
+                </a>
 
                 <div className={ styles.Title }>BOOKING IN SAINT-PETERSBURG</div>
-                <div className={ styles.Text }>SP@YY-STUDIOS.ART</div>
+                <a href="mailto:sp@yy-studios.ru" target="_blank" rel="noreferrer">
+                    <div className={ styles.Link }>SP@YY-STUDIOS.RU</div>
+                </a>
 
                 <div className={ styles.Title }>FOR PARTICIPANTS</div>
-                <div className={ styles.Text }>CASTING@YY-STUDIOS.ART</div>
+                <a href="mailto:casting@yy-studios.ru" target="_blank" rel="noreferrer">
+                    <div className={ styles.Link }>CASTING@YY-STUDIOS.RU</div>
+                </a>
             </div>
         </div>
         
