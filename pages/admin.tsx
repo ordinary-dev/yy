@@ -8,22 +8,19 @@ import { Photo } from '@prisma/client'
 import { prisma } from '../lib/prisma'
 import Image from 'next/image'
 import Head from 'next/head'
-import { DeleteOutlined, SaveOutlined, CloudUploadOutlined } from '@ant-design/icons'
+import { DeleteOutlined, SaveOutlined, CloudUploadOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import useSWR, { useSWRConfig } from 'swr'
 
 type PageProps = {
     isAdmin: boolean
-    photos: Photo[]
 }
 
 export const getServerSideProps = withIronSessionSsr(
     async(context) => {
         const user = context.req.session.user;
 
-        const photos = await prisma.photo.findMany({})
-        
         const props: PageProps = {
             isAdmin: user !== undefined && user.isAdmin,
-            photos
         }
         return { props }
     }, sessionOptions
@@ -39,18 +36,29 @@ const AdminPage: NextPage<PageProps> = props => {
         }
     }, [props.isAdmin])
 
+    const { data, error } = useSWR<{ photos: Photo[] }, Error>('/api/photo')
+    const { mutate } = useSWRConfig()
+    
+    const updateList = () => {
+        mutate('/api/photo')
+    }
+
+    if (error) return <ExclamationCircleOutlined />
+    if (!data) return <LoadingOutlined spin={ true } />
+    
     if (props.isAdmin) return <div className={ styles.Container }>
         <Head><title>Admin | YY studios</title></Head>
         <div>Hi, admin</div>
         <div>List of photos:</div>
-        { props.photos.map((photo, index) =>
+        { data.photos.map((photo, index) =>
             <Photo key={ index }
                    id={ photo.id }
                    ext={ photo.ext }
                    descEn={ photo.descriptionEn }
                    descRu={ photo.descriptionRu }
-                   width={ photo.width } height={ photo.height } />) }
-        <UploadForm />
+                   width={ photo.width } height={ photo.height }
+                   updateList={ updateList } />) }
+        <UploadForm updateList={ updateList }/>
         <button className={ styles.Button } onClick={(e) => logout()}>Logout</button>
     </div>
     
@@ -64,7 +72,8 @@ const Photo = (props: {
     id: number,
     ext: string,
     height: number, width: number,
-    descEn: string | null, descRu: string | null
+    descEn: string | null, descRu: string | null,
+    updateList: () => void
 }) => {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
@@ -91,7 +100,7 @@ const Photo = (props: {
             <button className={ styles.Button } onClick={ () => updatePhoto(props.id, descEn, descRu ) }>
                 <SaveOutlined /> Save
             </button>
-            <button className={ styles.Button } onClick={ () => deletePhoto(props.id) }>
+            <button className={ styles.Button } onClick={ () => deletePhoto(props.id, props.updateList) }>
                 <DeleteOutlined /> Delete
             </button>
         </div>
@@ -109,7 +118,7 @@ const updatePhoto = async(id: number, descEn: string, descRu: string) => {
     await fetch('/api/update', options)
 }
 
-const deletePhoto = async(id: number ) => {
+const deletePhoto = async(id: number, updateList: () => void ) => {
     const options = {
         method: 'POST',
         headers: {
@@ -118,6 +127,7 @@ const deletePhoto = async(id: number ) => {
         body: JSON.stringify({ id })
     }
     await fetch('/api/delete', options)
+    updateList()
 }
 
 const logout = async() => {
@@ -126,10 +136,10 @@ const logout = async() => {
     if ( res.ok ) Router.push('/login')
 }
 
-const UploadForm = () => {
+const UploadForm = (props: { updateList: () => void }) => {
     return <>
         <div>Upload new photo</div>
-        <form onSubmit={ e => handleSubmit(e) }>
+        <form onSubmit={ e => handleSubmit(e, props.updateList) }>
             <input type="file"
                    accept="image/png, image/jpeg, image/webp"
                    name="image"
@@ -145,7 +155,7 @@ interface UploadForm extends HTMLFormElement {
     image: HTMLInputElement
 }
 
-const handleSubmit = async(e: FormEvent) => {
+const handleSubmit = async(e: FormEvent, updateList: () => void ) => {
     e.preventDefault()
 
     const target = e.target as UploadForm
@@ -171,6 +181,9 @@ const handleSubmit = async(e: FormEvent) => {
     if (!result.ok) throw new Error(result.message)
 
     target.reset()
+
+    // Update photo list
+    updateList()
 }
 
 export default AdminPage
