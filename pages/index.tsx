@@ -4,23 +4,14 @@ import { GetServerSideProps } from 'next'
 import { Photo } from '@prisma/client'
 import { prisma } from '../lib/prisma'
 import { useState, ReactNode, useEffect } from 'react'
-import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { LeftOutlined, RightOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
 import styles from '../styles/index.module.css'
 import Head from 'next/head'
+import useSWR from 'swr'
 
-type PageProps = {
-    photos: Photo[]
-}
+const Home: NextPage = () => {
+    const { data, error } = useSWR<{ photos: Photo[] }, Error>('/api/photo')
 
-export const getServerSideProps: GetServerSideProps = async(context) => {
-    const photos = await prisma.photo.findMany({})
-    const props = {
-        photos
-    }
-    return { props }
-}
-
-const Home: NextPage<PageProps> = (props) => {
     const [maxSize, setMaxSize] = useState(400)
     const [index, setIndex] = useState(0)
 
@@ -44,8 +35,11 @@ const Home: NextPage<PageProps> = (props) => {
         }
     }, [])
 
+    if (error) return <ExclamationCircleOutlined />
+    if (!data) return <LoadingOutlined spin={ true } />
+    
     // Create list of photos
-    const imageList = props.photos.map(photo => {
+    const imageList = data.photos.map(photo => {
         const div = photo.width > photo.height ? photo.width / maxSize : photo.height / maxSize
         const height = Math.floor(photo.height / div)
         const width = Math.floor(photo.width / div)
