@@ -15,6 +15,11 @@ const Header = () => {
         if (router.isReady) setPath(router.asPath)
     }, [router.isReady, router.asPath])
 
+    const t = (en: string, ru: string) => {
+        if (router.locale == 'ru') return ru
+        return en
+    }
+
     return (
         <div className={ styles.Container }>
             <div className={ styles.ImageGuard } >
@@ -25,11 +30,11 @@ const Header = () => {
                        layout="fixed" />
             </div>
             <Space />
-            <HLink text="ARTISTS" href="/artists" currentPath={ path } />
-            <HLink text="HOME" href="/" currentPath={ path } />
-            <HLink text="INFO" href="/info" currentPath={ path } />
+            <HLink text={ t('ARTISTS', 'УЧАСТНИКИ') } href="/artists" currentPath={ path } />
+            <HLink text={ t('HOME', 'ГЛАВНАЯ')  } href="/" currentPath={ path } />
+            <HLink text={ t('INFO', 'ИНФО')  } href="/info" currentPath={ path } />
             <Space />
-            <div className={ styles.Lang }>RU/EN</div>
+            <Locale />
             <Menu isOpen={ isOpen }
                   open={ () => setIsOpen(true) }
                   close={ () => setIsOpen(false) } />
@@ -95,5 +100,28 @@ const FullscreenLink = (props: { text: string, href: string, currentPath: string
     )
 }
 
+const Locale = () => {
+    const router = useRouter()
+    const { pathname, asPath, query } = router
+
+    const setRu = () => {
+        router.push({ pathname, query }, asPath, { locale: 'ru' })
+    }
+
+    const setEn = () => {
+        router.push({ pathname, query }, asPath, { locale: 'en' })
+    }
+
+    if (router.locale === 'ru') return (
+        <div className={ styles.Lang }>
+            RU/<div className={ styles.Link } onClick={ setEn }>EN</div>
+        </div>
+    )
+    else return (
+        <div className={ styles.Lang }>
+            <div className={ styles.Link } onClick={ setRu }>RU</div>/EN
+        </div>
+    )
+}
 
 export default Header

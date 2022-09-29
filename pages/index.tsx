@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import Image from 'next/image'
-import { GetServerSideProps } from 'next'
 import { Photo } from '@prisma/client'
 import { prisma } from '../lib/prisma'
 import { useState, ReactNode, useEffect } from 'react'
@@ -8,9 +7,11 @@ import { LeftOutlined, RightOutlined, ExclamationCircleOutlined, LoadingOutlined
 import styles from '../styles/index.module.css'
 import Head from 'next/head'
 import useSWR from 'swr'
+import { useRouter } from 'next/router'
 
 const Home: NextPage = () => {
     const { data, error } = useSWR<{ photos: Photo[] }, Error>('/api/photo')
+    const router = useRouter()
 
     const [maxSize, setMaxSize] = useState(400)
     const [index, setIndex] = useState(0)
@@ -37,6 +38,11 @@ const Home: NextPage = () => {
 
     if (error) return <ExclamationCircleOutlined />
     if (!data) return <LoadingOutlined spin={ true } />
+
+    const t = (en: string | null, ru: string | null) => {
+        if (router.locale == 'ru') return ru
+        return en
+    }
     
     // Create list of photos
     const imageList = data.photos.map(photo => {
@@ -48,7 +54,7 @@ const Home: NextPage = () => {
                    width={ width }
                    height={ height }
                    alt="Photo" />
-            <div className={ styles.Description }>{ photo.descriptionEn }</div>
+            <div className={ styles.Description }>{ t(photo.descriptionEn, photo.descriptionRu) }</div>
         </div>
     })
 

@@ -28,11 +28,13 @@
 
 .Link:hover {
     text-decoration: underline;
+    cursor: pointer;
 }
 
 .Lang {
     min-width: 103px;
-    text-align: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .Menu {
