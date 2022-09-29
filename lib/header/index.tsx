@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import styles from './header.module.css'
 import { MenuOutlined, CloseCircleOutlined } from '@ant-design/icons'
+import Logo from '../../public/logo.png'
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false)
@@ -17,7 +18,7 @@ const Header = () => {
     return (
         <div className={ styles.Container }>
             <div className={ styles.ImageGuard } >
-                <Image src="/logo.png"
+                <Image src={ Logo }
                        width="50px"
                        height="40px"
                        alt="Logo"
