@@ -32,7 +32,7 @@
 }
 
 .Lang {
-    min-width: 103px;
+    min-width: 50px;
     display: flex;
     justify-content: flex-end;
 }
