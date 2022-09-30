@@ -8,6 +8,7 @@ import { Photo } from '@prisma/client'
 import Image from 'next/image'
 import Head from 'next/head'
 import { DeleteOutlined, SaveOutlined, CloudUploadOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import ListOfStrings from '../lib/admin/strings'
 import useSWR, { useSWRConfig } from 'swr'
 
 type PageProps = {
@@ -58,6 +59,7 @@ const AdminPage: NextPage<PageProps> = props => {
                    width={ photo.width } height={ photo.height }
                    updateList={ updateList } />) }
         <UploadForm updateList={ updateList }/>
+        <ListOfStrings />
         <button className={ styles.Button } onClick={() => logout()}>Logout</button>
     </div>
     

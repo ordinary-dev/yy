@@ -15,3 +15,8 @@ model Photo {
     height          Int
     ext             String
 }
+
+model Text {
+    id      String  @id
+    value   String
+}
