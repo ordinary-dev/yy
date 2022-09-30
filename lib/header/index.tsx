@@ -30,7 +30,7 @@ const Header = () => {
                        layout="fixed" />
             </div>
             <Space />
-            <HLink text={ t('ARTISTS', 'УЧАСТНИКИ') } href="/artists" currentPath={ path } />
+            <HLink text={ t('ARTISTS', 'ТАЛАНТЫ') } href="/artists" currentPath={ path } />
             <HLink text={ t('HOME', 'ГЛАВНАЯ')  } href="/" currentPath={ path } />
             <HLink text={ t('INFO', 'ИНФО')  } href="/info" currentPath={ path } />
             <Space />
