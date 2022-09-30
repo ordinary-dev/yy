@@ -12,29 +12,7 @@ import { useRouter } from 'next/router'
 const Home: NextPage = () => {
     const { data, error } = useSWR<{ photos: Photo[] }, Error>('/api/photo')
     const router = useRouter()
-
-    const [maxSize, setMaxSize] = useState(400)
     const [index, setIndex] = useState(0)
-
-    // Calculate max photo size
-    useEffect(() => {
-        function handleResize() {
-            const headerHeight = 127
-            const margin = 150
-            
-            const width = window.innerWidth
-            const height = window.innerHeight - headerHeight
-            
-            setMaxSize(Math.min(width - margin, height - margin, 1024))
-        }
-
-        window.addEventListener("resize", handleResize)
-        handleResize()
-
-        return () => {
-            window.removeEventListener("resize", handleResize)
-        }
-    }, [])
 
     if (error) return <ExclamationCircleOutlined />
     if (!data) return <LoadingOutlined spin={ true } />
@@ -45,18 +23,12 @@ const Home: NextPage = () => {
     }
     
     // Create list of photos
-    const imageList = data.photos.map(photo => {
-        const div = photo.width > photo.height ? photo.width / maxSize : photo.height / maxSize
-        const height = Math.floor(photo.height / div)
-        const width = Math.floor(photo.width / div)
-        return <div key={ photo.id } >
-            <Image src={`http://router/photos/${photo.id}/original.${photo.ext}`}
-                   width={ width }
-                   height={ height }
-                   alt="Photo" />
-            <div className={ styles.Description }>{ t(photo.descriptionEn, photo.descriptionRu) }</div>
-        </div>
-    })
+    const imageList = data.photos.map(photo =>
+        <Image src={`http://router/photos/${photo.id}/original.${photo.ext}`}
+               alt="Photo"
+               layout="fill"
+               objectFit="contain"
+               key={ photo.id } />)
 
     // Functions that change the current photo
     const prev = () => {
@@ -70,17 +42,24 @@ const Home: NextPage = () => {
 
     return <div className={styles.Container} >
         <Head><title>YY studios</title></Head>
-        <Button onClick={ prev }>
-            <LeftOutlined />
-        </Button>
         
-        <div style={{width: maxSize, height: maxSize}} className={ styles.Placeholder } >
-            { imageList.length > 0 && imageList[index] }
+        <div className={ styles.MainRow }>
+            <Button onClick={ prev }>
+                <LeftOutlined />
+            </Button>
+        
+            <div className={ styles.Placeholder } >
+                { imageList.length > 0 && imageList[index] }
+            </div>
+        
+            <Button onClick={ next }>
+                <RightOutlined />
+            </Button>
         </div>
         
-        <Button onClick={ next }>
-            <RightOutlined />
-        </Button>
+        <div className={ styles.Description }>
+            { data.photos.length > 0 && t(data.photos[index].descriptionEn, data.photos[index].descriptionRu) }
+        </div>
     </div>
 }
 
