@@ -1,6 +1,15 @@
 /docker
+
+# User files
 /.next
-/.git
-/.gitignore
 /node_modules
+/photos
+
+# Git
+/.git
+/.github
+/.gitignore
+
+# Docs
 /README.md
+/license.txt
