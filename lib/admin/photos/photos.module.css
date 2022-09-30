@@ -22,3 +22,19 @@
     background-color: black;
     color: white;
 }
+
+.Photo {
+    display: flex;
+    gap: 10px;
+}
+
+.Stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Stack > input {
+    min-width: 250px;
+    height: 30px;
+}
