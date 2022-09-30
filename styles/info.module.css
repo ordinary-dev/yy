@@ -45,15 +45,20 @@
 }
 
 .Footer {
+    margin-top: 256px;
     width: 90%;
     max-width:  1660px;
+    min-height: 80px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    
     border-top: 1px solid black;
-    margin-top: 256px;
-    height: 120px;
+
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1em;
+    flex-wrap: wrap;
 }
 
 .Footer .Link {
