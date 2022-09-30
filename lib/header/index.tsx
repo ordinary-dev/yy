@@ -22,13 +22,15 @@ const Header = () => {
 
     return (
         <div className={ styles.Container }>
-            <div className={ styles.ImageGuard } >
-                <Image src={ Logo }
-                       width="50px"
-                       height="40px"
-                       alt="Logo"
-                       layout="fixed" />
-            </div>
+            <Link href="/" passHref>
+                <a>
+                    <Image src={ Logo }
+                           width="50px"
+                           height="40px"
+                           alt="Logo"
+                           layout="fixed" />
+                </a>
+            </Link>
             <Space />
             <HLink text={ t('ARTISTS', 'ТАЛАНТЫ') } href="/artists" currentPath={ path } />
             <HLink text={ t('HOME', 'ГЛАВНАЯ')  } href="/" currentPath={ path } />

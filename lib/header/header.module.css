@@ -13,11 +13,6 @@
     font-size: 21px;
 }
 
-.ImageGuard {
-    width: 50px;
-    height: 40px;
-}
-
 .Space {
     flex-grow: 1;
 }
