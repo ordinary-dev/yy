@@ -7,6 +7,7 @@ import styles from '../styles/admin.module.css'
 import Head from 'next/head'
 import ListOfStrings from '../lib/admin/strings'
 import ListOfPhotos from '../lib/admin/photos'
+import PasswordManager from '../lib/admin/password'
 
 type PageProps = {
     isAdmin: boolean
@@ -17,10 +18,11 @@ export const getServerSideProps = withIronSessionSsr(
         const user = context.req.session.user;
 
         const props: PageProps = {
-            isAdmin: user !== undefined && user.isAdmin,
+            isAdmin: user !== undefined,
         }
         return { props }
-    }, sessionOptions
+    },
+    sessionOptions
 )
 
 
@@ -38,6 +40,7 @@ const AdminPage: NextPage<PageProps> = props => {
         <div>Hi, admin</div>
         <ListOfPhotos />
         <ListOfStrings />
+        <PasswordManager />
         <button className={ styles.Button } onClick={() => logout()}>Logout</button>
     </div>
     

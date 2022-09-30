@@ -16,10 +16,11 @@ export const getServerSideProps = withIronSessionSsr(
 
         return {
             props: {
-                isAdmin: user !== undefined && user.isAdmin
+                isAdmin: user !== undefined
             }
         }
-    }, sessionOptions
+    },
+    sessionOptions
 )
 
 const LoginPage: NextPage<PageProps> = props => {

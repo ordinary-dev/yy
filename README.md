@@ -1,15 +1,5 @@
 # YY
 
-## Configuration
-Create `.env` file to change settings
-```env
-ADMIN_LOGIN="yy"
-ADMIN_PASSWORD="123456"
-# Must be at least 30 characters long
-COOKIE_PASS="1234567890-1234567890-1234567890"
-DATABASE_URL="postgresql://user:password@postgres:5432/db?schema=public"
-```
-
 ## Getting Started
 
 Run the development server:

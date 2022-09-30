@@ -29,5 +29,6 @@ export default withIronSessionApiRoute(
             console.error(err instanceof Error ? err.message: "/api/delete: Unknown error")
             res.send({ ok: false })
         }
-    }, sessionOptions
+    },
+    sessionOptions
 )

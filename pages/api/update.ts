@@ -36,5 +36,6 @@ export default withIronSessionApiRoute(
             console.error(err instanceof Error ? err.message: "/api/update: Unknown error")
             res.send({ ok: false })
         }
-    }, sessionOptions
+    },
+    sessionOptions
 )
