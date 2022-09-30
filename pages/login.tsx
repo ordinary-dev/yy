@@ -1,6 +1,4 @@
 import type { NextPage } from 'next'
-import { GetServerSideProps } from 'next'
-import Link from 'next/link'
 import Router from 'next/router'
 import { useEffect, FormEvent } from 'react'
 import { withIronSessionSsr } from "iron-session/next"

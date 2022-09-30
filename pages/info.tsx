@@ -4,7 +4,7 @@ import styles from '../styles/info.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-const Info: NextPage = props => {
+const Info: NextPage = () => {
     const router = useRouter()
     const t = (en: string, ru: string) => {
         if (router.locale === 'ru') return ru

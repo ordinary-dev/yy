@@ -5,7 +5,6 @@ import { withIronSessionSsr } from "iron-session/next"
 import { sessionOptions } from "../lib/session"
 import styles from '../styles/admin.module.css'
 import { Photo } from '@prisma/client'
-import { prisma } from '../lib/prisma'
 import Image from 'next/image'
 import Head from 'next/head'
 import { DeleteOutlined, SaveOutlined, CloudUploadOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
@@ -59,7 +58,7 @@ const AdminPage: NextPage<PageProps> = props => {
                    width={ photo.width } height={ photo.height }
                    updateList={ updateList } />) }
         <UploadForm updateList={ updateList }/>
-        <button className={ styles.Button } onClick={(e) => logout()}>Logout</button>
+        <button className={ styles.Button } onClick={() => logout()}>Logout</button>
     </div>
     
     return <div className={ styles.Container }>
