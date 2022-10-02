@@ -25,11 +25,11 @@ RUN npm install --omit=dev
 # Copy build
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 
 # Copy additional files
 COPY ./prisma ./
 COPY ./next.config.js ./
-COPY ./public ./
 
 EXPOSE 3000
 
