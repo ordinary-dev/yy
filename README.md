@@ -1,5 +1,7 @@
 # YY
 
+![Screenshot](public/screenshot-1.webp)
+
 ## Getting Started
 
 Run the development server:
