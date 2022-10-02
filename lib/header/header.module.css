@@ -6,16 +6,13 @@
 
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     gap: 126px;
 
     font-weight: 300;
     font-size: 21px;
     line-height: 26px;
-}
-
-.Space {
-    flex-grow: 1;
 }
 
 .MainLinks {

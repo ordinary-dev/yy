@@ -30,7 +30,6 @@ const Header = () => {
                     />
                 </a>
             </Link>
-            <Space />
             <div className={styles.MainLinks}>
                 <HLink href="/artists" currentPath={path}>
                     <Ru>ХУДОЖНИКИ</Ru>
@@ -45,7 +44,6 @@ const Header = () => {
                     <En>INFO</En>
                 </HLink>
             </div>
-            <Space />
             <Locale />
             <Menu
                 isOpen={isOpen}
@@ -73,8 +71,6 @@ const HLink = (props: {
         </Link>
     )
 }
-
-const Space = () => <div className={styles.Space}></div>
 
 const Menu = (props: {
     isOpen: boolean
