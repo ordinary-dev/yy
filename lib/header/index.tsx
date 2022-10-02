@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, ReactNode } from 'react'
 import { MenuOutlined, CloseCircleOutlined } from '@ant-design/icons'
 
+import { Ru, En } from 'lib/interpreter'
 import styles from './header.module.css'
 import Logo from 'public/logo.png'
 
@@ -15,11 +16,6 @@ const Header = () => {
     useEffect(() => {
         if (router.isReady) setPath(router.asPath)
     }, [router.isReady, router.asPath])
-
-    const t = (en: string, ru: string) => {
-        if (router.locale == 'ru') return ru
-        return en
-    }
 
     return (
         <div className={ styles.Container }>
@@ -34,9 +30,18 @@ const Header = () => {
             </Link>
             <Space />
             <div className={ styles.MainLinks }>
-                <HLink text={ t('ARTISTS', 'ТАЛАНТЫ') } href="/artists" currentPath={ path } />
-                <HLink text={ t('HOME', 'ГЛАВНАЯ')  } href="/" currentPath={ path } />
-                <HLink text={ t('INFO', 'ИНФО')  } href="/info" currentPath={ path } />
+                <HLink href="/artists" currentPath={ path }>
+                    <Ru>ХУДОЖНИКИ</Ru>
+                    <En>ARTISTS</En>
+                </HLink>
+                <HLink href="/" currentPath={ path }>
+                    <Ru>ГЛАВНАЯ</Ru>
+                    <En>HOME</En>
+                </HLink>
+                <HLink href="/info" currentPath={ path }>
+                    <Ru>ИНФО</Ru>
+                    <En>INFO</En>
+                </HLink>
             </div>
             <Space />
             <Locale />
@@ -48,16 +53,16 @@ const Header = () => {
     )
 }
 
-const HLink = (props: { text: string, href: string, currentPath: string|undefined } ) => {
+const HLink = (props: { children: ReactNode, href: string, currentPath: string|undefined } ) => {
     // Link to current page
     if (props.currentPath === props.href) return (
-        <div className={ styles.ActiveLink }>{ props.text }</div>
+        <div className={ styles.ActiveLink }>{ props.children }</div>
     )
 
     // Link to another page
     return (
         <Link href={ props.href } passHref>
-            <a className={ styles.Link }>{ props.text }</a>
+            <a className={ styles.Link }>{ props.children }</a>
         </Link>
     )
 }
