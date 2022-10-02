@@ -1,5 +1,6 @@
 # YY
 
+Modern website for a great agency.
 ![Screenshot](public/screenshot-1.webp)
 
 ## Getting Started
