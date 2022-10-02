@@ -29,6 +29,7 @@ COPY --from=builder /app/.next ./.next
 # Copy additional files
 COPY ./prisma ./
 COPY ./next.config.js ./
+COPY ./public ./
 
 EXPOSE 3000
 
