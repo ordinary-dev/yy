@@ -1,89 +1,29 @@
 import type { NextPage } from 'next'
-import Image from 'next/image'
 import { Photo } from '@prisma/client'
-import { useState, ReactNode } from 'react'
-import { LeftOutlined, RightOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
+import { ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
 import Head from 'next/head'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 
+import Slideshow from 'lib/slideshow'
 import styles from 'styles/index.module.css'
 
 const Home: NextPage = () => {
     const { data, error } = useSWR<{ photos: Photo[] }, Error>('/api/photo')
     const router = useRouter()
-    const [index, setIndex] = useState(0)
 
     if (error) return <ExclamationCircleOutlined />
     if (!data) return <LoadingOutlined spin={ true } />
 
-    const t = (en: string | null, ru: string | null) => {
-        if (router.locale == 'ru') return ru
-        return en
-    }
-    
-    // Create list of photos
-    const imageList = data.photos.map((photo, itemIndex) =>
-        <Slide key={ photo.id } index={ itemIndex } activeIndex={ index }>
-            <Image src={`http://router/photos/${photo.id}/original.${photo.ext}`}
-                   alt="Photo"
-                   layout="fill"
-                   objectFit="contain" />
-        </Slide>)
-
-    // Functions that change the current photo
-    const prev = () => {
-        if (index > 0) setIndex(index - 1)
-        else setIndex(imageList.length - 1)
-    }
-    const next = () => {
-        if (index + 1 < imageList.length) setIndex(index + 1)
-        else setIndex(0)
-    }
+    const urls = data.photos.map(photo => `http://router/photos/${photo.id}/original.${photo.ext}`)
+    const descEn = data.photos.map(photo => photo.descriptionEn)
+    const descRu = data.photos.map(photo => photo.descriptionRu)
 
     return <div className={styles.Container} >
-        <Head><title>YY studios</title></Head>
-        
-        <div className={ styles.MainRow }>
-            <Button onClick={ prev }>
-                <LeftOutlined />
-            </Button>
-        
-            <div className={ styles.Placeholder } >
-                { imageList }
-            </div>
-        
-            <Button onClick={ next }>
-                <RightOutlined />
-            </Button>
-        </div>
-        
-        <div className={ styles.Description }>
-            { data.photos.length > 0 && t(data.photos[index].descriptionEn, data.photos[index].descriptionRu) }
-        </div>
+        <Head><title>YY studios</title></Head>        
+        <Slideshow urls={ urls }
+                   descriptions={ router.locale == 'en' ? descEn : descRu } />
     </div>
-}
-
-const Slide = (props: {
-    children: ReactNode,
-    index: number,
-    activeIndex: number
-}) => {
-    const style = {
-        opacity: props.activeIndex===props.index ? 1 : 0
-    }
-    return (
-        <div style={ style } className={ styles.Slide }>
-            { props.children }
-        </div>
-    )
-}
-
-const Button = (props: {
-    onClick: () => void,
-    children: ReactNode
-}) => {
-    return <button className={ styles.Button } onClick={ props.onClick }>{props.children}</button>
 }
 
 export default Home
