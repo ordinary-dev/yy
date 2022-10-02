@@ -20,9 +20,7 @@ services:
     restart: unless-stopped
   
   router:
-    build:
-      dockerfile: docker/router.Dockerfile
-      context: .
+    image: ghcr.io/ordinary-dev/next-js-router:latest
     volumes:
       - yy-photos:/app/photos
     restart: unless-stopped
@@ -32,6 +30,7 @@ services:
       - nextjs
     environment:
       - NEXTJS_URL=http://nextjs:3000
+      - DIR_NAME=photos
 
 volumes:
   yy-postgres-prod:

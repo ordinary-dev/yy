@@ -25,16 +25,18 @@ const Header = () => {
             <Link href="/" passHref>
                 <a>
                     <Image src={ Logo }
-                           width="50px"
-                           height="40px"
+                           width="75px"
+                           height="60px"
                            alt="Logo"
                            layout="fixed" />
                 </a>
             </Link>
             <Space />
-            <HLink text={ t('ARTISTS', 'ТАЛАНТЫ') } href="/artists" currentPath={ path } />
-            <HLink text={ t('HOME', 'ГЛАВНАЯ')  } href="/" currentPath={ path } />
-            <HLink text={ t('INFO', 'ИНФО')  } href="/info" currentPath={ path } />
+            <div className={ styles.MainLinks }>
+                <HLink text={ t('ARTISTS', 'ТАЛАНТЫ') } href="/artists" currentPath={ path } />
+                <HLink text={ t('HOME', 'ГЛАВНАЯ')  } href="/" currentPath={ path } />
+                <HLink text={ t('INFO', 'ИНФО')  } href="/info" currentPath={ path } />
+            </div>
             <Space />
             <Locale />
             <Menu isOpen={ isOpen }
