@@ -15,6 +15,7 @@ const RemoteString = (props: { id: string, default: string }) => {
 
     if (error) return <>{ props.default }</>
     if (!data) return <></>
+    if (!data.record) return <>{ props.default }</>
 
     return <>{ data.record.value }</>
 }
