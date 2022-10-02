@@ -11,6 +11,7 @@
 
     font-weight: 300;
     font-size: 21px;
+    line-height: 26px;
 }
 
 .Space {
@@ -37,6 +38,7 @@
     min-width: 75px;
     display: flex;
     justify-content: flex-end;
+    font-weight: 200;
 }
 
 .Menu {
@@ -59,7 +61,6 @@
 .FullscreenLink {
     width: 100%;
     padding: 30px;
-    line-height: 27px;
 }
 
 .FullscreenLink:hover {

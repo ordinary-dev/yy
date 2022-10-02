@@ -25,6 +25,8 @@
 .Button {
     width: 75px;
     height: 75px;
+    flex-shrink: 0;
+    margin: 12px;
     border: none;
     background-color: transparent;
     cursor: pointer;
@@ -32,11 +34,13 @@
 
 .Description {
     font-style: italic;
-    height: 19px;
     font-size: 15px;
-    margin-top: 36px;
-    margin-left: 75px;
-    margin-right: 75px;
     text-align: center;
+    font-weight: 300;
+
+    height: 19px;
+    margin-top: 36px;
+    margin-left: 99px;
+    margin-right: 99px;
     max-width: 540px;
 }
