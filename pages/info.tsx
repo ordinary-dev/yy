@@ -23,6 +23,10 @@ const Info: NextPage = () => {
                     <RemoteString id="desc_en" default="Description" />,
                     <RemoteString id="desc_ru" default="Описание" />
                 ) }</div>
+                <div style={{ marginTop: '1em' }} className={ styles.Text }>{ t(
+                    <RemoteString id="desc_en_2" default="Description" />,
+                    <RemoteString id="desc_ru_2" default="Описание" />
+                ) }</div>
             </div>
 
             <div className={ styles.Column }>
