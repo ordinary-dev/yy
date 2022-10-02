@@ -6,7 +6,6 @@ import Head from 'next/head'
 
 import { sessionOptions } from "lib/session"
 import styles from 'styles/admin.module.css'
-import ListOfStrings from 'lib/admin/strings'
 import ListOfPhotos from 'lib/admin/photos'
 import PasswordManager from 'lib/admin/password'
 
@@ -40,7 +39,6 @@ const AdminPage: NextPage<PageProps> = props => {
         <Head><title>Admin | YY studios</title></Head>
         <div>Hi, admin</div>
         <ListOfPhotos />
-        <ListOfStrings />
         <PasswordManager />
         <button className={ styles.Button } onClick={() => logout()}>Logout</button>
     </div>

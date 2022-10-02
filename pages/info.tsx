@@ -3,7 +3,6 @@ import Link from 'next/link'
 import Head from 'next/head'
 
 import { Ru, En } from 'lib/interpreter'
-import RemoteString from 'lib/text'
 import styles from 'styles/info.module.css'
 
 const Info: NextPage = () => {
@@ -19,12 +18,34 @@ const Info: NextPage = () => {
                     <Ru>О НАС</Ru>
                 </div>
                 <div className={ styles.Text }>
-                    <En><RemoteString id="desc_en" default="Description" /></En>
-                    <Ru><RemoteString id="desc_ru" default="Описание" /></Ru>
+                    <En>
+                        YY STUDIOS IS A LOCAL ARTIST MANAGEMENT & PRODUCTION AGENCY
+                        REPRESENTING TALENT IN THE FIELDS OF FASHION AND BEAUTY.
+                        FOUNDED IN SAINT-PETERSBURG IN 2022, YY STUDIOS HAS CULTIVATED
+                        A COMMUNITY OF ARTISTS AND AGENT WHO FOCUS ON THE DISCIPLINES
+                        OF IMAGE MAKING, STYLING, HAIR, MAKEUP, CASTING AND CREATIVE DIRECTION.
+                    </En>
+                    <Ru>
+                        YY STUDIOS — МЕСТНОЕ АГЕНТСТВО,
+                        ПРЕДСТАВЛЯЮЩЕЕ ТАЛАНТЫ В ОБЛАСТИ МОДЫ И КРАСОТЫ.
+                        YY STUDIOS, ОСНОВАННАЯ В САНКТ-ПЕТЕРБУРГЕ В 2022 ГОДУ, СОЗДАЛА
+                        СООБЩЕСТВО ХУДОЖНИКОВ И АГЕНТОВ, КОТОРЫЕ ФОКУСИРОВАНЫ НА ДИСЦИПЛИНАХ
+                        ИЗГОТОВЛЕНИЯ ИМИДЖА, УКЛАДКИ, ПРИЧЕСОК, МАКИЯЖА, КАСТИНГА И ТВОРЧЕСКОГО НАПРАВЛЕНИЯ.
+                    </Ru>
                 </div>
                 <div style={{ marginTop: '1em' }} className={ styles.Text }>
-                    <En><RemoteString id="desc_en_2" default="Description" /></En>
-                    <Ru><RemoteString id="desc_ru_2" default="Описание" /></Ru>
+                    <En>
+                        BEYOND DAY-TO-DAY MANAGEMENT AND REPRESENTATION,
+                        YY STUDIOS WORKS WITH THEIR ARTISTS AND CLIENTS ON PROJECTS
+                        OF ALL TYPES INCLUDING BRAND AND PRODUCT DEVELOPMENT,
+                        IMAGE LICENSING, EXHIBITIONS AND BOOK PUBLISHING.
+                    </En>
+                    <Ru>
+                        ПОМИМО ПОВСЕДНЕВНОГО УПРАВЛЕНИЯ И ПРЕДСТАВИТЕЛЬСТВА,
+                        YY STUDIOS РАБОТАЕТ СО СВОИМИ ХУДОЖНИКАМИ И КЛИЕНТАМИ ПО ПРОЕКТАМ
+                        ВСЕХ ТИПОВ, ВКЛЮЧАЯ РАЗРАБОТКУ БРЕНДА И ПРОДУКЦИИ,
+                        ЛИЦЕНЗИРОВАНИЕ ИЗОБРАЖЕНИЙ, ВЫСТАВКИ И ИЗДАНИЕ КНИГ.
+                    </Ru>
                 </div>
             </div>
 
@@ -50,7 +71,7 @@ const Info: NextPage = () => {
                 </a>
                 <a href="tel:+79824500926">
                     <div className={ styles.Link }>
-                        <RemoteString id="phone" default="Phone" />
+                        +7 (982) 450-09-26
                     </div>
                 </a>
                 <div className={ styles.Text }>
