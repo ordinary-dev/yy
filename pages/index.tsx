@@ -22,12 +22,13 @@ const Home: NextPage = () => {
     }
     
     // Create list of photos
-    const imageList = data.photos.map(photo =>
-        <Image src={`http://router/photos/${photo.id}/original.${photo.ext}`}
-               alt="Photo"
-               layout="fill"
-               objectFit="contain"
-               key={ photo.id } />)
+    const imageList = data.photos.map((photo, itemIndex) =>
+        <Slide key={ photo.id } index={ itemIndex } activeIndex={ index }>
+            <Image src={`http://router/photos/${photo.id}/original.${photo.ext}`}
+                   alt="Photo"
+                   layout="fill"
+                   objectFit="contain" />
+        </Slide>)
 
     // Functions that change the current photo
     const prev = () => {
@@ -48,7 +49,7 @@ const Home: NextPage = () => {
             </Button>
         
             <div className={ styles.Placeholder } >
-                { imageList.length > 0 && imageList[index] }
+                { imageList }
             </div>
         
             <Button onClick={ next }>
@@ -60,6 +61,21 @@ const Home: NextPage = () => {
             { data.photos.length > 0 && t(data.photos[index].descriptionEn, data.photos[index].descriptionRu) }
         </div>
     </div>
+}
+
+const Slide = (props: {
+    children: ReactNode,
+    index: number,
+    activeIndex: number
+}) => {
+    const style = {
+        opacity: props.activeIndex===props.index ? 1 : 0
+    }
+    return (
+        <div style={ style } className={ styles.Slide }>
+            { props.children }
+        </div>
+    )
 }
 
 const Button = (props: {

@@ -28,6 +28,12 @@
     position: relative;
 }
 
+.Slide {
+    transition: 0.3s;
+    transition-property: opacity;
+    transition-timing-function: ease-in-out;
+}
+
 .Description {
     font-style: italic;
     height: 19px;
