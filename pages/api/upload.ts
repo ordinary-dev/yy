@@ -1,17 +1,17 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { IncomingForm, Files, File } from 'formidable'
-import { withIronSessionApiRoute } from 'iron-session/next'
-import fs from 'fs'
-import sharp from 'sharp'
+import { NextApiRequest, NextApiResponse } from "next"
+import { IncomingForm, Files, File } from "formidable"
+import { withIronSessionApiRoute } from "iron-session/next"
+import fs from "fs"
+import sharp from "sharp"
 
-import { sessionOptions } from 'lib/session'
-import { prisma } from 'lib/prisma'
+import { sessionOptions } from "lib/session"
+import { prisma } from "lib/prisma"
 
 // disable the default body parser
 export const config = {
     api: {
         bodyParser: false,
-    }
+    },
 }
 
 type MyResponse = {
@@ -20,16 +20,16 @@ type MyResponse = {
 }
 
 export default withIronSessionApiRoute(handle, sessionOptions)
-    
+
 async function handle(req: NextApiRequest, res: NextApiResponse<MyResponse>) {
     try {
         // Check request method
-        if (req.method !== 'POST') throw new Error("Wrong request method")
+        if (req.method !== "POST") throw new Error("Wrong request method")
 
         // Check auth
         const user = req.session.user
         if (!user) throw new Error("You are not authorized")
-    
+
         // Parse form
         const form = new IncomingForm()
         const files = await new Promise<Files>((resolve, reject) => {
@@ -39,8 +39,10 @@ async function handle(req: NextApiRequest, res: NextApiResponse<MyResponse>) {
             })
         })
 
-        const imageFile = isFileArray(files.image) ? files.image[0] : files.image
-            
+        const imageFile = isFileArray(files.image)
+            ? files.image[0]
+            : files.image
+
         // Create folder structure
         const ext = getExtensionFromMimeType(imageFile)
         if (!ext) throw new Error("Wrong mime type")
@@ -54,24 +56,24 @@ async function handle(req: NextApiRequest, res: NextApiResponse<MyResponse>) {
             data: {
                 ext: ext,
                 width: meta.width,
-                height: meta.height
-            }
+                height: meta.height,
+            },
         })
         if (!photo) throw new Error("Cannot save photo")
         const imageDir = `photos/${photo.id}`
         if (!fs.existsSync(imageDir)) {
-            await fs.promises.mkdir(imageDir, { recursive: true } )
+            await fs.promises.mkdir(imageDir, { recursive: true })
         }
 
         // Write file
         const imageWritePath = `${imageDir}/original.${ext}`
         const image = await fs.promises.readFile(imageFile.filepath)
         await fs.promises.writeFile(imageWritePath, image)
-        
-        res.status(200).json({ ok: true, message: 'ok' })
-    }
-    catch(err) {
-        const msg = err instanceof Error && err.message ? err.message : "Unknown error"
+
+        res.status(200).json({ ok: true, message: "ok" })
+    } catch (err) {
+        const msg =
+            err instanceof Error && err.message ? err.message : "Unknown error"
         res.status(400).json({ ok: false, message: msg })
     }
 }
@@ -82,8 +84,8 @@ const isFileArray = (fa: unknown): fa is Array<File> => {
 
 const getExtensionFromMimeType = (imageFile: File) => {
     const mt = imageFile.mimetype
-    if (mt === 'image/jpeg') return 'jpg'
-    if (mt === 'image/png')  return 'png'
-    if (mt === 'image/webp') return 'webp'
+    if (mt === "image/jpeg") return "jpg"
+    if (mt === "image/png") return "png"
+    if (mt === "image/webp") return "webp"
     return null
 }

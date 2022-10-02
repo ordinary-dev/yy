@@ -14,7 +14,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition-duration: 0.1s;
-    transition-property: background-color,color;
+    transition-property: background-color, color;
     font-family: inherit;
 }
 

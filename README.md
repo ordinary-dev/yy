@@ -17,4 +17,5 @@ sudo docker-compose -f docker/docker-prod.yml --project-directory . up --build
 Open [http://localhost:3000](localhost:3000) with your browser to see the result.
 
 ## Authors
-- Ivan Reshetnikov <ordinarydev@protonmail.com>
+
+-   Ivan Reshetnikov <ordinarydev@protonmail.com>

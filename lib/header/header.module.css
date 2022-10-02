@@ -3,7 +3,7 @@
     margin-left: 100px;
     margin-right: 100px;
     height: 60px;
-    
+
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -53,7 +53,7 @@
     background-color: white;
     z-index: 10;
     padding: 30px;
-    box-shadow: 0 15px 10px rgba(0,0,0,.5);
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5);
 }
 
 .FullscreenLink {
@@ -73,7 +73,9 @@
         margin-right: 47px;
     }
 
-    .Link, .ActiveLink, .Lang {
+    .Link,
+    .ActiveLink,
+    .Lang {
         display: none;
     }
 

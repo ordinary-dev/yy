@@ -14,7 +14,8 @@
     max-width: 400px;
 }
 
-.Form > input, .Form > button {
+.Form > input,
+.Form > button {
     padding: 6px;
     background-color: transparent;
     border: 1px solid gray;
@@ -25,7 +26,7 @@
 .Form > button {
     cursor: pointer;
     transition-duration: 0.1s;
-    transition-property: background-color,color;
+    transition-property: background-color, color;
 }
 
 .Form > button:hover {
