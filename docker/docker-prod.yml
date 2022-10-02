@@ -1,37 +1,39 @@
 services:
-  nextjs:
-    build:
-      dockerfile: docker/prod.Dockerfile
-      context: .
-    volumes:
-      - yy-photos:/app/photos
-    restart: unless-stopped
-    depends_on:
-      - postgres
+    nextjs:
+        build:
+            dockerfile: docker/prod.Dockerfile
+            context: .
+        volumes:
+            - yy-photos:/app/photos
+        restart: unless-stopped
+        depends_on:
+            - postgres
+        environment:
+            - DATABASE_URL=postgresql://ordinary-dev:e2t6dm0f@postgres:5432/yydb?schema=public
 
-  postgres:
-    image: postgres
-    volumes:
-      - yy-postgres-prod:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_USER=ordinary-dev
-      - POSTGRES_PASSWORD=e2t6dm0f
-      - POSTGRES_DB=yydb
-    restart: unless-stopped
-  
-  router:
-    image: ghcr.io/ordinary-dev/next-js-router:latest
-    volumes:
-      - yy-photos:/app/photos
-    restart: unless-stopped
-    ports:
-      - 3000:80
-    depends_on:
-      - nextjs
-    environment:
-      - NEXTJS_URL=http://nextjs:3000
-      - DIR_NAME=photos
+    postgres:
+        image: postgres
+        volumes:
+            - yy-postgres-prod:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_USER=ordinary-dev
+            - POSTGRES_PASSWORD=e2t6dm0f
+            - POSTGRES_DB=yydb
+        restart: unless-stopped
+
+    router:
+        image: ghcr.io/ordinary-dev/next-js-router:latest
+        volumes:
+            - yy-photos:/app/photos
+        restart: unless-stopped
+        ports:
+            - 3000:80
+        depends_on:
+            - nextjs
+        environment:
+            - NEXTJS_URL=http://nextjs:3000
+            - DIR_NAME=photos
 
 volumes:
-  yy-postgres-prod:
-  yy-photos:
+    yy-postgres-prod:
+    yy-photos:

@@ -3,18 +3,16 @@
     margin-left: 100px;
     margin-right: 100px;
     height: 60px;
-    
+
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     gap: 126px;
 
     font-weight: 300;
     font-size: 21px;
-}
-
-.Space {
-    flex-grow: 1;
+    line-height: 26px;
 }
 
 .MainLinks {
@@ -37,6 +35,7 @@
     min-width: 75px;
     display: flex;
     justify-content: flex-end;
+    font-weight: 200;
 }
 
 .Menu {
@@ -53,13 +52,12 @@
     background-color: white;
     z-index: 10;
     padding: 30px;
-    box-shadow: 0 15px 10px rgba(0,0,0,.5);
+    box-shadow: 0 15px 10px rgba(0, 0, 0, 0.5);
 }
 
 .FullscreenLink {
     width: 100%;
     padding: 30px;
-    line-height: 27px;
 }
 
 .FullscreenLink:hover {
@@ -73,7 +71,9 @@
         margin-right: 47px;
     }
 
-    .Link, .ActiveLink, .Lang {
+    .Link,
+    .ActiveLink,
+    .Lang {
         display: none;
     }
 

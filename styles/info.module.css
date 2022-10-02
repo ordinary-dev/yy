@@ -47,11 +47,11 @@
 .Footer {
     margin-top: 256px;
     width: 90%;
-    max-width:  1660px;
+    max-width: 1660px;
     min-height: 80px;
     padding-top: 20px;
     padding-bottom: 20px;
-    
+
     border-top: 1px solid black;
 
     display: flex;
@@ -65,5 +65,5 @@
     font-size: 21px;
     font-weight: 400;
     line-height: 26px;
-    color: rgba(0,0,0,.4);
+    color: rgba(0, 0, 0, 0.4);
 }

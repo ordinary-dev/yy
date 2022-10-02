@@ -1,5 +1,8 @@
 # YY
 
+Modern website for a great agency.
+![Screenshot](public/screenshot-1.webp)
+
 ## Getting Started
 
 Run the development server:
@@ -17,4 +20,5 @@ sudo docker-compose -f docker/docker-prod.yml --project-directory . up --build
 Open [http://localhost:3000](localhost:3000) with your browser to see the result.
 
 ## Authors
-- Ivan Reshetnikov <ordinarydev@protonmail.com>
+
+-   Ivan Reshetnikov <ordinarydev@protonmail.com>

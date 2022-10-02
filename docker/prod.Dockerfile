@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:lts AS builder
 WORKDIR /app
 
 # Install deps
@@ -11,6 +11,24 @@ RUN npx prisma generate
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
 RUN npm run build
+
+# Make a smaller container
+FROM node:lts
+WORKDIR /app
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Dependencies
+COPY package.json package-lock.json ./
+RUN npm install --omit=dev
+
+# Copy build
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/.next ./.next
+
+# Copy additional files
+COPY ./prisma ./
+COPY ./next.config.js ./
 
 EXPOSE 3000
 
