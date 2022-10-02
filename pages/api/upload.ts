@@ -1,10 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { IncomingForm, Files, File } from 'formidable'
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { sessionOptions } from '../../lib/session'
-import { prisma } from '../../lib/prisma'
 import fs from 'fs'
 import sharp from 'sharp'
+
+import { sessionOptions } from 'lib/session'
+import { prisma } from 'lib/prisma'
 
 // disable the default body parser
 export const config = {

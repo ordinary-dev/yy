@@ -2,12 +2,13 @@ import type { NextPage } from 'next'
 import Router from 'next/router'
 import { useEffect } from 'react'
 import { withIronSessionSsr } from "iron-session/next"
-import { sessionOptions } from "../lib/session"
-import styles from '../styles/admin.module.css'
 import Head from 'next/head'
-import ListOfStrings from '../lib/admin/strings'
-import ListOfPhotos from '../lib/admin/photos'
-import PasswordManager from '../lib/admin/password'
+
+import { sessionOptions } from "lib/session"
+import styles from 'styles/admin.module.css'
+import ListOfStrings from 'lib/admin/strings'
+import ListOfPhotos from 'lib/admin/photos'
+import PasswordManager from 'lib/admin/password'
 
 type PageProps = {
     isAdmin: boolean

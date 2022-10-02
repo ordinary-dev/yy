@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
 import Link from 'next/link'
-import styles from '../styles/info.module.css'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { ReactNode } from 'react'
-import RemoteString from '../lib/text'
+
+import RemoteString from 'lib/text'
+import styles from 'styles/info.module.css'
 
 const Info: NextPage = () => {
     const router = useRouter()

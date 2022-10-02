@@ -1,4 +1,5 @@
 import { FormEvent } from 'react'
+
 import styles from './password.module.css'
 
 const PasswordManager = () => {

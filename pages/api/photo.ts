@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prisma } from '../../lib/prisma'
+
+import { prisma } from 'lib/prisma'
 
 const handle = async(_req: NextApiRequest, res: NextApiResponse) => {
     const photos = await prisma.photo.findMany({})

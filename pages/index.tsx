@@ -3,10 +3,11 @@ import Image from 'next/image'
 import { Photo } from '@prisma/client'
 import { useState, ReactNode } from 'react'
 import { LeftOutlined, RightOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
-import styles from '../styles/index.module.css'
 import Head from 'next/head'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+
+import styles from 'styles/index.module.css'
 
 const Home: NextPage = () => {
     const { data, error } = useSWR<{ photos: Photo[] }, Error>('/api/photo')

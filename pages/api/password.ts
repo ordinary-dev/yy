@@ -1,7 +1,8 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { sessionOptions } from '../../lib/session'
-import { prisma } from '../../lib/prisma'
-import { getHash } from '../../lib/password'
+
+import { sessionOptions } from 'lib/session'
+import { prisma } from 'lib/prisma'
+import { getHash } from 'lib/password'
 
 export default withIronSessionApiRoute(
     async function(req, res) {

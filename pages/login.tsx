@@ -2,9 +2,10 @@ import type { NextPage } from 'next'
 import Router from 'next/router'
 import { useEffect, FormEvent } from 'react'
 import { withIronSessionSsr } from "iron-session/next"
-import { sessionOptions } from "../lib/session"
-import styles from '../styles/login.module.css'
 import Head from 'next/head'
+
+import { sessionOptions } from "lib/session"
+import styles from 'styles/login.module.css'
 
 type PageProps = {
     isAdmin: boolean

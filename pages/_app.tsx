@@ -5,8 +5,8 @@ import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { SWRConfig } from 'swr'
 
-import '../styles/globals.css'
-import Header from '../lib/header'
+import 'styles/globals.css'
+import Header from 'lib/header'
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
     <SWRConfig value={{

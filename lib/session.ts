@@ -1,5 +1,6 @@
-import { prisma } from './prisma'
 import { randomBytes } from 'crypto'
+
+import { prisma } from 'lib/prisma'
 
 const getPass = async() => {
     const pass = await prisma.cookiePassword.findFirst({

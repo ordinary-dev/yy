@@ -1,10 +1,10 @@
 import { useState, FormEvent } from 'react'
-import styles from './photos.module.css'
 import { Photo } from '@prisma/client'
 import Image from 'next/image'
 import { DeleteOutlined, SaveOutlined, CloudUploadOutlined, ExclamationCircleOutlined, LoadingOutlined } from '@ant-design/icons'
 import useSWR, { useSWRConfig } from 'swr'
 
+import styles from './photos.module.css'
 
 const ListOfPhotos = () => {
     const { data, error } = useSWR<{ photos: Photo[] }, Error>('/api/photo')

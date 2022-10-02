@@ -2,9 +2,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import styles from './header.module.css'
 import { MenuOutlined, CloseCircleOutlined } from '@ant-design/icons'
-import Logo from '../../public/logo.png'
+
+import styles from './header.module.css'
+import Logo from 'public/logo.png'
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false)

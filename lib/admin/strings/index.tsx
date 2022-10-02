@@ -5,6 +5,7 @@ import { DeleteOutlined,
          SaveOutlined,
          ExclamationCircleOutlined,
          LoadingOutlined } from '@ant-design/icons'
+
 import styles from './strings.module.css'
 
 const ListOfStrings = () => {

@@ -1,8 +1,9 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { sessionOptions } from '../../lib/session'
-import { prisma } from '../../lib/prisma'
-import { getSalt, getHash } from '../../lib/password'
+
+import { sessionOptions } from 'lib/session'
+import { prisma } from 'lib/prisma'
+import { getSalt, getHash } from 'lib/password'
 
 export default withIronSessionApiRoute(loginAPI, sessionOptions)
 

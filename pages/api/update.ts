@@ -1,6 +1,7 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
-import { sessionOptions } from '../../lib/session'
-import { prisma } from '../../lib/prisma'
+
+import { sessionOptions } from 'lib/session'
+import { prisma } from 'lib/prisma'
 
 export default withIronSessionApiRoute(
     async function(req, res) {
