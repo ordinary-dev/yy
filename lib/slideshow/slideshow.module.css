@@ -44,3 +44,14 @@
     margin-right: 99px;
     max-width: 540px;
 }
+
+@media screen and (max-width: 1919px) {
+    .Description {
+        margin-top: 10px;
+        font-size: 12px;
+        max-width: 400px;
+    }
+    .Placeholder {
+        max-width: 360px;
+    }
+}
