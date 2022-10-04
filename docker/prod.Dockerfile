@@ -32,5 +32,6 @@ COPY ./prisma ./
 COPY ./next.config.js ./
 
 EXPOSE 3000
+HEALTHCHECK --start-period=30s --timeout=5s CMD curl --fail http://localhost:3000/api/health
 
 CMD npx prisma migrate deploy && npm start
