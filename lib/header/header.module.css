@@ -15,6 +15,12 @@
     line-height: 26px;
 }
 
+.Logo {
+    width: 75px;
+    height: 60px;
+    position: relative;
+}
+
 .MainLinks {
     max-width: 540px;
     flex-grow: 1;
@@ -64,7 +70,7 @@
     text-decoration: underline;
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1279px) {
     .Container {
         gap: 0px;
         margin-left: 47px;
@@ -83,5 +89,22 @@
 
     .FullscreenMenu {
         display: block;
+    }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1919px) {
+    .Container {
+        font-size: 14px;
+        margin-top: 20px;
+    }
+    .Logo {
+        width: 48px;
+        height: 45px;
+    }
+    .Lang {
+        min-width: 48px;
+    }
+    .MainLinks {
+        max-width: 300px;
     }
 }

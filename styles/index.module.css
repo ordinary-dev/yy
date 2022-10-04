@@ -9,3 +9,10 @@
     margin-top: 40px;
     margin-bottom: 60px;
 }
+
+@media screen and (max-width: 1919px) {
+    .Container {
+        margin-top: 20px;
+        margin-bottom: 60px;
+    }
+}

@@ -21,13 +21,14 @@ const Header = () => {
         <div className={styles.Container}>
             <Link href="/" passHref>
                 <a>
-                    <Image
-                        src={Logo}
-                        width="75px"
-                        height="60px"
-                        alt="Logo"
-                        layout="fixed"
-                    />
+                    <div className={styles.Logo}>
+                        <Image
+                            src={Logo}
+                            alt="Logo"
+                            layout="fill"
+                            objectFit="contain"
+                        />
+                    </div>
                 </a>
             </Link>
             <div className={styles.MainLinks}>
