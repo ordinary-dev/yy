@@ -17,35 +17,21 @@ const Info: NextPage = () => {
                 </div>
                 <div className={styles.Text}>
                     <En>
-                        YY STUDIOS IS A LOCAL ARTIST MANAGEMENT & PRODUCTION
-                        AGENCY REPRESENTING TALENT IN THE FIELDS OF FASHION AND
-                        BEAUTY. FOUNDED IN SAINT-PETERSBURG IN 2022, YY STUDIOS
-                        HAS CULTIVATED A COMMUNITY OF ARTISTS AND AGENT WHO
-                        FOCUS ON THE DISCIPLINES OF IMAGE MAKING, STYLING, HAIR,
-                        MAKEUP, CASTING AND CREATIVE DIRECTION.
+                        YY STUDIOS IS A FULL SERVICE AND TALENT REPRESENTATION
+                        AGENCY, A MODERN REPRESENTATIVE, ABLE TO SATISFY ALL THE
+                        NEEDS OF THE ARTIST AND THE CLIENT. THE AGENCY WAS
+                        CREATED TO OFFER AN ALTERNATIVE PLATFORM FOR
+                        SELF-EXPRESSION SHOWING ARTISTS IN THE CONTEXT OF A
+                        MODERN PHOTOGRAPHIC GENRE ORIGINING IN RUSSIA.
                     </En>
                     <Ru>
-                        YY STUDIOS — МЕСТНОЕ АГЕНТСТВО, ПРЕДСТАВЛЯЮЩЕЕ ТАЛАНТЫ В
-                        ОБЛАСТИ МОДЫ И КРАСОТЫ. YY STUDIOS, ОСНОВАННАЯ В
-                        САНКТ-ПЕТЕРБУРГЕ В 2022 ГОДУ, СОЗДАЛА СООБЩЕСТВО
-                        ХУДОЖНИКОВ И АГЕНТОВ, КОТОРЫЕ ФОКУСИРОВАНЫ НА
-                        ДИСЦИПЛИНАХ ИЗГОТОВЛЕНИЯ ИМИДЖА, УКЛАДКИ, ПРИЧЕСОК,
-                        МАКИЯЖА, КАСТИНГА И ТВОРЧЕСКОГО НАПРАВЛЕНИЯ.
-                    </Ru>
-                </div>
-                <div style={{ marginTop: "1em" }} className={styles.Text}>
-                    <En>
-                        BEYOND DAY-TO-DAY MANAGEMENT AND REPRESENTATION, YY
-                        STUDIOS WORKS WITH THEIR ARTISTS AND CLIENTS ON PROJECTS
-                        OF ALL TYPES INCLUDING BRAND AND PRODUCT DEVELOPMENT,
-                        IMAGE LICENSING, EXHIBITIONS AND BOOK PUBLISHING.
-                    </En>
-                    <Ru>
-                        ПОМИМО ПОВСЕДНЕВНОГО УПРАВЛЕНИЯ И ПРЕДСТАВИТЕЛЬСТВА, YY
-                        STUDIOS РАБОТАЕТ СО СВОИМИ ХУДОЖНИКАМИ И КЛИЕНТАМИ ПО
-                        ПРОЕКТАМ ВСЕХ ТИПОВ, ВКЛЮЧАЯ РАЗРАБОТКУ БРЕНДА И
-                        ПРОДУКЦИИ, ЛИЦЕНЗИРОВАНИЕ ИЗОБРАЖЕНИЙ, ВЫСТАВКИ И
-                        ИЗДАНИЕ КНИГ.
+                        YY STUDIOS - ЭТО АГЕНТСТВО ПОЛНОГО ЦИКЛА И РЕПРЕЗЕНТАЦИИ
+                        ТАЛАНТОВ, СОВРЕМЕННЫЙ ПРЕДСТАВИТЕЛЬ, СПОСОБНЫЙ
+                        УДОВЛЕТВОРИТЬ ВСЕ ПОТРЕБНОСТИ ХУДОЖНИКА И КЛИЕНТА.
+                        АГЕНТСТВО БЫЛО СОЗДАНО, ЧТОБЫ ПРЕДЛОЖИТЬ АЛЬТЕРНАТИВНУЮ
+                        ПЛАТФОРМУ ДЛЯ САМОВЫРАЖЕНИЯ, ДЕМОНСТРИРУЯ ХУДОЖНИКОВ В
+                        КОНТЕКСТЕ СОВРЕМЕННОГО ФОТОГРАФИЧЕСКОГО ЖАНРА,
+                        ЗАРОЖДАЮЩЕГОСЯ В РОССИИ.
                     </Ru>
                 </div>
             </div>
