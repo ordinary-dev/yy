@@ -1,9 +1,17 @@
 import { withIronSessionApiRoute } from "iron-session/next"
+import { NextApiRequest, NextApiResponse } from "next"
 
 import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 
-export default withIronSessionApiRoute(async function (req, res) {
+export type UpdateAPI = {
+    ok: boolean
+    msg?: string
+}
+
+export default withIronSessionApiRoute(handle, sessionOptions)
+
+async function handle(req: NextApiRequest, res: NextApiResponse<UpdateAPI>) {
     try {
         // Check request method
         if (req.method !== "POST") throw new Error("Wrong request method")
@@ -32,9 +40,8 @@ export default withIronSessionApiRoute(async function (req, res) {
 
         res.send({ ok: true })
     } catch (err) {
-        console.error(
+        const msg =
             err instanceof Error ? err.message : "/api/update: Unknown error"
-        )
-        res.send({ ok: false })
+        res.send({ ok: false, msg: msg })
     }
-}, sessionOptions)
+}

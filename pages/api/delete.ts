@@ -1,9 +1,16 @@
 import { withIronSessionApiRoute } from "iron-session/next"
+import { NextApiRequest, NextApiResponse } from "next"
 
 import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 
-export default withIronSessionApiRoute(async function (req, res) {
+export type DeleteAPI = {
+    ok: boolean
+}
+
+export default withIronSessionApiRoute(handle, sessionOptions)
+
+async function handle(req: NextApiRequest, res: NextApiResponse<DeleteAPI>) {
     try {
         // Check request method
         if (req.method !== "POST") throw new Error("Wrong request method")
@@ -30,4 +37,4 @@ export default withIronSessionApiRoute(async function (req, res) {
         )
         res.send({ ok: false })
     }
-}, sessionOptions)
+}

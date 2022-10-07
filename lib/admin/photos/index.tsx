@@ -1,5 +1,4 @@
 import { useState, FormEvent } from "react"
-import { Photo } from "@prisma/client"
 import Image from "next/image"
 import {
     DeleteOutlined,
@@ -10,10 +9,14 @@ import {
 } from "@ant-design/icons"
 import useSWR, { useSWRConfig } from "swr"
 
+import { PhotoAPI } from "pages/api/photo"
+import { DeleteAPI } from "pages/api/delete"
+import { UpdateAPI } from "pages/api/update"
+import { UploadAPI } from "pages/api/upload"
 import styles from "./photos.module.css"
 
 const ListOfPhotos = () => {
-    const { data, error } = useSWR<{ photos: Photo[] }, Error>("/api/photo")
+    const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
     const { mutate } = useSWRConfig()
 
     const updateList = () => {
@@ -106,7 +109,9 @@ const updatePhoto = async (id: number, descEn: string, descRu: string) => {
         },
         body: JSON.stringify({ id, descEn, descRu }),
     }
-    await fetch("/api/update", options)
+    const response = await fetch("/api/update", options)
+    const res: UpdateAPI = await response.json()
+    if (!res.ok) console.error("Update failed")
 }
 
 const deletePhoto = async (id: number, updateList: () => void) => {
@@ -117,7 +122,9 @@ const deletePhoto = async (id: number, updateList: () => void) => {
         },
         body: JSON.stringify({ id }),
     }
-    await fetch("/api/delete", options)
+    const response = await fetch("/api/delete", options)
+    const res: DeleteAPI = await response.json()
+    if (!res.ok) console.error("Can't delete photo")
     updateList()
 }
 
@@ -164,10 +171,10 @@ const handleSubmit = async (e: FormEvent, updateList: () => void) => {
     }
 
     const res = await fetch("/api/upload", options)
-    const result = await res.json()
+    const result: UploadAPI = await res.json()
 
     // Server returned an error
-    if (!result.ok) throw new Error(result.message)
+    if (!result.ok) throw new Error(result.msg)
 
     target.reset()
 

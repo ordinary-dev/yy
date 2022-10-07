@@ -6,6 +6,7 @@ import Head from "next/head"
 
 import { sessionOptions } from "lib/session"
 import styles from "styles/login.module.css"
+import { LoginAPI } from "./api/login"
 
 type PageProps = {
     isAdmin: boolean
@@ -72,7 +73,7 @@ const handleSubmit = async (e: FormEvent) => {
     }
 
     const response = await fetch("/api/login", options)
-    const res = await response.json()
+    const res: LoginAPI = await response.json()
 
     if (!res.ok) console.error("Wrong credentials")
     else Router.push("/admin")

@@ -1,5 +1,4 @@
 import type { NextPage } from "next"
-import { Photo } from "@prisma/client"
 import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons"
 import Head from "next/head"
 import useSWR from "swr"
@@ -7,9 +6,10 @@ import { useRouter } from "next/router"
 
 import Slideshow from "lib/slideshow"
 import styles from "styles/index.module.css"
+import { PhotoAPI } from "./api/photo"
 
 const Home: NextPage = () => {
-    const { data, error } = useSWR<{ photos: Photo[] }, Error>("/api/photo")
+    const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
     const router = useRouter()
 
     if (error) return <ExclamationCircleOutlined />

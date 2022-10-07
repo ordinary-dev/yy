@@ -1,10 +1,17 @@
 import { withIronSessionApiRoute } from "iron-session/next"
+import { NextApiRequest, NextApiResponse } from "next"
 
 import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 import { getHash } from "lib/password"
 
-export default withIronSessionApiRoute(async function (req, res) {
+export type PasswordAPI = {
+    ok: boolean
+}
+
+export default withIronSessionApiRoute(handle, sessionOptions)
+
+async function handle(req: NextApiRequest, res: NextApiResponse<PasswordAPI>) {
     try {
         // Check request method
         if (req.method !== "PUT") throw new Error("Wrong request method")
@@ -46,4 +53,4 @@ export default withIronSessionApiRoute(async function (req, res) {
     } catch {
         res.status(400).send({ ok: false })
     }
-}, sessionOptions)
+}
