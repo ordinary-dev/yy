@@ -12,8 +12,18 @@ const Home: NextPage = () => {
     const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
     const router = useRouter()
 
-    if (error) return <ExclamationCircleOutlined />
-    if (!data) return <LoadingOutlined spin={true} />
+    if (error)
+        return (
+            <div className={styles.Container}>
+                <ExclamationCircleOutlined />
+            </div>
+        )
+    if (!data)
+        return (
+            <div className={styles.Container}>
+                <LoadingOutlined spin={true} />
+            </div>
+        )
 
     const urls = data.photos.map(
         photo => `http://router/photos/${photo.id}/original.${photo.ext}`
