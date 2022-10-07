@@ -1,0 +1,21 @@
+.MainLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.ActiveLink {
+    text-decoration: underline;
+}
+
+.Link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.Lang {
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 200;
+}

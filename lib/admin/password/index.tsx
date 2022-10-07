@@ -1,6 +1,7 @@
 import { FormEvent } from "react"
 
 import styles from "./password.module.css"
+import { PasswordAPI } from "pages/api/password"
 
 const PasswordManager = () => {
     return (
@@ -53,8 +54,10 @@ const handleSubmit = async (e: FormEvent) => {
         }),
     }
 
-    await fetch("/api/password", options)
-    target.reset()
+    const response = await fetch("/api/password", options)
+    const res: PasswordAPI = await response.json()
+    if (!res.ok) console.error("Request failed")
+    else target.reset()
 }
 
 export default PasswordManager

@@ -8,6 +8,7 @@ import { sessionOptions } from "lib/session"
 import styles from "styles/admin.module.css"
 import ListOfPhotos from "lib/admin/photos"
 import PasswordManager from "lib/admin/password"
+import { LogoutAPI } from "./api/logout"
 
 type PageProps = {
     isAdmin: boolean
@@ -58,7 +59,7 @@ const AdminPage: NextPage<PageProps> = props => {
 
 const logout = async () => {
     const response = await fetch("/api/logout")
-    const res = await response.json()
+    const res: LogoutAPI = await response.json()
     if (res.ok) Router.push("/login")
 }
 

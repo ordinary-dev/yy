@@ -5,9 +5,13 @@ import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 import { getSalt, getHash } from "lib/password"
 
+export type LoginAPI = {
+    ok: boolean
+}
+
 export default withIronSessionApiRoute(loginAPI, sessionOptions)
 
-async function loginAPI(req: NextApiRequest, res: NextApiResponse) {
+async function loginAPI(req: NextApiRequest, res: NextApiResponse<LoginAPI>) {
     try {
         if (!req.body.login) throw new Error("Please provide login")
         if (!req.body.password) throw new Error("Plase provide password")

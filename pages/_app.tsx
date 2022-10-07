@@ -6,7 +6,7 @@ import Head from "next/head"
 import { SWRConfig } from "swr"
 
 import "styles/globals.css"
-import Header from "lib/header"
+import { LeftMenu, RightMenu, MobileMenu } from "lib/menu"
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
     <SWRConfig
@@ -19,10 +19,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
             <Head>
                 <Favicons />
             </Head>
-            <Header />
+            <LeftMenu />
             <div className={"PageContainer"}>
+                <MobileMenu />
                 <Component {...pageProps} />
             </div>
+            <RightMenu />
         </div>
     </SWRConfig>
 )

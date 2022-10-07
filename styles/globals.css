@@ -16,14 +16,10 @@ a {
 
 .Container {
     display: flex;
-    flex-direction: column;
-    height: 100vh;
+    flex-direction: row;
+    width: 100%;
 }
 
 .PageContainer {
-    flex-grow: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    width: 100%;
 }

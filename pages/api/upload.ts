@@ -14,14 +14,14 @@ export const config = {
     },
 }
 
-type MyResponse = {
+export type UploadAPI = {
     ok: boolean
-    message: string
+    msg?: string
 }
 
 export default withIronSessionApiRoute(handle, sessionOptions)
 
-async function handle(req: NextApiRequest, res: NextApiResponse<MyResponse>) {
+async function handle(req: NextApiRequest, res: NextApiResponse<UploadAPI>) {
     try {
         // Check request method
         if (req.method !== "POST") throw new Error("Wrong request method")
@@ -70,11 +70,11 @@ async function handle(req: NextApiRequest, res: NextApiResponse<MyResponse>) {
         const image = await fs.promises.readFile(imageFile.filepath)
         await fs.promises.writeFile(imageWritePath, image)
 
-        res.status(200).json({ ok: true, message: "ok" })
+        res.status(200).json({ ok: true })
     } catch (err) {
         const msg =
             err instanceof Error && err.message ? err.message : "Unknown error"
-        res.status(400).json({ ok: false, message: msg })
+        res.status(400).json({ ok: false, msg: msg })
     }
 }
 
