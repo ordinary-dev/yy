@@ -34,7 +34,15 @@ const Slideshow = (props: {
                     <LeftOutlined />
                 </Button>
 
-                <div className={styles.Placeholder}>{slideList}</div>
+                <div className={styles.Placeholder}>
+                    <div className={styles.FullscreenButton} onClick={prev}>
+                        <LeftOutlined />
+                    </div>
+                    {slideList}
+                    <div className={styles.FullscreenButton} onClick={next}>
+                        <RightOutlined />
+                    </div>
+                </div>
 
                 <Button onClick={next}>
                     <RightOutlined />
