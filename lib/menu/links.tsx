@@ -16,13 +16,13 @@ export const Links = () => {
     return (
         <>
             <div className={styles.MainLinks}>
-                <HLink href="/artists" currentPath={path}>
-                    <Ru>ХУДОЖНИКИ</Ru>
-                    <En>ARTISTS</En>
-                </HLink>
                 <HLink href="/" currentPath={path}>
                     <Ru>ГЛАВНАЯ</Ru>
                     <En>HOME</En>
+                </HLink>
+                <HLink href="/artists" currentPath={path}>
+                    <Ru>ТАЛАНТЫ</Ru>
+                    <En>ARTISTS</En>
                 </HLink>
                 <HLink href="/info" currentPath={path}>
                     <Ru>ИНФО</Ru>
