@@ -48,9 +48,7 @@ const Slideshow = (props: {
                     <RightOutlined />
                 </Button>
             </div>
-            <div className={styles.Description}>
-                {props.descriptions[index]}
-            </div>
+            <Description text={props.descriptions[index]} />
         </>
     )
 }
@@ -75,6 +73,32 @@ const Button = (props: { onClick: () => void; children: ReactNode }) => {
         <button className={styles.Button} onClick={props.onClick}>
             {props.children}
         </button>
+    )
+}
+
+// The component processes the string and replaces the '<b>' tags with real ones
+const Description = ({ text }: { text: string | null }) => {
+    // Template
+    const Body = ({ children }: { children?: ReactNode }) => (
+        <div className={styles.Description}>{children}</div>
+    )
+
+    if (!text) return <Body></Body>
+
+    // Check tags
+    const firstTag = text.indexOf("<b>")
+    const secondTag = text.indexOf("</b>")
+    if (firstTag === -1 || secondTag === -1 || firstTag > secondTag)
+        return <Body>{text}</Body>
+
+    // Split string using regular expression
+    const array = text.split(/<b>|<\/b>/)
+    return (
+        <Body>
+            {array[0]}
+            <b>{array[1]}</b>
+            {array[2]}
+        </Body>
     )
 }
 
