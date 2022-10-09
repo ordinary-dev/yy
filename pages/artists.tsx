@@ -15,7 +15,7 @@ const Artists: NextPage = () => {
                 padding: "60px",
             }}>
             <Head>
-                <title>Artists | YY studios</title>
+                <title>Artists | YY Studios</title>
             </Head>
             <Image
                 src={WorkInProgress}

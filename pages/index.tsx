@@ -34,7 +34,7 @@ const Home: NextPage = () => {
     return (
         <div className={styles.Container}>
             <Head>
-                <title>YY studios</title>
+                <title>YY Studios</title>
             </Head>
             <Slideshow
                 urls={urls}
