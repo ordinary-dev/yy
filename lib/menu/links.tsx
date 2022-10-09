@@ -16,10 +16,6 @@ export const Links = () => {
     return (
         <>
             <div className={styles.MainLinks}>
-                <HLink href="/" currentPath={path}>
-                    <Ru>ГЛАВНАЯ</Ru>
-                    <En>HOME</En>
-                </HLink>
                 <HLink href="/artists" currentPath={path}>
                     <Ru>ТАЛАНТЫ</Ru>
                     <En>ARTISTS</En>
@@ -41,13 +37,21 @@ const HLink = (props: {
 }) => {
     // Link to current page
     if (props.currentPath === props.href)
-        return <div className={styles.ActiveLink}>{props.children}</div>
+        return (
+            <div className={styles.ActiveLink}>
+                {props.children}
+                <div></div>
+            </div>
+        )
 
     // Link to another page
     return (
-        <Link href={props.href} passHref>
-            <a className={styles.Link}>{props.children}</a>
-        </Link>
+        <div className={styles.Link}>
+            <Link href={props.href} passHref>
+                <a>{props.children}</a>
+            </Link>
+            <div></div>
+        </div>
     )
 }
 
