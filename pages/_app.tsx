@@ -6,7 +6,7 @@ import Head from "next/head"
 import { SWRConfig } from "swr"
 
 import "styles/globals.css"
-import { LeftMenu, RightMenu, MobileMenu } from "lib/menu"
+import { LeftMenu, MobileMenu } from "lib/menu"
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
     <SWRConfig
@@ -24,7 +24,6 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
                 <MobileMenu />
                 <Component {...pageProps} />
             </div>
-            <RightMenu />
         </div>
     </SWRConfig>
 )

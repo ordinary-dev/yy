@@ -10,7 +10,7 @@ const Info: NextPage = () => {
             <Head>
                 <title>YY Studios</title>
             </Head>
-            <div className={styles.Column}>
+            <div className={styles.MainColumn}>
                 <div className={styles.Title}>
                     <En>ABOUT</En>
                     <Ru>О НАС</Ru>
@@ -38,6 +38,37 @@ const Info: NextPage = () => {
 
             <div className={styles.Column}>
                 <div className={styles.Title}>
+                    <En>CONTACT</En>
+                    <Ru>КОНТАКТЫ</Ru>
+                </div>
+                <div className={styles.Text}>
+                    <En>SERGEY</En>
+                    <Ru>СЕРГЕЙ</Ru>
+                </div>
+                <a href="tel:+79824500926">
+                    <div className={styles.Link}>+7 (982) 450-09-26</div>
+                </a>
+                <a
+                    href="mailto:info@yy-studios.ru"
+                    target="_blank"
+                    rel="noreferrer">
+                    <div className={`${styles.Link} ${styles.MainLink}`}>
+                        INFO@YY-STUDIOS.RU
+                    </div>
+                </a>
+
+                <div className={styles.Title}>
+                    <En>FOR PARTICIPANTS</En>
+                    <Ru>ДЛЯ УЧАСТНИКОВ</Ru>
+                </div>
+                <a
+                    href="mailto:casting@yy-studios.ru"
+                    target="_blank"
+                    rel="noreferrer">
+                    <div className={styles.Link}>CASTING@YY-STUDIOS.RU</div>
+                </a>
+
+                <div className={styles.Title}>
                     <En>SOCIAL MEDIA</En>
                     <Ru>СОЦСЕТИ</Ru>
                 </div>
@@ -52,58 +83,6 @@ const Info: NextPage = () => {
                     target="_blank"
                     rel="noreferrer">
                     <div className={styles.Link}>TELEGRAM</div>
-                </a>
-            </div>
-            <div className={styles.Column}>
-                <div className={styles.Title}>
-                    <En>GLOBAL ENQUIRES</En>
-                    <Ru>ГЛОБАЛЬНЫЕ ЗАПРОСЫ</Ru>
-                </div>
-                <a
-                    href="mailto:info@yy-studios.ru"
-                    target="_blank"
-                    rel="noreferrer">
-                    <div className={styles.Link}>INFO@YY-STUDIOS.RU</div>
-                </a>
-                <a href="tel:+79824500926">
-                    <div className={styles.Link}>+7 (982) 450-09-26</div>
-                </a>
-                <div className={styles.Text}>
-                    <En>SERGEY</En>
-                    <Ru>СЕРГЕЙ</Ru>
-                </div>
-
-                <div className={styles.Title}>
-                    <En>BOOKING IN MOSCOW</En>
-                    <Ru>БРОНИРОВАНИЕ В МОСКВЕ</Ru>
-                </div>
-                <a
-                    href="mailto:msc@yy-studios.ru"
-                    target="_blank"
-                    rel="noreferrer">
-                    <div className={styles.Link}>MSC@YY-STUDIOS.RU</div>
-                </a>
-
-                <div className={styles.Title}>
-                    <En>BOOKING IN SAINT-PETERSBURG</En>
-                    <Ru>БРОНИРОВАНИЕ В САНКТ-ПЕТЕРБУРГЕ</Ru>
-                </div>
-                <a
-                    href="mailto:sp@yy-studios.ru"
-                    target="_blank"
-                    rel="noreferrer">
-                    <div className={styles.Link}>SP@YY-STUDIOS.RU</div>
-                </a>
-
-                <div className={styles.Title}>
-                    <En>FOR PARTICIPANTS</En>
-                    <Ru>ДЛЯ УЧАСТНИКОВ</Ru>
-                </div>
-                <a
-                    href="mailto:casting@yy-studios.ru"
-                    target="_blank"
-                    rel="noreferrer">
-                    <div className={styles.Link}>CASTING@YY-STUDIOS.RU</div>
                 </a>
             </div>
         </div>

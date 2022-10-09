@@ -47,6 +47,11 @@
     max-width: 680px;
 }
 
+.Description span {
+    font-weight: 400;
+    font-style: normal;
+}
+
 .FullscreenButton {
     display: none;
 }

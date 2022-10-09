@@ -76,7 +76,8 @@ const Button = (props: { onClick: () => void; children: ReactNode }) => {
     )
 }
 
-// The component processes the string and replaces the '<b>' tags with real ones
+// The component processes the string and replaces the '<b>' tag
+// with a real <span> tag.
 const Description = ({ text }: { text: string | null }) => {
     // Template
     const Body = ({ children }: { children?: ReactNode }) => (
@@ -96,7 +97,7 @@ const Description = ({ text }: { text: string | null }) => {
     return (
         <Body>
             {array[0]}
-            <b>{array[1]}</b>
+            <span>{array[1]}</span>
             {array[2]}
         </Body>
     )
