@@ -1,4 +1,6 @@
 .Container {
+    position: fixed;
+
     padding-top: 50px;
     padding-bottom: 80px;
     margin-left: 100px;
@@ -21,8 +23,14 @@
     margin-bottom: 60px;
 }
 
+.FakeContainer {
+    width: 100px;
+    margin-left: 100px;
+}
+
 @media screen and (max-width: 1000px) {
-    .Container {
+    .Container,
+    .FakeContainer {
         display: none;
     }
 }
