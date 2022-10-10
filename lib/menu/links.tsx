@@ -1,9 +1,11 @@
 import { useRouter } from "next/router"
 import { useEffect, useState, ReactNode } from "react"
+import Image from "next/image"
 import Link from "next/link"
 
 import { Ru, En } from "lib/interpreter"
 import styles from "./links.module.css"
+import Logo from "public/logo.png"
 
 export const Links = () => {
     // Get current path
@@ -15,6 +17,18 @@ export const Links = () => {
 
     return (
         <>
+            <Link href="/" passHref>
+                <a>
+                    <div className={styles.Logo}>
+                        <Image
+                            src={Logo}
+                            alt="Logo"
+                            layout="fill"
+                            objectFit="contain"
+                        />
+                    </div>
+                </a>
+            </Link>
             <div className={styles.MainLinks}>
                 <HLink href="/artists" currentPath={path}>
                     <Ru>ТАЛАНТЫ</Ru>
