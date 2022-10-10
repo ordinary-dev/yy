@@ -21,9 +21,9 @@
     left: 0;
     background-color: white;
     width: 100%;
-    min-height: 300px;
-    z-index: 10;
-    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.5);
+    min-height: 400px;
+    z-index: 100;
+    box-shadow: 0 20px 15px rgba(0, 0, 0, 0.5);
     padding: 20px;
     display: flex;
     flex-direction: column;

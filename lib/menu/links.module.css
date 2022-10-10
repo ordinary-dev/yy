@@ -1,3 +1,10 @@
+.Logo {
+    width: 100px;
+    height: 80px;
+    position: relative;
+    margin-bottom: 60px;
+}
+
 .MainLinks {
     display: flex;
     flex-direction: column;

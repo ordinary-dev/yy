@@ -26,7 +26,7 @@ const Home: NextPage = () => {
         )
 
     const urls = data.photos.map(
-        photo => `http://router/photos/${photo.id}/original.${photo.ext}`
+        photo => `http://photo-storage/${photo.id}/original.${photo.ext}`
     )
     const descEn = data.photos.map(photo => photo.descriptionEn)
     const descRu = data.photos.map(photo => photo.descriptionRu)
