@@ -4,8 +4,15 @@ services:
             dockerfile: docker/dev.Dockerfile
             context: .
         volumes:
-            - ./:/app
+            - ./lib:/app/lib:ro
+            - ./next.config.js:/app/next.config.js:ro
+            - ./pages:/app/pages:ro
+            - ./photos:/app/photos
+            - ./public:/app/public
+            - ./styles:/app/styles:ro
         restart: unless-stopped
+        ports:
+            - 3000:3000
         depends_on:
             - postgres
         environment:
@@ -21,18 +28,11 @@ services:
             - POSTGRES_DB=yydb
         restart: unless-stopped
 
-    router:
-        image: ghcr.io/ordinary-dev/next-js-router:latest
+    photo-storage:
+        image: nginx:alpine
         volumes:
-            - ./photos:/app/photos
+            - ./photos:/usr/share/nginx/html
         restart: unless-stopped
-        ports:
-            - 3000:80
-        depends_on:
-            - nextjs
-        environment:
-            - NEXTJS_URL=http://nextjs:3000
-            - DIR_NAME=photos
 
 volumes:
     yy-postgres-dev:

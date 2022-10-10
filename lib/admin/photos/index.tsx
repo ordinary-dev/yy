@@ -68,7 +68,7 @@ const Photo = (props: {
     return (
         <div className={styles.Photo}>
             <Image
-                src={`http://router/photos/${props.id}/original.${props.ext}`}
+                src={`http://photo-storage/${props.id}/original.${props.ext}`}
                 width={width}
                 height={height}
                 alt="Uploaded photo"
