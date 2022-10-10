@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next"
-import { IncomingForm, Files, File } from "formidable"
+import { IncomingForm, Files } from "formidable"
 import { withIronSessionApiRoute } from "iron-session/next"
 import fs from "fs"
 import sharp from "sharp"
@@ -39,19 +39,20 @@ async function handle(req: NextApiRequest, res: NextApiResponse<UploadAPI>) {
             })
         })
 
-        const imageFile = isFileArray(files.image)
-            ? files.image[0]
-            : files.image
+        const image = Array.isArray(files.image) ? files.image[0] : files.image
 
-        // Create folder structure
-        const ext = getExtensionFromMimeType(imageFile)
-        if (!ext) throw new Error("Wrong mime type")
+        // Get file extension
+        if (!image.mimetype) throw new Error("Mimetype is undefined")
+        if (!image.mimetype.includes("image"))
+            throw new Error("Wrong file type")
+        const ext = image.mimetype.split("/").pop()
+        if (!ext) throw new Error("File extension is undefined")
 
         // Get metadata
-        const meta = await sharp(imageFile.filepath).metadata()
+        const meta = await sharp(image.filepath).metadata()
         if (!meta.height || !meta.width) throw new Error("Cannot get metadata")
 
-        // Save photo
+        // Save photo in db
         const photo = await prisma.photo.create({
             data: {
                 ext: ext,
@@ -60,15 +61,17 @@ async function handle(req: NextApiRequest, res: NextApiResponse<UploadAPI>) {
             },
         })
         if (!photo) throw new Error("Cannot save photo")
-        const imageDir = `photos/${photo.id}`
-        if (!fs.existsSync(imageDir)) {
-            await fs.promises.mkdir(imageDir, { recursive: true })
+
+        // Create directories
+        const uploadDir = `/app/photos/${photo.id}`
+        if (!fs.existsSync(uploadDir)) {
+            await fs.promises.mkdir(uploadDir, { recursive: true })
         }
 
-        // Write file
-        const imageWritePath = `${imageDir}/original.${ext}`
-        const image = await fs.promises.readFile(imageFile.filepath)
-        await fs.promises.writeFile(imageWritePath, image)
+        // Move file
+        const destination = `${uploadDir}/original.${ext}`
+        fs.copyFileSync(image.filepath, destination)
+        fs.unlinkSync(image.filepath)
 
         res.status(200).json({ ok: true })
     } catch (err) {
@@ -76,16 +79,4 @@ async function handle(req: NextApiRequest, res: NextApiResponse<UploadAPI>) {
             err instanceof Error && err.message ? err.message : "Unknown error"
         res.status(400).json({ ok: false, msg: msg })
     }
-}
-
-const isFileArray = (fa: unknown): fa is Array<File> => {
-    return Array.isArray(fa)
-}
-
-const getExtensionFromMimeType = (imageFile: File) => {
-    const mt = imageFile.mimetype
-    if (mt === "image/jpeg") return "jpg"
-    if (mt === "image/png") return "png"
-    if (mt === "image/webp") return "webp"
-    return null
 }
