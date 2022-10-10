@@ -1,20 +1,27 @@
 .Info {
-    padding-left: 80px;
-    padding-right: 80px;
+    padding-left: 200px;
+    padding-right: 200px;
     padding-bottom: 40px;
     margin-top: 183px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 100px;
+    gap: 200px;
     width: 100%;
     font-size: 20px;
     line-height: 39px;
 }
 
+@media screen and (max-width: 1000px) {
+    .Info {
+        padding-left: 80px;
+        padding-right: 80px;
+    }
+}
+
 .MainColumn {
-    max-width: 550px;
+    max-width: 800px;
     width: 100%;
 }
 
@@ -23,13 +30,19 @@
     width: 100%;
 }
 
+@media screen and (max-width: 1860px) {
+    .Column {
+        max-width: 800px;
+    }
+}
+
 .Title {
     font-weight: 400;
-    margin-bottom: 17px;
+    margin-bottom: 10px;
 }
 
 .Title:not(:first-child) {
-    margin-top: 44px;
+    margin-top: 60px;
 }
 
 .Text {
