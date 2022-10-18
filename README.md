@@ -17,7 +17,7 @@ Run the production server:
 sudo docker-compose -f docker/docker-prod.yml --project-directory . up --build
 ```
 
-Open [http://localhost:3000](localhost:3000) with your browser to see the result.
+Open [localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Authors
 
