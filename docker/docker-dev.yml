@@ -4,12 +4,12 @@ services:
             dockerfile: docker/dev.Dockerfile
             context: .
         volumes:
-            - ./lib:/app/lib:ro
-            - ./next.config.js:/app/next.config.js:ro
-            - ./pages:/app/pages:ro
-            - ./photos:/app/photos
-            - ./public:/app/public
-            - ./styles:/app/styles:ro
+            - ./lib:/app/lib:ro,z
+            - ./next.config.js:/app/next.config.js:ro,z
+            - ./pages:/app/pages:ro,z
+            - ./photos:/app/photos:z
+            - ./public:/app/public:z
+            - ./styles:/app/styles:ro,z
         restart: unless-stopped
         ports:
             - 3000:3000
@@ -31,7 +31,7 @@ services:
     photo-storage:
         image: nginx:alpine
         volumes:
-            - ./photos:/usr/share/nginx/html
+            - ./photos:/usr/share/nginx/html:z
         restart: unless-stopped
 
 volumes:
