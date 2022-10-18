@@ -37,9 +37,12 @@ const Slideshow = (props: {
     // Load only 3 slides: current, previous and next
     const prevIndex = index > 0 ? index - 1 : slideList.length - 1
     const nextIndex = index + 1 < slideList.length ? index + 1 : 0
-    const currentSlides = slideList.filter((_item, itemIndex) => 
-        (itemIndex === index || itemIndex === prevIndex || itemIndex === nextIndex))
-
+    const currentSlides = slideList.filter(
+        (_item, itemIndex) =>
+            itemIndex === index ||
+            itemIndex === prevIndex ||
+            itemIndex === nextIndex
+    )
 
     return (
         <>

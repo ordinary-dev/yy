@@ -102,17 +102,17 @@ const Photo = (props: {
                     </button>
                 </div>
             </div>
-            
+
             <div>Format: {props.ext}</div>
             <Warning isVisible={props.ext !== "webp" && props.ext !== "avif"}>
                 You use an outdated format!
             </Warning>
-            
+
             <div>Width: {props.width}</div>
             <Warning isVisible={props.width > 3000}>
                 The width is too large!
             </Warning>
-            
+
             <div>Height: {props.height}</div>
             <Warning isVisible={props.height > 3000}>
                 The height is too large!
