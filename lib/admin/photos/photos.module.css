@@ -38,3 +38,7 @@
     min-width: 250px;
     height: 30px;
 }
+
+.Error {
+    color: red;
+}

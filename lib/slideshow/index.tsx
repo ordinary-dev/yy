@@ -23,7 +23,13 @@ const Slideshow = (props: {
 
     const slideList = props.urls.map((url, itemIndex) => (
         <Slide key={url} index={itemIndex} activeIndex={index}>
-            <Image src={url} alt="Photo" layout="fill" objectFit="contain" />
+            <Image
+                src={url}
+                alt="Photo"
+                layout="fill"
+                objectFit="contain"
+                unoptimized={true}
+            />
         </Slide>
     ))
 

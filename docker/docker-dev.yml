@@ -11,8 +11,6 @@ services:
             - ./public:/app/public:z
             - ./styles:/app/styles:ro,z
         restart: unless-stopped
-        ports:
-            - 3000:3000
         depends_on:
             - postgres
         environment:
@@ -28,11 +26,17 @@ services:
             - POSTGRES_DB=yydb
         restart: unless-stopped
 
-    photo-storage:
-        image: nginx:alpine
+    nginx:
+        build:
+            dockerfile: docker/nginx.Dockerfile
+            context: .
+        ports:
+            - 3000:80
         volumes:
-            - ./photos:/usr/share/nginx/html:z
+            - ./photos:/app/photos:z
         restart: unless-stopped
+        depends_on:
+            - nextjs
 
 volumes:
     yy-postgres-dev:
