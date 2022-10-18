@@ -5,11 +5,16 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
-# Build project
-COPY . .
-RUN npx prisma generate
+# Env variables
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
+
+# Build prisma
+COPY ./prisma ./prisma
+RUN npx prisma generate
+
+# Build project
+COPY . .
 RUN npm run build
 
 # Make a smaller container
