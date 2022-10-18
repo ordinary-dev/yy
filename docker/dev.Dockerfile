@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
 
-COPY prisma ./
+COPY prisma ./prisma
 RUN npx prisma generate
 
 ENV NEXT_TELEMETRY_DISABLED 1

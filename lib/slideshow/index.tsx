@@ -21,11 +21,28 @@ const Slideshow = (props: {
         else setIndex(0)
     }
 
+    // List of all slides
     const slideList = props.urls.map((url, itemIndex) => (
         <Slide key={url} index={itemIndex} activeIndex={index}>
-            <Image src={url} alt="Photo" layout="fill" objectFit="contain" />
+            <Image
+                src={url}
+                alt="Photo"
+                layout="fill"
+                objectFit="contain"
+                unoptimized={true}
+            />
         </Slide>
     ))
+
+    // Load only 3 slides: current, previous and next
+    const prevIndex = index > 0 ? index - 1 : slideList.length - 1
+    const nextIndex = index + 1 < slideList.length ? index + 1 : 0
+    const currentSlides = slideList.filter(
+        (_item, itemIndex) =>
+            itemIndex === index ||
+            itemIndex === prevIndex ||
+            itemIndex === nextIndex
+    )
 
     return (
         <>
@@ -38,7 +55,7 @@ const Slideshow = (props: {
                     <div className={styles.FullscreenButton} onClick={prev}>
                         <LeftOutlined />
                     </div>
-                    {slideList}
+                    {currentSlides}
                     <div className={styles.FullscreenButton} onClick={next}>
                         <RightOutlined />
                     </div>

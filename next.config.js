@@ -3,7 +3,7 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     images: {
-        domains: ["localhost", "127.0.0.1", "photo-storage"],
+        domains: ["localhost", "127.0.0.1"],
     },
     i18n: {
         locales: ["en", "ru"],

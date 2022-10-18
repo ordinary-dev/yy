@@ -39,6 +39,7 @@ const ListOfPhotos = () => {
                     width={photo.width}
                     height={photo.height}
                     updateList={updateList}
+                    size={photo.size}
                 />
             ))}
             <UploadForm updateList={updateList} />
@@ -53,6 +54,7 @@ const Photo = (props: {
     descEn: string | null
     descRu: string | null
     updateList: () => void
+    size: number
 }) => {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
@@ -66,39 +68,74 @@ const Photo = (props: {
     const width = Math.floor(props.width / div)
 
     return (
-        <div className={styles.Photo}>
-            <Image
-                src={`http://photo-storage/${props.id}/original.${props.ext}`}
-                width={width}
-                height={height}
-                alt="Uploaded photo"
-            />
-            <div className={styles.Stack}>
-                <input
-                    placeholder="English description"
-                    value={descEn}
-                    onChange={e => setDescEn(e.target.value)}
-                    type="text"
+        <div>
+            <div className={styles.Photo}>
+                <Image
+                    src={`/photos/${props.id}/original.${props.ext}`}
+                    width={width}
+                    height={height}
+                    alt="Uploaded photo"
+                    unoptimized={true}
                 />
-                <input
-                    placeholder="Russian description"
-                    value={descRu}
-                    onChange={e => setDescRu(e.target.value)}
-                    type="text"
-                />
-                <button
-                    className={styles.Button}
-                    onClick={() => updatePhoto(props.id, descEn, descRu)}>
-                    <SaveOutlined /> Save
-                </button>
-                <button
-                    className={styles.Button}
-                    onClick={() => deletePhoto(props.id, props.updateList)}>
-                    <DeleteOutlined /> Delete
-                </button>
+                <div className={styles.Stack}>
+                    <input
+                        placeholder="English description"
+                        value={descEn}
+                        onChange={e => setDescEn(e.target.value)}
+                        type="text"
+                    />
+                    <input
+                        placeholder="Russian description"
+                        value={descRu}
+                        onChange={e => setDescRu(e.target.value)}
+                        type="text"
+                    />
+                    <button
+                        className={styles.Button}
+                        onClick={() => updatePhoto(props.id, descEn, descRu)}>
+                        <SaveOutlined /> Save
+                    </button>
+                    <button
+                        className={styles.Button}
+                        onClick={() => deletePhoto(props.id, props.updateList)}>
+                        <DeleteOutlined /> Delete
+                    </button>
+                </div>
             </div>
+
+            <div>Format: {props.ext}</div>
+            <Warning isVisible={props.ext !== "webp" && props.ext !== "avif"}>
+                You use an outdated format!
+            </Warning>
+
+            <div>Width: {props.width}</div>
+            <Warning isVisible={props.width > 3000}>
+                The width is too large!
+            </Warning>
+
+            <div>Height: {props.height}</div>
+            <Warning isVisible={props.height > 3000}>
+                The height is too large!
+            </Warning>
+
+            <div>Size: {Math.floor(props.size / 1024)} kbytes</div>
+            <Warning isVisible={props.size > 512 * 1024}>
+                The image is too big!
+            </Warning>
         </div>
     )
+}
+
+const Warning = ({
+    children,
+    isVisible,
+}: {
+    children: string
+    isVisible: boolean
+}) => {
+    if (isVisible)
+        return <div className={styles.Error}>Warning: {children}</div>
+    return <></>
 }
 
 const updatePhoto = async (id: number, descEn: string, descRu: string) => {

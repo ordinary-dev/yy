@@ -4,15 +4,14 @@ services:
             dockerfile: docker/dev.Dockerfile
             context: .
         volumes:
-            - ./lib:/app/lib:ro
-            - ./next.config.js:/app/next.config.js:ro
-            - ./pages:/app/pages:ro
-            - ./photos:/app/photos
-            - ./public:/app/public
-            - ./styles:/app/styles:ro
+            - ./lib:/app/lib:ro,z
+            - ./next.config.js:/app/next.config.js:ro,z
+            - ./prisma:/app/prisma:z
+            - ./pages:/app/pages:ro,z
+            - ./photos:/app/photos:z
+            - ./public:/app/public:z
+            - ./styles:/app/styles:ro,z
         restart: unless-stopped
-        ports:
-            - 3000:3000
         depends_on:
             - postgres
         environment:
@@ -28,11 +27,17 @@ services:
             - POSTGRES_DB=yydb
         restart: unless-stopped
 
-    photo-storage:
-        image: nginx:alpine
+    nginx:
+        build:
+            dockerfile: docker/nginx.Dockerfile
+            context: .
+        ports:
+            - 3000:80
         volumes:
-            - ./photos:/usr/share/nginx/html
+            - ./photos:/app/photos:z
         restart: unless-stopped
+        depends_on:
+            - nextjs
 
 volumes:
     yy-postgres-dev:
