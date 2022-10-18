@@ -58,6 +58,7 @@ async function handle(req: NextApiRequest, res: NextApiResponse<UploadAPI>) {
                 ext: ext,
                 width: meta.width,
                 height: meta.height,
+                size: image.size
             },
         })
         if (!photo) throw new Error("Cannot save photo")

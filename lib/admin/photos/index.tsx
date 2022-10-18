@@ -39,6 +39,7 @@ const ListOfPhotos = () => {
                     width={photo.width}
                     height={photo.height}
                     updateList={updateList}
+                    size={photo.size}
                 />
             ))}
             <UploadForm updateList={updateList} />
@@ -53,6 +54,7 @@ const Photo = (props: {
     descEn: string | null
     descRu: string | null
     updateList: () => void
+    size: number
 }) => {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
@@ -100,17 +102,25 @@ const Photo = (props: {
                     </button>
                 </div>
             </div>
+            
             <div>Format: {props.ext}</div>
             <Warning isVisible={props.ext !== "webp" && props.ext !== "avif"}>
                 You use an outdated format!
             </Warning>
+            
             <div>Width: {props.width}</div>
             <Warning isVisible={props.width > 3000}>
                 The width is too large!
             </Warning>
+            
             <div>Height: {props.height}</div>
             <Warning isVisible={props.height > 3000}>
                 The height is too large!
+            </Warning>
+
+            <div>Size: {Math.floor(props.size / 1024)} kbytes</div>
+            <Warning isVisible={props.size > 512 * 1024}>
+                The image is too big!
             </Warning>
         </div>
     )

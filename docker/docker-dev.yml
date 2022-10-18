@@ -6,6 +6,7 @@ services:
         volumes:
             - ./lib:/app/lib:ro,z
             - ./next.config.js:/app/next.config.js:ro,z
+            - ./prisma:/app/prisma:z
             - ./pages:/app/pages:ro,z
             - ./photos:/app/photos:z
             - ./public:/app/public:z
