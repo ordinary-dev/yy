@@ -54,7 +54,7 @@ const Roles = ({isOpen}: {isOpen: boolean}) => {
                     return (
                         <>
                         <Link href={`/artists/${artist.role.url}/${artist.person.url}`} passHref>
-                            <StyledLink>
+                            <StyledLink light>
                                 <En>{artist.role.nameEn.toUpperCase()}</En>
                                 <Ru>{artist.role.nameRu.toUpperCase()}</Ru>
                             </StyledLink>
@@ -84,7 +84,7 @@ const People = ({artists, role, isVisible}: { artists: ArtistWithExtras[], role:
                         usedPersons.add(artist.person.id)
                         return (
                             <Link key={artist.person.id} href={`/artists/${role.url}/${artist.person.url}`} passHref>
-                                <StyledLink isActive={router.query.name === artist.person.url} >
+                                <StyledLink light isActive={router.query.name === artist.person.url} >
                                     <En>{artist.person.nameEn.toUpperCase()}</En>
                                     <Ru>{artist.person.nameRu.toUpperCase()}</Ru>
                                 </StyledLink>

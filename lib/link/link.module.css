@@ -1,10 +1,10 @@
 .Link {
     cursor: pointer;
-    width: fit-content;
 }
 
-.ActiveLink {
-    width: fit-content;
+.Link:hover .Underline,
+.ActiveLink .Underline {
+    width: 100%;
 }
 
 .Underline {
@@ -15,7 +15,10 @@
     transition: width 0.15s ease-in-out;
 }
 
-.Link:hover .Underline,
-.ActiveLink .Underline {
-    width: 100%;
+.Content {
+    width: fit-content;
+}
+
+.Light {
+    font-weight: 200;
 }

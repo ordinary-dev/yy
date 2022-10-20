@@ -2,6 +2,7 @@ import type { NextPage } from "next"
 import Head from "next/head"
 
 import { Ru, En } from "lib/interpreter"
+import StyledLink from "lib/link"
 import styles from "styles/info.module.css"
 
 const Info: NextPage = () => {
@@ -45,45 +46,46 @@ const Info: NextPage = () => {
                     <En>SERGEY</En>
                     <Ru>СЕРГЕЙ</Ru>
                 </div>
-                <a href="tel:+79824500926">
-                    <div className={styles.Link}>+7 (982) 450-09-26</div>
-                </a>
-                <a
+                <StyledLink href="tel:+79824500926" light>
+                    +7 (982) 450-09-26
+                </StyledLink>
+                <StyledLink
                     href="mailto:info@yy-studios.ru"
                     target="_blank"
                     rel="noreferrer">
-                    <div className={`${styles.Link} ${styles.MainLink}`}>
-                        INFO@YY-STUDIOS.RU
-                    </div>
-                </a>
+                    INFO@YY-STUDIOS.RU
+                </StyledLink>
 
                 <div className={styles.Title}>
                     <En>FOR PARTICIPANTS</En>
                     <Ru>ДЛЯ УЧАСТНИКОВ</Ru>
                 </div>
-                <a
+                <StyledLink
                     href="mailto:casting@yy-studios.ru"
                     target="_blank"
-                    rel="noreferrer">
-                    <div className={styles.Link}>CASTING@YY-STUDIOS.RU</div>
-                </a>
+                    rel="noreferrer"
+                    light>
+                    CASTING@YY-STUDIOS.RU
+                </StyledLink>
 
                 <div className={styles.Title}>
                     <En>SOCIAL MEDIA</En>
                     <Ru>СОЦСЕТИ</Ru>
                 </div>
-                <a
+                <StyledLink
                     href="https://instagram.com/yy_studios"
                     target="_blank"
-                    rel="noreferrer">
-                    <div className={styles.Link}>INSTAGRAM</div>
-                </a>
-                <a
+                    rel="noreferrer"
+                    light>
+                    INSTAGRAM
+                </StyledLink>
+                <StyledLink
                     href="https://t.me/yy_studios"
                     target="_blank"
-                    rel="noreferrer">
-                    <div className={styles.Link}>TELEGRAM</div>
-                </a>
+                    rel="noreferrer"
+                    light>
+                    TELEGRAM
+                </StyledLink>
             </div>
         </div>
     )
