@@ -142,10 +142,8 @@ const Photo = (props: {
                     {artist.role.nameEn}: {artist.person.nameEn}
                     <button
                         onClick={() =>
-                            deleteAuthor(
-                                artist.role.id,
-                                artist.person.id,
-                                props.id,
+                            deleteArtist(
+                                artist.id,
                                 props.updateList
                             )
                         }>
@@ -177,10 +175,8 @@ const Photo = (props: {
     )
 }
 
-const deleteAuthor = async (
-    roleId: number,
-    personId: number,
-    photoId: number,
+const deleteArtist = async (
+    id: number,
     onSuccess: () => void
 ) => {
     const options = {
@@ -188,7 +184,7 @@ const deleteAuthor = async (
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ roleId, personId, photoId }),
+        body: JSON.stringify({ "artistId": id }),
     }
     const response = await fetch("/api/artists", options)
     if (response.status === 200) onSuccess()
