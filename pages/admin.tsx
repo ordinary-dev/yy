@@ -8,6 +8,7 @@ import { sessionOptions } from "lib/session"
 import styles from "styles/admin.module.css"
 import ListOfPhotos from "lib/admin/photos"
 import PasswordManager from "lib/admin/password"
+import Artists from "lib/admin/artists"
 import { LogoutAPI } from "./api/logout"
 
 type PageProps = {
@@ -40,6 +41,7 @@ const AdminPage: NextPage<PageProps> = props => {
                 </Head>
                 <div>Hi, admin</div>
                 <ListOfPhotos />
+                <Artists />
                 <PasswordManager />
                 <button className={styles.Button} onClick={() => logout()}>
                     Logout

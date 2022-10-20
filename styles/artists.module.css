@@ -1,0 +1,13 @@
+.Container {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.Photo {
+    margin-top: 50px;
+    margin-left: 25px;
+    margin-right: 25px;
+}

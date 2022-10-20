@@ -5,7 +5,7 @@
     padding-bottom: 50px;
     margin-left: 100px;
 
-    width: 180px;
+    width: 200px;
     height: 100vh;
 
     display: flex;
@@ -17,7 +17,7 @@
 }
 
 .FakeContainer {
-    width: 100px;
+    width: 200px;
     margin-left: 100px;
 }
 

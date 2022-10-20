@@ -2,7 +2,7 @@ import { MenuOutlined, CloseCircleOutlined } from "@ant-design/icons"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 
-import { Links } from "./links"
+import { Links } from "./body"
 import styles from "./mobile.module.css"
 
 export const MobileMenu = () => {

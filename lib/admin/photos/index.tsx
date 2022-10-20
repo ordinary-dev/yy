@@ -8,6 +8,7 @@ import {
     LoadingOutlined,
 } from "@ant-design/icons"
 import useSWR, { useSWRConfig } from "swr"
+import { Artist, Role, Person } from "@prisma/client"
 
 import { PhotoAPI } from "pages/api/photo"
 import { DeleteAPI } from "pages/api/delete"
@@ -16,20 +17,26 @@ import { UploadAPI } from "pages/api/upload"
 import styles from "./photos.module.css"
 
 const ListOfPhotos = () => {
-    const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
+    const photos = useSWR<PhotoAPI, Error>("/api/photo")
+    const roles = useSWR("/api/roles")
+    const people = useSWR("/api/people")
     const { mutate } = useSWRConfig()
 
     const updateList = () => {
         mutate("/api/photo")
+        mutate("/api/roles")
+        mutate("/api/people")
     }
 
-    if (error) return <ExclamationCircleOutlined />
-    if (!data) return <LoadingOutlined spin={true} />
+    if (photos.error || roles.error || people.error)
+        return <ExclamationCircleOutlined />
+    if (!photos.data || !roles.data || !people.data)
+        return <LoadingOutlined spin={true} />
 
     return (
         <div className={styles.Container}>
             <div>List of photos:</div>
-            {data.photos.map((photo, index) => (
+            {photos.data.photos.map((photo, index) => (
                 <Photo
                     key={index}
                     id={photo.id}
@@ -40,6 +47,9 @@ const ListOfPhotos = () => {
                     height={photo.height}
                     updateList={updateList}
                     size={photo.size}
+                    artists={photo.artists}
+                    roles={roles.data.roles}
+                    people={people.data.people}
                 />
             ))}
             <UploadForm updateList={updateList} />
@@ -55,6 +65,9 @@ const Photo = (props: {
     descRu: string | null
     updateList: () => void
     size: number
+    artists: (Artist & {role: Role, person: Person})[]
+    roles: Role[]
+    people: Person[]
 }) => {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
@@ -122,8 +135,90 @@ const Photo = (props: {
             <Warning isVisible={props.size > 512 * 1024}>
                 The image is too big!
             </Warning>
+
+            <div>Artists:</div>
+            {props.artists.map(artist => (
+                <div key={artist.id}>
+                    {artist.role.nameEn}: {artist.person.nameEn}
+                    <button
+                        onClick={() =>
+                            deleteAuthor(
+                                artist.role.id,
+                                artist.person.id,
+                                props.id,
+                                props.updateList
+                            )
+                        }>
+                        Delete
+                    </button>
+                </div>
+            ))}
+            {props.artists.length === 0 && (
+                <div>I don&apos;t know anything about the authors :(</div>
+            )}
+            <form onSubmit={e => addArtist(e, props.id, props.updateList)}>
+                <select name="role">
+                    {props.roles.map(role => (
+                        <option key={role.id} value={role.id}>
+                            {role.nameEn}
+                        </option>
+                    ))}
+                </select>
+                <select name="person">
+                    {props.people.map(person => (
+                        <option key={person.id} value={person.id}>
+                            {person.nameEn}
+                        </option>
+                    ))}
+                </select>
+                <input type="submit" value="Add" />
+            </form>
         </div>
     )
+}
+
+const deleteAuthor = async (
+    roleId: number,
+    personId: number,
+    photoId: number,
+    onSuccess: () => void
+) => {
+    const options = {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ roleId, personId, photoId }),
+    }
+    const response = await fetch("/api/artists", options)
+    if (response.status === 200) onSuccess()
+}
+
+interface ArtistForm extends HTMLFormElement {
+    person: HTMLSelectElement
+    role: HTMLSelectElement
+}
+
+const addArtist = async (
+    e: FormEvent,
+    photoId: number,
+    onSuccess: () => void
+) => {
+    e.preventDefault()
+    const target = e.target as ArtistForm
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            personId: Number(target.person.value),
+            roleId: Number(target.role.value),
+            photoId: photoId,
+        }),
+    }
+    const response = await fetch("/api/artists", options)
+    if (response.status === 200) onSuccess()
 }
 
 const Warning = ({

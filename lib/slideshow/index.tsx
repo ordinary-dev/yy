@@ -7,18 +7,25 @@ import styles from "./slideshow.module.css"
 const Slideshow = (props: {
     urls: string[]
     descriptions: (string | null)[]
+    onSlideChange?: (arg0: number) => void
 }) => {
     // Current slide number
     const [index, setIndex] = useState(0)
+
+    const onChange = () => {
+        if (props.onSlideChange) props.onSlideChange(index)
+    }
 
     // Functions for changing the slide
     const prev = () => {
         if (index > 0) setIndex(index - 1)
         else setIndex(slideList.length - 1)
+        onChange()
     }
     const next = () => {
         if (index + 1 < slideList.length) setIndex(index + 1)
         else setIndex(0)
+        onChange()
     }
 
     // List of all slides

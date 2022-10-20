@@ -13,13 +13,3 @@ a {
 * {
     box-sizing: border-box;
 }
-
-.Container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}
-
-.PageContainer {
-    width: 100%;
-}

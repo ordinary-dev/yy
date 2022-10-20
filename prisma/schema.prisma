@@ -8,13 +8,14 @@ datasource db {
 }
 
 model Photo {
-    id              Int      @id @default(autoincrement())
+    id              Int        @id @default(autoincrement())
     descriptionRu   String?
     descriptionEn   String?
     width           Int
     height          Int
     ext             String
-    size            Int      @default(0)
+    size            Int        @default(0)
+    artists         Artist[]
 }
 
 model Admin {
@@ -34,4 +35,35 @@ model CookiePassword {
 model Text {
     id      String  @id
     value   String
+}
+
+// All participants
+model Person {
+    id          Int        @id @default(autoincrement())
+    nameEn      String     @unique
+    nameRu      String     @unique
+    url         String     @unique
+    projects    Artist[]
+}
+
+// Existing roles in all projects
+model Role {
+    id        Int        @id @default(autoincrement())
+    nameEn    String     @unique
+    nameRu    String     @unique
+    url       String     @unique
+    projects  Artist[]
+}
+
+// Describes relations between a person and a photo
+model Artist {
+    id          Int       @id @default(autoincrement())
+    person      Person    @relation(fields: [personId], references: [id])
+    personId    Int
+    role        Role      @relation(fields: [roleId], references: [id])
+    roleId      Int
+    photo       Photo     @relation(fields: [photoId], references: [id])
+    photoId     Int
+
+    @@unique([personId, roleId, photoId])
 }
