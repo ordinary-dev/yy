@@ -12,7 +12,7 @@ type MyPhoto = Photo & {
 }
 
 type MyArtist = Artist & {
-    role: Role,
+    role: Role
     person: Person
 }
 
@@ -25,6 +25,9 @@ const handle = async (_req: NextApiRequest, res: NextApiResponse<PhotoAPI>) => {
                     person: true,
                 },
             },
+        },
+        orderBy: {
+            order: "asc",
         },
     })
     if (photos === undefined) throw new Error("Can't get photos")

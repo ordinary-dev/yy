@@ -15,6 +15,7 @@ import { DeleteAPI } from "pages/api/delete"
 import { UpdateAPI } from "pages/api/update"
 import { UploadAPI } from "pages/api/upload"
 import styles from "./photos.module.css"
+import Order from "./order"
 
 const ListOfPhotos = () => {
     const photos = useSWR<PhotoAPI, Error>("/api/photo")
@@ -45,6 +46,7 @@ const ListOfPhotos = () => {
                     descRu={photo.descriptionRu}
                     width={photo.width}
                     height={photo.height}
+                    order={photo.order}
                     updateList={updateList}
                     size={photo.size}
                     artists={photo.artists}
@@ -63,9 +65,10 @@ const Photo = (props: {
     width: number
     descEn: string | null
     descRu: string | null
+    order: number
     updateList: () => void
     size: number
-    artists: (Artist & {role: Role, person: Person})[]
+    artists: (Artist & { role: Role; person: Person })[]
     roles: Role[]
     people: Person[]
 }) => {
@@ -142,10 +145,7 @@ const Photo = (props: {
                     {artist.role.nameEn}: {artist.person.nameEn}
                     <button
                         onClick={() =>
-                            deleteArtist(
-                                artist.id,
-                                props.updateList
-                            )
+                            deleteArtist(artist.id, props.updateList)
                         }>
                         Delete
                     </button>
@@ -171,20 +171,22 @@ const Photo = (props: {
                 </select>
                 <input type="submit" value="Add" />
             </form>
+            <Order
+                id={props.id}
+                order={props.order}
+                onChange={props.updateList}
+            />
         </div>
     )
 }
 
-const deleteArtist = async (
-    id: number,
-    onSuccess: () => void
-) => {
+const deleteArtist = async (id: number, onSuccess: () => void) => {
     const options = {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ "artistId": id }),
+        body: JSON.stringify({ artistId: id }),
     }
     const response = await fetch("/api/artists", options)
     if (response.status === 200) onSuccess()

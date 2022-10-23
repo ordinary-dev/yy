@@ -16,6 +16,7 @@ model Photo {
     ext             String
     size            Int        @default(0)
     artists         Artist[]
+    order           Int        @default(autoincrement())
 }
 
 model Admin {

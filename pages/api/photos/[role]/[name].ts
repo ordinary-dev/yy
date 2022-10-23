@@ -13,9 +13,13 @@ type ArtistPageBadResponse = {
 
 type ArtistPageAPI = ArtistPageGoodResponse | ArtistPageBadResponse
 
-const handle = async (req: NextApiRequest, res: NextApiResponse<ArtistPageAPI>) => {
+const handle = async (
+    req: NextApiRequest,
+    res: NextApiResponse<ArtistPageAPI>
+) => {
     try {
-        if (!req.query.role || !req.query.name) throw new Error("Please provide role and name")
+        if (!req.query.role || !req.query.name)
+            throw new Error("Please provide role and name")
         const role = req.query.role.toString()
         const name = req.query.name.toString()
         const photos = await prisma.photo.findMany({
@@ -31,6 +35,9 @@ const handle = async (req: NextApiRequest, res: NextApiResponse<ArtistPageAPI>) 
                     },
                 },
             },
+            orderBy: {
+                order: "asc"
+            }
         })
         if (photos === undefined) throw new Error("Can't find photos")
         res.status(200).json({ photos })
