@@ -1,11 +1,10 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-
+import { ReactNode } from "react"
 import { Ru, En } from "lib/interpreter"
-import StyledLink from "lib/link"
 import styles from "styles/info.module.css"
 
-const Info: NextPage = () => {
+const About: NextPage = () => {
     return (
         <div className={styles.Info}>
             <Head>
@@ -16,7 +15,7 @@ const Info: NextPage = () => {
                     <En>ABOUT</En>
                     <Ru>О НАС</Ru>
                 </div>
-                <div className={styles.Text}>
+                <Text>
                     <En>
                         YY STUDIOS IS A FULL SERVICE AND TALENT REPRESENTATION
                         AGENCY, A MODERN REPRESENTATIVE, ABLE TO SATISFY ALL THE
@@ -34,61 +33,59 @@ const Info: NextPage = () => {
                         КОНТЕКСТЕ СОВРЕМЕННОГО ФОТОГРАФИЧЕСКОГО ЖАНРА,
                         ЗАРОЖДАЮЩЕГОСЯ В РОССИИ.
                     </Ru>
-                </div>
+                </Text>
             </div>
-
             <div className={styles.Column}>
                 <div className={styles.Title}>
-                    <En>CONTACT</En>
-                    <Ru>КОНТАКТЫ</Ru>
+                    <En>OUR SERVICES</En>
+                    <Ru>НАШИ СЕРВИСЫ</Ru>
                 </div>
-                <div className={styles.Text}>
-                    <En>SERGEY</En>
-                    <Ru>СЕРГЕЙ</Ru>
-                </div>
-                <StyledLink href="tel:+79824500926" light>
-                    +7 (982) 450-09-26
-                </StyledLink>
-                <StyledLink
-                    href="mailto:info@yy-studios.ru"
-                    target="_blank"
-                    rel="noreferrer">
-                    INFO@YY-STUDIOS.RU
-                </StyledLink>
+                <Text>
+                    <En>PHOTO PRODUCTION</En>
+                    <Ru>ФОТОПРОИЗВОДСТВО</Ru>
+                </Text>
 
-                <div className={styles.Title}>
-                    <En>FOR PARTICIPANTS</En>
-                    <Ru>ДЛЯ УЧАСТНИКОВ</Ru>
-                </div>
-                <StyledLink
-                    href="mailto:casting@yy-studios.ru"
-                    target="_blank"
-                    rel="noreferrer"
-                    light>
-                    CASTING@YY-STUDIOS.RU
-                </StyledLink>
+                <Text>
+                    <En>ART DIRECTION</En>
+                    <Ru>АРТ-ДИРЕКЦИЯ</Ru>
+                </Text>
 
-                <div className={styles.Title}>
-                    <En>SOCIAL MEDIA</En>
-                    <Ru>СОЦСЕТИ</Ru>
-                </div>
-                <StyledLink
-                    href="https://instagram.com/yy_studios"
-                    target="_blank"
-                    rel="noreferrer"
-                    light>
-                    INSTAGRAM
-                </StyledLink>
-                <StyledLink
-                    href="https://t.me/yy_studios"
-                    target="_blank"
-                    rel="noreferrer"
-                    light>
-                    TELEGRAM
-                </StyledLink>
+                <Text>
+                    <En>BRAND CONTENT</En>
+                    <Ru>СОДЕРЖАНИЕ БРЕНДА</Ru>
+                </Text>
+
+                <Text>
+                    <En>ART CONSULTATION</En>
+                    <Ru>АРТ КОНСУЛЬТАЦИЯ</Ru>
+                </Text>
+
+                <Text>
+                    <En>CASTING</En>
+                    <Ru>КАСТИНГ</Ru>
+                </Text>
+
+                <Text>
+                    <En>ARTISTS MANAGMENT</En>
+                    <Ru>МЕНЕДЖМЕНТ АРТИСТОВ</Ru>
+                </Text>
+
+                <Text>
+                    <En>E-COMMERCE</En>
+                    <Ru>ЭЛЕКТРОННАЯ КОММЕРЦИЯ</Ru>
+                </Text>
+
+                <Text>
+                    <En>RETOUCHING</En>
+                    <Ru>РЕТУШЬ</Ru>
+                </Text>
             </div>
         </div>
     )
 }
 
-export default Info
+const Text = ({ children }: { children: ReactNode }) => {
+    return <div className={styles.Text}>{children}</div>
+}
+
+export default About

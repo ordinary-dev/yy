@@ -1,9 +1,10 @@
 import { useState, useEffect, ReactNode } from "react"
 import { useRouter } from "next/router"
+import { En, Ru } from "lib/interpreter"
 import Logo from "./logo"
 import Controls from "./controls"
 import Artists from "./artists"
-import Info from "./info"
+import PageLink from "./link"
 import Locale from "./locale"
 import styles from "./index.module.css"
 
@@ -37,7 +38,16 @@ const Layout = (props: { children: ReactNode }) => {
                 </div>
                 <div style={linkStyle} className={styles.Links}>
                     <Artists />
-                    <Info />
+
+                    <PageLink href="/about">
+                        <En>ABOUT</En>
+                        <Ru>О НАС</Ru>
+                    </PageLink>
+
+                    <PageLink href="/contacts">
+                        <En>CONTACTS</En>
+                        <Ru>КОНТАКТЫ</Ru>
+                    </PageLink>
                 </div>
                 <div style={separatorStyle} className={styles.Separator}></div>
                 <Locale isVisible={isOpen} />
