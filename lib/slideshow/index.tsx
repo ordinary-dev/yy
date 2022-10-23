@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { useState, ReactNode } from "react"
+import { useState, useEffect, ReactNode } from "react"
 import { LeftOutlined, RightOutlined } from "@ant-design/icons"
 
 import styles from "./slideshow.module.css"
@@ -7,19 +7,55 @@ import styles from "./slideshow.module.css"
 const Slideshow = (props: {
     urls: string[]
     descriptions: (string | null)[]
+    onSlideChange?: (arg0: number) => void
 }) => {
     // Current slide number
     const [index, setIndex] = useState(0)
+
+    const onChange = () => {
+        if (props.onSlideChange) props.onSlideChange(index)
+    }
 
     // Functions for changing the slide
     const prev = () => {
         if (index > 0) setIndex(index - 1)
         else setIndex(slideList.length - 1)
+        onChange()
     }
     const next = () => {
         if (index + 1 < slideList.length) setIndex(index + 1)
         else setIndex(0)
+        onChange()
     }
+
+    useEffect(() => {
+        // Bind arrow keys
+        const handleClick = (e: KeyboardEvent) => {
+            if (e.defaultPrevented) {
+                return // Do nothing if the event was already processed
+            }
+            if (e.repeat) {
+                return
+            }
+            switch (e.key) {
+                case "Left": // IE/Edge specific value
+                case "ArrowLeft":
+                    prev()
+                    break
+                case "Right":
+                case "ArrowRight":
+                    next()
+                    break
+                default:
+                    return
+            }
+            e.preventDefault()
+        }
+        window.addEventListener("keydown", handleClick)
+        return () => {
+            window.removeEventListener("keydown", handleClick)
+        }
+    }, [prev, next])
 
     // List of all slides
     const slideList = props.urls.map((url, itemIndex) => (

@@ -1,0 +1,18 @@
+.Info {
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.Info h3 {
+    margin-top: 0px;
+    margin-bottom: 4px;
+}
+
+.Error {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    color: red;
+}

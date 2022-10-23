@@ -4,9 +4,9 @@ import "@fontsource/montserrat/300.css"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import { SWRConfig } from "swr"
+import Layout from "lib/menu"
 
 import "styles/globals.css"
-import { LeftMenu, MobileMenu } from "lib/menu"
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
     <SWRConfig
@@ -15,16 +15,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
             fetcher: (resource, init) =>
                 fetch(resource, init).then(res => res.json()),
         }}>
-        <div className={"Container"}>
-            <Head>
-                <Favicons />
-            </Head>
-            <LeftMenu />
-            <div className={"PageContainer"}>
-                <MobileMenu />
-                <Component {...pageProps} />
-            </div>
-        </div>
+        <Head>
+            <Favicons />
+        </Head>
+        <Layout>
+            <Component {...pageProps} />
+        </Layout>
     </SWRConfig>
 )
 

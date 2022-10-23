@@ -8,28 +8,38 @@ import {
     LoadingOutlined,
 } from "@ant-design/icons"
 import useSWR, { useSWRConfig } from "swr"
+import { Artist, Role, Person } from "@prisma/client"
 
 import { PhotoAPI } from "pages/api/photo"
 import { DeleteAPI } from "pages/api/delete"
 import { UpdateAPI } from "pages/api/update"
 import { UploadAPI } from "pages/api/upload"
 import styles from "./photos.module.css"
+import Info from "./info"
+import Artists from "./artists"
+import Order from "./order"
 
 const ListOfPhotos = () => {
-    const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
+    const photos = useSWR<PhotoAPI, Error>("/api/photo")
+    const roles = useSWR("/api/roles")
+    const people = useSWR("/api/people")
     const { mutate } = useSWRConfig()
 
     const updateList = () => {
         mutate("/api/photo")
+        mutate("/api/roles")
+        mutate("/api/people")
     }
 
-    if (error) return <ExclamationCircleOutlined />
-    if (!data) return <LoadingOutlined spin={true} />
+    if (photos.error || roles.error || people.error)
+        return <ExclamationCircleOutlined />
+    if (!photos.data || !roles.data || !people.data)
+        return <LoadingOutlined spin={true} />
 
     return (
         <div className={styles.Container}>
             <div>List of photos:</div>
-            {data.photos.map((photo, index) => (
+            {photos.data.photos.map((photo, index) => (
                 <Photo
                     key={index}
                     id={photo.id}
@@ -38,8 +48,12 @@ const ListOfPhotos = () => {
                     descRu={photo.descriptionRu}
                     width={photo.width}
                     height={photo.height}
+                    order={photo.order}
                     updateList={updateList}
                     size={photo.size}
+                    artists={photo.artists}
+                    roles={roles.data.roles}
+                    people={people.data.people}
                 />
             ))}
             <UploadForm updateList={updateList} />
@@ -53,8 +67,12 @@ const Photo = (props: {
     width: number
     descEn: string | null
     descRu: string | null
+    order: number
     updateList: () => void
     size: number
+    artists: (Artist & { role: Role; person: Person })[]
+    roles: Role[]
+    people: Person[]
 }) => {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
@@ -103,39 +121,28 @@ const Photo = (props: {
                 </div>
             </div>
 
-            <div>Format: {props.ext}</div>
-            <Warning isVisible={props.ext !== "webp" && props.ext !== "avif"}>
-                You use an outdated format!
-            </Warning>
+            <Info
+                ext={props.ext}
+                width={props.width}
+                height={props.height}
+                size={props.size}
+            />
 
-            <div>Width: {props.width}</div>
-            <Warning isVisible={props.width > 3000}>
-                The width is too large!
-            </Warning>
+            <Artists
+                id={props.id}
+                artists={props.artists}
+                roles={props.roles}
+                people={props.people}
+                onChange={props.updateList}
+            />
 
-            <div>Height: {props.height}</div>
-            <Warning isVisible={props.height > 3000}>
-                The height is too large!
-            </Warning>
-
-            <div>Size: {Math.floor(props.size / 1024)} kbytes</div>
-            <Warning isVisible={props.size > 512 * 1024}>
-                The image is too big!
-            </Warning>
+            <Order
+                id={props.id}
+                order={props.order}
+                onChange={props.updateList}
+            />
         </div>
     )
-}
-
-const Warning = ({
-    children,
-    isVisible,
-}: {
-    children: string
-    isVisible: boolean
-}) => {
-    if (isVisible)
-        return <div className={styles.Error}>Warning: {children}</div>
-    return <></>
 }
 
 const updatePhoto = async (id: number, descEn: string, descRu: string) => {
