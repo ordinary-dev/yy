@@ -15,6 +15,7 @@ import { DeleteAPI } from "pages/api/delete"
 import { UpdateAPI } from "pages/api/update"
 import { UploadAPI } from "pages/api/upload"
 import styles from "./photos.module.css"
+import Info from "./info"
 import Artists from "./artists"
 import Order from "./order"
 
@@ -120,25 +121,12 @@ const Photo = (props: {
                 </div>
             </div>
 
-            <div>Format: {props.ext}</div>
-            <Warning isVisible={props.ext !== "webp" && props.ext !== "avif"}>
-                You use an outdated format!
-            </Warning>
-
-            <div>Width: {props.width}</div>
-            <Warning isVisible={props.width > 3000}>
-                The width is too large!
-            </Warning>
-
-            <div>Height: {props.height}</div>
-            <Warning isVisible={props.height > 3000}>
-                The height is too large!
-            </Warning>
-
-            <div>Size: {Math.floor(props.size / 1024)} kbytes</div>
-            <Warning isVisible={props.size > 512 * 1024}>
-                The image is too big!
-            </Warning>
+            <Info
+                ext={props.ext}
+                width={props.width}
+                height={props.height}
+                size={props.size}
+            />
 
             <Artists
                 id={props.id}
@@ -155,18 +143,6 @@ const Photo = (props: {
             />
         </div>
     )
-}
-
-const Warning = ({
-    children,
-    isVisible,
-}: {
-    children: string
-    isVisible: boolean
-}) => {
-    if (isVisible)
-        return <div className={styles.Error}>Warning: {children}</div>
-    return <></>
 }
 
 const updatePhoto = async (id: number, descEn: string, descRu: string) => {
