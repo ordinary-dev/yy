@@ -3,11 +3,18 @@ import { useRouter } from "next/router"
 import StyledLink from "lib/link"
 import styles from "./locale.module.css"
 
-const Locale = () => {
+const Locale = ({ isVisible }: { isVisible: boolean }) => {
     const router = useRouter()
 
+    // Mobile version only
+    const style = isVisible
+        ? {
+              display: "flex",
+          }
+        : {}
+
     return (
-        <div className={styles.Lang}>
+        <div style={style} className={styles.Lang}>
             <Link href={router.asPath} locale="ru" passHref>
                 <StyledLink>RU</StyledLink>
             </Link>

@@ -20,3 +20,9 @@
 .Link:hover div {
     width: 100%;
 }
+
+@media screen and (max-width: 1000px) {
+    .Lang {
+        display: none;
+    }
+}

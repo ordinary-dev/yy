@@ -4,6 +4,76 @@
     width: 100%;
 }
 
-.PageContainer {
+.Menu {
+    position: fixed;
+
+    padding-top: 50px;
+    padding-bottom: 50px;
+    margin-left: 100px;
+
+    width: 200px;
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    font-weight: 300;
+    font-size: 21px;
+    line-height: 26px;
+}
+
+.FakeContainer {
+    width: 200px;
+    margin-left: 100px;
+}
+
+.Main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Links {
+    margin-top: 60px;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.Separator {
+    height: 1px;
     width: 100%;
+    background-color: transparent;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .Container {
+        flex-direction: column;
+    }
+
+    .Menu {
+        height: auto;
+        position: static;
+        width: auto;
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+
+    .FakeContainer {
+        width: 0px;
+        margin-left: 0px;
+    }
+
+    .Links {
+        display: none;
+    }
+
+    .Separator {
+        background-color: black;
+    }
 }
