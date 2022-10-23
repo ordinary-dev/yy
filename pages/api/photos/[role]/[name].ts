@@ -36,8 +36,8 @@ const handle = async (
                 },
             },
             orderBy: {
-                order: "asc"
-            }
+                order: "asc",
+            },
         })
         if (photos === undefined) throw new Error("Can't find photos")
         res.status(200).json({ photos })

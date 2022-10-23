@@ -36,9 +36,7 @@ async function parseRequestMethod(
 }
 
 // GET request
-const getRoles = async (
-    res: NextApiResponse<RolesAPI>
-) => {
+const getRoles = async (res: NextApiResponse<RolesAPI>) => {
     try {
         const roles = await prisma.role.findMany({})
         if (roles === undefined) throw new Error("Can't find roles")

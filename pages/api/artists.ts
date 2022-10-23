@@ -8,7 +8,6 @@ import { getErrorMessage } from "lib/error"
 // An artist is a record of how a person is related to a particular photo.
 // Allowed methods: GET, POST, DELETE.
 
-
 export type ArtistWithExtras = {
     id: number
     person: Person
@@ -39,15 +38,13 @@ async function parseRequestMethod(
 }
 
 // GET request
-const getArtists = async (
-    res: NextApiResponse<ArtistsAPI>
-) => {
+const getArtists = async (res: NextApiResponse<ArtistsAPI>) => {
     try {
         const artists = await prisma.artist.findMany({
             select: {
                 id: true,
                 role: true,
-                person: true
+                person: true,
             },
         })
         if (artists === undefined) throw new Error("Can't find artists")
@@ -93,8 +90,8 @@ const createArtist = async (
             },
             include: {
                 role: true,
-                person: true
-            }
+                person: true,
+            },
         })
         if (artist === undefined) throw new Error("Can't create an artist")
 
@@ -126,8 +123,8 @@ const deleteArtist = async (
             },
             include: {
                 person: true,
-                role: true
-            }
+                role: true,
+            },
         })
         if (deletedArtist === undefined)
             throw new Error("Can't delete an artist")

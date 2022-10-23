@@ -34,9 +34,7 @@ async function parseRequestMethod(
 }
 
 // GET request
-const getPeople = async (
-    res: NextApiResponse<PeopleAPI>
-) => {
+const getPeople = async (res: NextApiResponse<PeopleAPI>) => {
     try {
         const people = await prisma.person.findMany({})
         if (people === undefined) throw new Error("Can't find people")
