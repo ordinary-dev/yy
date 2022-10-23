@@ -8,10 +8,10 @@ import { ArtistPageGoodResponse } from "pages/api/photos/[role]/[name]"
 
 const Artist = () => {
     const router = useRouter()
-    
+
     const role = router.query.role ? router.query.role.toString() : undefined
     const name = router.query.name ? router.query.name.toString() : undefined
-    
+
     const { data, error } = useSWR<ArtistPageGoodResponse, Error>(
         role && name ? `/api/photos/${role}/${name}` : null
     )
@@ -19,7 +19,6 @@ const Artist = () => {
     if (error || !role || !name) return <div>Error</div>
     if (!data) return <div>Loading</div>
 
-    
     return (
         <div className={styles.Container}>
             <Head>
@@ -52,7 +51,7 @@ const decode = (s: string) => {
 }
 
 const ImageWrapper = ({ data }: { data: Photo }) => {
-    const width = 450
+    const width = 445
     const height = data.height / (data.width / width)
     return (
         <div className={styles.Photo}>
