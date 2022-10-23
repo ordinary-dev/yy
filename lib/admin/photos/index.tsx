@@ -15,6 +15,7 @@ import { DeleteAPI } from "pages/api/delete"
 import { UpdateAPI } from "pages/api/update"
 import { UploadAPI } from "pages/api/upload"
 import styles from "./photos.module.css"
+import Artists from "./artists"
 import Order from "./order"
 
 const ListOfPhotos = () => {
@@ -139,38 +140,14 @@ const Photo = (props: {
                 The image is too big!
             </Warning>
 
-            <div>Artists:</div>
-            {props.artists.map(artist => (
-                <div key={artist.id}>
-                    {artist.role.nameEn}: {artist.person.nameEn}
-                    <button
-                        onClick={() =>
-                            deleteArtist(artist.id, props.updateList)
-                        }>
-                        Delete
-                    </button>
-                </div>
-            ))}
-            {props.artists.length === 0 && (
-                <div>I don&apos;t know anything about the authors :(</div>
-            )}
-            <form onSubmit={e => addArtist(e, props.id, props.updateList)}>
-                <select name="role">
-                    {props.roles.map(role => (
-                        <option key={role.id} value={role.id}>
-                            {role.nameEn}
-                        </option>
-                    ))}
-                </select>
-                <select name="person">
-                    {props.people.map(person => (
-                        <option key={person.id} value={person.id}>
-                            {person.nameEn}
-                        </option>
-                    ))}
-                </select>
-                <input type="submit" value="Add" />
-            </form>
+            <Artists
+                id={props.id}
+                artists={props.artists}
+                roles={props.roles}
+                people={props.people}
+                onChange={props.updateList}
+            />
+
             <Order
                 id={props.id}
                 order={props.order}
@@ -178,45 +155,6 @@ const Photo = (props: {
             />
         </div>
     )
-}
-
-const deleteArtist = async (id: number, onSuccess: () => void) => {
-    const options = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ artistId: id }),
-    }
-    const response = await fetch("/api/artists", options)
-    if (response.status === 200) onSuccess()
-}
-
-interface ArtistForm extends HTMLFormElement {
-    person: HTMLSelectElement
-    role: HTMLSelectElement
-}
-
-const addArtist = async (
-    e: FormEvent,
-    photoId: number,
-    onSuccess: () => void
-) => {
-    e.preventDefault()
-    const target = e.target as ArtistForm
-    const options = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            personId: Number(target.person.value),
-            roleId: Number(target.role.value),
-            photoId: photoId,
-        }),
-    }
-    const response = await fetch("/api/artists", options)
-    if (response.status === 200) onSuccess()
 }
 
 const Warning = ({
