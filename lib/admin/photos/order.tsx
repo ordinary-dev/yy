@@ -1,5 +1,7 @@
 import { ArrowUpOutlined, ArrowDownOutlined } from "@ant-design/icons"
 
+import styles from "./order.module.css"
+
 const Order = ({
     id,
     order,
@@ -10,7 +12,7 @@ const Order = ({
     onChange: () => void
 }) => {
     return (
-        <div>
+        <div className={styles.Order}>
             Order:
             <button onClick={() => setOrder(id, order - 1, onChange)}>
                 <ArrowUpOutlined />
