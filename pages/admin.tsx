@@ -2,14 +2,13 @@ import type { NextPage } from "next"
 import Router from "next/router"
 import { useEffect } from "react"
 import { withIronSessionSsr } from "iron-session/next"
-import Head from "next/head"
-
 import { sessionOptions } from "lib/session"
 import styles from "styles/admin.module.css"
 import ListOfPhotos from "lib/admin/photos"
 import PasswordManager from "lib/admin/password"
 import Artists from "lib/admin/artists"
 import { LogoutAPI } from "./api/logout"
+import Meta from "lib/meta"
 
 type PageProps = {
     isAdmin: boolean
@@ -36,9 +35,7 @@ const AdminPage: NextPage<PageProps> = props => {
     if (props.isAdmin)
         return (
             <div className={styles.Container}>
-                <Head>
-                    <title>Admin | YY studios</title>
-                </Head>
+                <Meta title="Admin" />
                 <div>Hi, admin</div>
                 <ListOfPhotos />
                 <Artists />
@@ -51,9 +48,7 @@ const AdminPage: NextPage<PageProps> = props => {
 
     return (
         <div className={styles.Container}>
-            <Head>
-                <title>Redirecting... | YY studios</title>
-            </Head>
+            <Meta title="Redirecting" />
             You are not the admin
         </div>
     )

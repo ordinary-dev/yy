@@ -2,11 +2,10 @@ import type { NextPage } from "next"
 import Router from "next/router"
 import { useEffect, FormEvent } from "react"
 import { withIronSessionSsr } from "iron-session/next"
-import Head from "next/head"
-
 import { sessionOptions } from "lib/session"
 import styles from "styles/login.module.css"
 import { LoginAPI } from "./api/login"
+import Meta from "lib/meta"
 
 type PageProps = {
     isAdmin: boolean
@@ -31,9 +30,7 @@ const LoginPage: NextPage<PageProps> = props => {
 
     return (
         <div className={styles.Container}>
-            <Head>
-                <title>Login | YY studios</title>
-            </Head>
+            <Meta title="Login" />
             <div>&#47;&#47; Login form</div>
             <form className={styles.Form} onSubmit={e => handleSubmit(e)}>
                 <input placeholder="Login" type="text" name="login" required />

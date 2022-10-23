@@ -1,15 +1,13 @@
 import type { NextPage } from "next"
-import Head from "next/head"
 import { ReactNode } from "react"
 import { Ru, En } from "lib/interpreter"
+import Meta from "lib/meta"
 import styles from "styles/info.module.css"
 
 const About: NextPage = () => {
     return (
         <div className={styles.Info}>
-            <Head>
-                <title>YY Studios</title>
-            </Head>
+            <Meta title="About" />
             <div className={styles.MainColumn}>
                 <div className={styles.Title}>
                     <En>ABOUT</En>

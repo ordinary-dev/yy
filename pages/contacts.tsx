@@ -1,16 +1,13 @@
 import type { NextPage } from "next"
-import Head from "next/head"
-
 import { Ru, En } from "lib/interpreter"
 import StyledLink from "lib/link"
+import Meta from "lib/meta"
 import styles from "styles/info.module.css"
 
 const Contacts: NextPage = () => {
     return (
         <div className={styles.Info}>
-            <Head>
-                <title>YY Studios</title>
-            </Head>
+            <Meta title="Contacts" />
             <div className={styles.Column}>
                 <div className={styles.Title}>
                     <En>CONTACTS</En>

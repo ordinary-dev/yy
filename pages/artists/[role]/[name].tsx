@@ -1,10 +1,10 @@
 import useSWR from "swr"
 import { useRouter } from "next/router"
 import Image from "next/image"
-import Head from "next/head"
 import { Photo } from "@prisma/client"
 import styles from "styles/artists.module.css"
 import { ArtistPageGoodResponse } from "pages/api/photos/[role]/[name]"
+import Meta from "lib/meta"
 
 const Artist = () => {
     const router = useRouter()
@@ -21,9 +21,7 @@ const Artist = () => {
 
     return (
         <div className={styles.Container}>
-            <Head>
-                <title>{decode(name)} | YY Studios</title>
-            </Head>
+            <Meta title={decode(name)} />
             <div>
                 {data.photos
                     .filter((_v, i) => i % 2 == 0)
