@@ -17,6 +17,7 @@
 }
 
 .Slide {
+    pointer-events: none;
     transition: 0.3s;
     transition-property: opacity;
     transition-timing-function: ease-in-out;
