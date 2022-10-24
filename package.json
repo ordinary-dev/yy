@@ -10,7 +10,7 @@
     "dependencies": {
         "@ant-design/icons": "^4.7.0",
         "@fontsource/montserrat": "^4.5.12",
-        "@prisma/client": "^4.3.1",
+        "@prisma/client": "^4.5.0",
         "formidable": "^2.0.1",
         "iron-session": "^6.2.1",
         "next": "12.3.1",
