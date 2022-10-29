@@ -9,15 +9,10 @@ import { toUrl } from "lib/url"
 // Person API.
 // Avaiable methods: GET, POST, PUT, DELETE.
 
-export type PeopleAPIGoodResponse = {
-    people: Person[]
+export type PeopleAPI = {
+    people?: Person[]
+    msg?: string
 }
-
-type PeopleAPIBadResponse = {
-    msg: string
-}
-
-type PeopleAPI = PeopleAPIGoodResponse | PeopleAPIBadResponse
 
 // Check authorization (but don't require it)
 export default withIronSessionApiRoute(parseRequestMethod, sessionOptions)

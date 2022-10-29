@@ -8,16 +8,18 @@ Modern website for a great agency.
 Run the development server:
 
 ```bash
-sudo docker-compose -f docker/docker-dev.yml --project-directory . up --build
-```
-
-Run the production server:
-
-```bash
-sudo docker-compose -f docker/docker-prod.yml --project-directory . up --build
+podman-compose up --build
 ```
 
 Open [localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Build the production server:
+
+```bash
+podman build -f docker/docker-prod.yml .
+```
+
+Note: you can replace `podman` with `sudo docker`.
 
 ## Authors
 
