@@ -11,15 +11,10 @@ import { toUrl } from "lib/url"
 
 // Allowed methods: GET, POST, PUT, DELETE
 
-export type RolesAPIGoodResponse = {
-    roles: Role[]
+export type RolesAPI = {
+    roles?: Role[]
+    msg?: string
 }
-
-type RolesAPIBadResponse = {
-    msg: string
-}
-
-type RolesAPI = RolesAPIGoodResponse | RolesAPIBadResponse
 
 // Check authorization (but don't require it)
 export default withIronSessionApiRoute(parseRequestMethod, sessionOptions)
@@ -92,14 +87,14 @@ const updateRole = async (
             res.status(401).json({ msg: "Unauthorized" })
             return
         }
-        if (!req.body.roleId) throw new Error("Please provide role id")
+        if (!req.body.id) throw new Error("Please provide role id")
         if (!req.body.nameEn || !req.body.nameRu)
             throw new Error("Please provide role name")
 
         // Update role
         const updatedRole = await prisma.role.update({
             where: {
-                id: req.body.roleId,
+                id: req.body.id,
             },
             data: {
                 nameEn: req.body.nameEn,
@@ -127,12 +122,12 @@ const deleteRole = async (
             res.status(401).json({ msg: "Unauthorized" })
             return
         }
-        if (!req.body.roleId) throw new Error("Please provide role id")
+        if (!req.body.id) throw new Error("Please provide role id")
 
         // Delete role
         const deletedRole = await prisma.role.delete({
             where: {
-                id: req.body.roleId,
+                id: req.body.id,
             },
         })
         if (deletedRole === undefined) throw new Error("Can't delete role")
