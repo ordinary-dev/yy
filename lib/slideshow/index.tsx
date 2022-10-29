@@ -129,29 +129,23 @@ const Button = (props: { onClick: () => void; children: ReactNode }) => {
     )
 }
 
-// The component processes the string and replaces the '<b>' tag
-// with a real <span> tag.
+// The component processes the string and replaces the '<b>' tag with a real <span> tag.
+// TODO: Add checks
 const Description = ({ text }: { text: string | null }) => {
-    // Template
     const Body = ({ children }: { children?: ReactNode }) => (
         <div className={styles.Description}>{children}</div>
     )
 
     if (!text) return <Body></Body>
 
-    // Check tags
-    const firstTag = text.indexOf("<b>")
-    const secondTag = text.indexOf("</b>")
-    if (firstTag === -1 || secondTag === -1 || firstTag > secondTag)
-        return <Body>{text}</Body>
-
     // Split string using regular expression
     const array = text.split(/<b>|<\/b>/)
     return (
         <Body>
-            {array[0]}
-            <span>{array[1]}</span>
-            {array[2]}
+            {array.map((st, index) => {
+                if (index % 2 === 0) return st
+                return <span key={index}>{st}</span>
+            })}
         </Body>
     )
 }
