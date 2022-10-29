@@ -18,7 +18,7 @@ const Layout = (props: { children: ReactNode }) => {
     }, [router.asPath])
     const linkStyle = isOpen
         ? {
-              display: "flex",
+              height: "200px",
           }
         : {}
     const separatorStyle = isOpen
