@@ -22,6 +22,8 @@ async function reorder(req: NextApiRequest, res: NextApiResponse) {
         if (req.body.id === undefined || req.body.order === undefined)
             throw new Error("Please provide photo id and new order")
 
+        if (!req.session.user) throw new Error("You are not authorized")
+
         // Find photos
         const interferingPhoto = await prisma.photo.findMany({
             where: {
