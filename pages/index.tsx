@@ -24,11 +24,15 @@ const Home: NextPage = () => {
             </div>
         )
 
-    const urls = data.photos.map(
-        photo => `/photos/${photo.id}/original.${photo.ext}`
-    )
-    const descEn = data.photos.map(photo => photo.descriptionEn)
-    const descRu = data.photos.map(photo => photo.descriptionRu)
+    const urls = data.photos
+        .filter(photo => photo.visibleOnHomepage)
+        .map(photo => `/photos/${photo.id}/original.${photo.ext}`)
+    const descEn = data.photos
+        .filter(photo => photo.visibleOnHomepage)
+        .map(photo => photo.descriptionEn)
+    const descRu = data.photos
+        .filter(photo => photo.visibleOnHomepage)
+        .map(photo => photo.descriptionRu)
 
     return (
         <div className={styles.Container}>

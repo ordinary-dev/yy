@@ -22,15 +22,9 @@ async function reorder(req: NextApiRequest, res: NextApiResponse) {
         if (req.body.id === undefined || req.body.order === undefined)
             throw new Error("Please provide photo id and new order")
 
-        // Find photos
-        const interferingPhoto = await prisma.photo.findMany({
-            where: {
-                order: req.body.order,
-            },
-        })
-        if (interferingPhoto.length !== 1)
-            throw new Error("Can't find interfering photo")
+        if (!req.session.user) throw new Error("You are not authorized")
 
+        // Find photos
         const selectedPhoto = await prisma.photo.findUnique({
             where: {
                 id: req.body.id,
@@ -38,10 +32,30 @@ async function reorder(req: NextApiRequest, res: NextApiResponse) {
         })
         if (!selectedPhoto) throw new Error("Can't find photo")
 
+        if (selectedPhoto.order === req.body.order)
+            throw new Error("There is nothing to change")
+
+        const interferingPhoto = await prisma.photo.findFirst({
+            where: {
+                order:
+                    selectedPhoto.order > req.body.order
+                        ? {
+                              lt: selectedPhoto.order,
+                          }
+                        : {
+                              gt: selectedPhoto.order,
+                          },
+            },
+            orderBy: {
+                order: selectedPhoto.order > req.body.order ? "desc" : "asc",
+            },
+        })
+        if (!interferingPhoto) throw new Error("Can't find interfering photo")
+
         // Change their order
         const nonInterferingPhoto = await prisma.photo.update({
             where: {
-                id: interferingPhoto[0].id,
+                id: interferingPhoto.id,
             },
             data: {
                 order: selectedPhoto.order,

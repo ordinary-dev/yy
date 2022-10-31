@@ -1,10 +1,14 @@
 import Image from "next/image"
-import { useState, useEffect, ReactNode } from "react"
+import { useState, useEffect, ReactNode, useCallback } from "react"
 import { LeftOutlined, RightOutlined } from "@ant-design/icons"
 
 import styles from "./slideshow.module.css"
 
-const Slideshow = (props: {
+const Slideshow = ({
+    urls,
+    descriptions,
+    onSlideChange,
+}: {
     urls: string[]
     descriptions: (string | null)[]
     onSlideChange?: (arg0: number) => void
@@ -12,21 +16,34 @@ const Slideshow = (props: {
     // Current slide number
     const [index, setIndex] = useState(0)
 
-    const onChange = () => {
-        if (props.onSlideChange) props.onSlideChange(index)
-    }
+    const onChange = useCallback(() => {
+        if (onSlideChange) onSlideChange(index)
+    }, [onSlideChange, index])
+
+    // List of all slides
+    const slideList = urls.map((url, itemIndex) => (
+        <Slide key={url} index={itemIndex} activeIndex={index}>
+            <Image
+                src={url}
+                alt="Photo"
+                layout="fill"
+                objectFit="contain"
+                unoptimized={true}
+            />
+        </Slide>
+    ))
 
     // Functions for changing the slide
-    const prev = () => {
+    const prev = useCallback(() => {
         if (index > 0) setIndex(index - 1)
         else setIndex(slideList.length - 1)
         onChange()
-    }
-    const next = () => {
+    }, [index, onChange, slideList.length])
+    const next = useCallback(() => {
         if (index + 1 < slideList.length) setIndex(index + 1)
         else setIndex(0)
         onChange()
-    }
+    }, [index, onChange, slideList.length])
 
     useEffect(() => {
         // Bind arrow keys
@@ -56,19 +73,6 @@ const Slideshow = (props: {
             window.removeEventListener("keydown", handleClick)
         }
     }, [prev, next])
-
-    // List of all slides
-    const slideList = props.urls.map((url, itemIndex) => (
-        <Slide key={url} index={itemIndex} activeIndex={index}>
-            <Image
-                src={url}
-                alt="Photo"
-                layout="fill"
-                objectFit="contain"
-                unoptimized={true}
-            />
-        </Slide>
-    ))
 
     // Load only 3 slides: current, previous and next
     const prevIndex = index > 0 ? index - 1 : slideList.length - 1
@@ -101,7 +105,7 @@ const Slideshow = (props: {
                     <RightOutlined />
                 </Button>
             </div>
-            <Description text={props.descriptions[index]} />
+            <Description text={descriptions[index]} />
         </>
     )
 }
