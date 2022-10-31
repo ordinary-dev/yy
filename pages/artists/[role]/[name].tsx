@@ -16,8 +16,20 @@ const Artist = () => {
         role && name ? `/api/photos/${role}/${name}` : null
     )
 
-    if (error || !role || !name) return <div>Error</div>
-    if (!data) return <div>Loading</div>
+    if (error || !role || !name)
+        return (
+            <div>
+                <Meta />
+                Error
+            </div>
+        )
+    if (!data)
+        return (
+            <div>
+                <Meta />
+                Loading
+            </div>
+        )
 
     return (
         <div className={styles.Container}>
