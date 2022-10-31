@@ -8,15 +8,16 @@ datasource db {
 }
 
 model Photo {
-    id              Int        @id @default(autoincrement())
-    descriptionRu   String?
-    descriptionEn   String?
-    width           Int
-    height          Int
-    ext             String
-    size            Int        @default(0)
-    artists         Artist[]
-    order           Int        @default(autoincrement())
+    id                  Int        @id @default(autoincrement())
+    descriptionRu       String?
+    descriptionEn       String?
+    width               Int
+    height              Int
+    ext                 String
+    size                Int        @default(0)
+    artists             Artist[]
+    order               Int        @default(autoincrement())
+    visibleOnHomepage   Boolean    @default(true)
 }
 
 model Admin {

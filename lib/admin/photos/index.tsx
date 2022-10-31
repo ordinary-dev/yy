@@ -18,6 +18,7 @@ import styles from "./photos.module.css"
 import Info from "./info"
 import Artists from "./artists"
 import Order from "./order"
+import Visibility from "./visibility"
 
 const ListOfPhotos = () => {
     const photos = useSWR<PhotoAPI, Error>("/api/photo")
@@ -54,6 +55,7 @@ const ListOfPhotos = () => {
                     artists={photo.artists}
                     roles={roles.data.roles}
                     people={people.data.people}
+                    visibleOnHomepage={photo.visibleOnHomepage}
                 />
             ))}
             <UploadForm updateList={updateList} />
@@ -73,6 +75,7 @@ const Photo = (props: {
     artists: (Artist & { role: Role; person: Person })[]
     roles: Role[]
     people: Person[]
+    visibleOnHomepage: boolean
 }) => {
     const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
     const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
@@ -134,6 +137,12 @@ const Photo = (props: {
                 roles={props.roles}
                 people={props.people}
                 onChange={props.updateList}
+            />
+
+            <Visibility
+                id={props.id}
+                visibleOnHomepage={props.visibleOnHomepage}
+                updateList={props.updateList}
             />
 
             <Order
