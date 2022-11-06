@@ -16,10 +16,6 @@
 
     display: flex;
     flex-direction: column;
-
-    font-weight: 300;
-    font-size: 21px;
-    line-height: 26px;
 }
 
 .FakeContainer {
@@ -39,9 +35,10 @@
     display: flex;
     flex-grow: 1;
     flex-direction: column;
-    gap: 20px;
+    gap: 8px;
     overflow: hidden;
     transition: height 0.1s ease-in-out;
+    line-height: 19px;
 }
 
 .Separator {

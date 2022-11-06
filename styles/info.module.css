@@ -2,15 +2,13 @@
     padding-left: 200px;
     padding-right: 200px;
     padding-bottom: 45px;
-    margin-top: 165px;
+    margin-top: 177px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 100px;
+    gap: 50px;
     width: 100%;
-    font-size: 20px;
-    line-height: 39px;
 }
 
 @media screen and (max-width: 1000px) {
