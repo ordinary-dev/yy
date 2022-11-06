@@ -11,3 +11,9 @@
     padding-left: 25px;
     padding-right: 25px;
 }
+
+@media screen and (max-width: 1000px) {
+    .Container {
+        margin-top: 80px;
+    }
+}
