@@ -9,6 +9,15 @@ async function generateSiteMap() {
             person: true,
         },
     })
+
+    // Different photos have the same person in the same role.
+    // This set helps to remove duplicates.
+    const uniqueArtists = new Set()
+    for (const artist of artists) {
+        const link = `${artist.role.url}/${artist.person.url}`
+        uniqueArtists.add(link)
+    }
+
     const baseURL = "https://yy-studios.ru"
     const loc = (path: string, priority: number) =>
         `<url>
@@ -23,10 +32,8 @@ async function generateSiteMap() {
     return `<?xml version="1.0" encoding="UTF-8"?>
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             ${loc("", 0.9)}
-            ${artists
-                .map(artist =>
-                    loc(`/artists/${artist.role.url}/${artist.person.url}`, 0.7)
-                )
+            ${Array.from(uniqueArtists)
+                .map(link => loc(`/artists/${link}`, 0.7))
                 .join("")}
             ${loc("/about", 0.5)}
             ${loc("/contacts", 0.5)}
