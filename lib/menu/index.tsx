@@ -45,8 +45,6 @@ const Layout = (props: { children: ReactNode }) => {
         (isOpen && showMainMenu) || router.asPath.startsWith("/about")
     const isContactsVisible =
         (isOpen && showMainMenu) || router.asPath.startsWith("/contacts")
-    console.log("Show main menu:", showMainMenu)
-    console.log(isAboutVisible, isContactsVisible)
 
     return (
         <div className={styles.Container}>
@@ -72,7 +70,7 @@ const Layout = (props: { children: ReactNode }) => {
 
                     <Artists
                         isOpen={isArtOpen}
-                        setIsOpen={(arg0: boolean) => setIsArtOpen(arg0)}
+                        setIsOpen={(v: boolean) => setIsArtOpen(v)}
                         forcedVisibility={isArtistsVisible}
                         showTitle={showMainMenu && isOpen}
                         showMainMenu={showMainMenu}

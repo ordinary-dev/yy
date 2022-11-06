@@ -21,12 +21,11 @@ const Artists = (props: {
 
     // This function is run every time the url changes.
     // It shows the menu if the user is viewing the artist's page, and hides it otherwise.
-    const setIsOpen = props.setIsOpen
     useEffect(() => {
         if (router.isReady) {
-            setIsOpen(router.asPath.startsWith("/artists"))
+            props.setIsOpen(router.asPath.startsWith("/artists"))
         }
-    }, [router.isReady, router.asPath, setIsOpen])
+    }, [router.isReady, router.asPath])
 
     const titleStyle = props.showTitle ? { display: "block" } : {}
     const style = props.forcedVisibility ? { display: "flex" } : {}
@@ -152,6 +151,7 @@ const People = ({
                                         href={`/artists/${role.url}/${artist.person.url}`}
                                         passHref>
                                         <StyledLink
+                                            key={artist.person.id}
                                             light
                                             isActive={
                                                 router.query.name ===
