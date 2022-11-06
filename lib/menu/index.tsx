@@ -64,7 +64,10 @@ const Layout = (props: { children: ReactNode }) => {
                                 setIsArtOpen(false)
                             }}
                             style={mmbtn}>
-                            <StyledLink>MENU</StyledLink>
+                            <StyledLink>
+                                <En>MENU</En>
+                                <Ru>МЕНЮ</Ru>
+                            </StyledLink>
                         </div>
                     )}
 
