@@ -23,6 +23,10 @@
     transition-timing-function: ease-in-out;
 }
 
+.Slide img {
+    object-fit: contain;
+}
+
 .Button {
     width: 75px;
     height: 75px;

@@ -17,46 +17,43 @@ const Contacts: NextPage = () => {
                     <En>SERGEY</En>
                     <Ru>СЕРГЕЙ</Ru>
                 </div>
-                <StyledLink href="tel:+79824500926" light>
-                    +7 (982) 450-09-26
-                </StyledLink>
-                <StyledLink
+                <a href="tel:+79824500926">
+                    <StyledLink light>+7 (982) 450-09-26</StyledLink>
+                </a>
+                <a
                     href="mailto:info@yy-studios.ru"
                     target="_blank"
                     rel="noreferrer">
-                    INFO@YY-STUDIOS.RU
-                </StyledLink>
+                    <StyledLink light>INFO@YY-STUDIOS.RU</StyledLink>
+                </a>
 
                 <div className={styles.Title}>
                     <En>FOR PARTICIPANTS</En>
                     <Ru>ДЛЯ УЧАСТНИКОВ</Ru>
                 </div>
-                <StyledLink
+                <a
                     href="mailto:casting@yy-studios.ru"
                     target="_blank"
-                    rel="noreferrer"
-                    light>
-                    CASTING@YY-STUDIOS.RU
-                </StyledLink>
+                    rel="noreferrer">
+                    <StyledLink light>CASTING@YY-STUDIOS.RU</StyledLink>
+                </a>
 
                 <div className={styles.Title}>
                     <En>SOCIAL MEDIA</En>
                     <Ru>СОЦСЕТИ</Ru>
                 </div>
-                <StyledLink
+                <a
                     href="https://instagram.com/yy_studios"
                     target="_blank"
-                    rel="noreferrer"
-                    light>
-                    INSTAGRAM
-                </StyledLink>
-                <StyledLink
+                    rel="noreferrer">
+                    <StyledLink light>INSTAGRAM</StyledLink>
+                </a>
+                <a
                     href="https://t.me/yy_studios"
                     target="_blank"
-                    rel="noreferrer"
-                    light>
-                    TELEGRAM
-                </StyledLink>
+                    rel="noreferrer">
+                    <StyledLink light>TELEGRAM</StyledLink>
+                </a>
             </div>
         </div>
     )

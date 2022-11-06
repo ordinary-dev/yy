@@ -12,7 +12,7 @@ const PageLink = ({
 }) => {
     const router = useRouter()
     return (
-        <Link href={href} passHref>
+        <Link href={href}>
             <StyledLink isActive={router.asPath === href}>
                 {children}
             </StyledLink>

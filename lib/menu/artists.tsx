@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { Role } from "@prisma/client"
 import StyledLink from "lib/link"
 import { Ru, En } from "lib/interpreter"
+import styles from "./artists.module.css"
 import { ArtistsAPIGoodResponse, ArtistWithExtras } from "pages/api/artists"
 
 const Artists = () => {
@@ -22,15 +23,14 @@ const Artists = () => {
     }, [router.isReady, router.asPath])
 
     return (
-        <>
+        <div onClick={() => setIsOpen(!isOpen)} className={styles.artists}>
             <StyledLink
-                isActive={isOpen && !router.asPath.startsWith("/artists")}
-                onClick={() => setIsOpen(!isOpen)}>
+                isActive={isOpen && !router.asPath.startsWith("/artists")}>
                 <Ru>ТАЛАНТЫ</Ru>
                 <En>ARTISTS</En>
             </StyledLink>
             <Roles isOpen={isOpen} />
-        </>
+        </div>
     )
 }
 
@@ -56,8 +56,7 @@ const Roles = ({ isOpen }: { isOpen: boolean }) => {
                         return (
                             <>
                                 <Link
-                                    href={`/artists/${artist.role.url}/${artist.person.url}`}
-                                    passHref>
+                                    href={`/artists/${artist.role.url}/${artist.person.url}`}>
                                     <StyledLink light>
                                         <En>
                                             {artist.role.nameEn.toUpperCase()}

@@ -23,13 +23,7 @@ const Slideshow = ({
     // List of all slides
     const slideList = urls.map((url, itemIndex) => (
         <Slide key={url} index={itemIndex} activeIndex={index}>
-            <Image
-                src={url}
-                alt="Photo"
-                layout="fill"
-                objectFit="contain"
-                unoptimized={true}
-            />
+            <Image src={url} alt="Photo" unoptimized={true} fill />
         </Slide>
     ))
 
