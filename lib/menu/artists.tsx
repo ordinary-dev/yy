@@ -152,7 +152,10 @@ const People = ({
                                         passHref>
                                         <StyledLink
                                             key={artist.person.id}
-                                            light
+                                            light={
+                                                router.query.name !==
+                                                artist.person.url
+                                            }
                                             isActive={
                                                 router.query.name ===
                                                 artist.person.url
