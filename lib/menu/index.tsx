@@ -7,18 +7,30 @@ import Artists from "./artists"
 import PageLink from "./link"
 import Locale from "./locale"
 import styles from "./index.module.css"
+import StyledLink from "lib/link"
+
+//
+// Written in a desperate attempt to get everything done on time.
+// TODO: refactor this mess
+//
 
 const Layout = (props: { children: ReactNode }) => {
     // Used in mobile version,
     // forced to true in desktop version (with CSS)
     const [isOpen, setIsOpen] = useState(false)
+
+    const [isArtOpen, setIsArtOpen] = useState(false)
+    const [showMainMenu, setShowMainMenu] = useState(true)
     const router = useRouter()
+
     useEffect(() => {
         setIsOpen(false)
+        setShowMainMenu(!router.asPath.startsWith("/artists"))
     }, [router.asPath])
+
     const linkStyle = isOpen
         ? {
-              height: "200px",
+              height: "100vh",
           }
         : {}
     const separatorStyle = isOpen
@@ -26,6 +38,16 @@ const Layout = (props: { children: ReactNode }) => {
               display: "block",
           }
         : {}
+
+    const mmbtn = isOpen && !showMainMenu ? { display: "block" } : {}
+    const isArtistsVisible = isOpen || router.asPath.startsWith("/artists")
+    const isAboutVisible =
+        (isOpen && showMainMenu) || router.asPath.startsWith("/about")
+    const isContactsVisible =
+        (isOpen && showMainMenu) || router.asPath.startsWith("/contacts")
+    console.log("Show main menu:", showMainMenu)
+    console.log(isAboutVisible, isContactsVisible)
+
     return (
         <div className={styles.Container}>
             <div className={styles.Menu}>
@@ -37,20 +59,50 @@ const Layout = (props: { children: ReactNode }) => {
                     />
                 </div>
                 <div style={linkStyle} className={styles.Links}>
-                    <Artists />
+                    {!showMainMenu && (
+                        <div
+                            onClick={() => {
+                                setShowMainMenu(true)
+                                setIsArtOpen(false)
+                            }}
+                            style={mmbtn}>
+                            <StyledLink>MENU</StyledLink>
+                        </div>
+                    )}
 
-                    <PageLink href="/about">
-                        <En>ABOUT</En>
-                        <Ru>О НАС</Ru>
-                    </PageLink>
+                    <Artists
+                        isOpen={isArtOpen}
+                        setIsOpen={(arg0: boolean) => setIsArtOpen(arg0)}
+                        forcedVisibility={isArtistsVisible}
+                        showTitle={showMainMenu && isOpen}
+                        showMainMenu={showMainMenu}
+                        showAllLinks={showMainMenu}
+                    />
 
-                    <PageLink href="/contacts">
-                        <En>CONTACTS</En>
-                        <Ru>КОНТАКТЫ</Ru>
-                    </PageLink>
+                    {showMainMenu && (
+                        <PageLink
+                            href="/about"
+                            forcedVisibility={isAboutVisible}>
+                            <En>ABOUT</En>
+                            <Ru>О НАС</Ru>
+                        </PageLink>
+                    )}
+
+                    {showMainMenu && (
+                        <PageLink
+                            href="/contacts"
+                            forcedVisibility={isContactsVisible}>
+                            <En>CONTACTS</En>
+                            <Ru>КОНТАКТЫ</Ru>
+                        </PageLink>
+                    )}
+
+                    <div
+                        style={separatorStyle}
+                        className={styles.Separator}></div>
+                    <div className={styles.Space}></div>
+                    <Locale isVisible={isOpen} />
                 </div>
-                <div style={separatorStyle} className={styles.Separator}></div>
-                <Locale isVisible={isOpen} />
             </div>
             <div className={styles.FakeContainer}></div>
             {props.children}

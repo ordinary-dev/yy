@@ -9,10 +9,6 @@ const About: NextPage = () => {
         <div className={styles.Info}>
             <Meta title="About" />
             <div className={styles.Column}>
-                <div className={styles.Title}>
-                    <En>ABOUT</En>
-                    <Ru>О НАС</Ru>
-                </div>
                 <Text>
                     <En>
                         YY STUDIOS IS A FULL SERVICE AND TALENT REPRESENTATION

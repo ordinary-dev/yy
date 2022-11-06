@@ -1,12 +1,13 @@
 .Lang {
     display: flex;
     justify-content: flex-start;
+    align-items: center;
     font-weight: 300;
     gap: 3px;
 }
 
 .Lang div {
-    margin-top: 8px;
+    margin-top: 0;
 }
 
 @media screen and (max-width: 1000px) {

@@ -80,7 +80,7 @@ const Artist = (props: PageProps) => {
 }
 
 const ImageWrapper = ({ data }: { data: Photo }) => {
-    const width = 445
+    const width = 330
     const height = data.height / (data.width / width)
     return (
         <div className={styles.Photo}>
