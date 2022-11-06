@@ -8,7 +8,7 @@ const About: NextPage = () => {
     return (
         <div className={styles.Info}>
             <Meta title="About" />
-            <div className={styles.MainColumn}>
+            <div className={styles.Column}>
                 <div className={styles.Title}>
                     <En>ABOUT</En>
                     <Ru>О НАС</Ru>

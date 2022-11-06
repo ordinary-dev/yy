@@ -19,8 +19,7 @@
 }
 
 .FakeContainer {
-    width: 200px;
-    margin-left: 75px;
+    width: 4%;
 }
 
 .Main {
@@ -64,8 +63,7 @@
     }
 
     .FakeContainer {
-        width: 0px;
-        margin-left: 0px;
+        width: 0%;
     }
 
     .Links {

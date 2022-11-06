@@ -1,5 +1,5 @@
 .Info {
-    padding-left: 200px;
+    padding-left: 340px;
     padding-right: 200px;
     padding-bottom: 45px;
     margin-top: 177px;
@@ -19,13 +19,8 @@
     }
 }
 
-.MainColumn {
-    max-width: 800px;
-    width: 100%;
-}
-
 .Column {
-    max-width: fit-content;
+    max-width: 800px;
     width: 100%;
 }
 
