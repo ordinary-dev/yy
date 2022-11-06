@@ -9,6 +9,10 @@ const Contacts: NextPage = () => {
         <div className={styles.Info}>
             <Meta title="Contacts" />
             <div className={styles.Column}>
+                <div className={styles.Title + " " + styles.FirstTitle}>
+                    <En>CONTACTS</En>
+                    <Ru>КОНТАКТЫ</Ru>
+                </div>
                 <div className={styles.Text}>
                     <En>SERGEY</En>
                     <Ru>СЕРГЕЙ</Ru>

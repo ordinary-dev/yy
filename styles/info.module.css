@@ -12,6 +12,10 @@
 }
 
 @media screen and (max-width: 1000px) {
+    .FirstTitle {
+        display: none;
+    }
+
     .Info {
         margin-top: 0px;
         padding-left: 50px;
