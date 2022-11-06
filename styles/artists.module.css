@@ -8,6 +8,12 @@
 
 .Photo {
     margin-top: 50px;
-    margin-left: 25px;
-    margin-right: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+@media screen and (max-width: 1000px) {
+    .Container {
+        margin-top: 80px;
+    }
 }

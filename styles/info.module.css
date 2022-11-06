@@ -1,33 +1,30 @@
 .Info {
-    padding-left: 200px;
+    padding-left: 340px;
     padding-right: 200px;
     padding-bottom: 45px;
-    margin-top: 165px;
+    margin-top: 177px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 100px;
+    gap: 50px;
     width: 100%;
-    font-size: 20px;
-    line-height: 39px;
 }
 
 @media screen and (max-width: 1000px) {
+    .FirstTitle {
+        display: none;
+    }
+
     .Info {
-        margin-top: 0px;
+        margin-top: 60px;
         padding-left: 50px;
         padding-right: 50px;
     }
 }
 
-.MainColumn {
-    max-width: 800px;
-    width: 100%;
-}
-
 .Column {
-    max-width: fit-content;
+    max-width: 800px;
     width: 100%;
 }
 

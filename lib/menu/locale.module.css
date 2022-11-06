@@ -1,24 +1,13 @@
 .Lang {
     display: flex;
     justify-content: flex-start;
-    font-weight: 200;
+    align-items: center;
+    font-weight: 300;
     gap: 3px;
 }
 
-.Link {
-    cursor: pointer;
-}
-
-.Link div {
-    height: 1px;
-    width: 0%;
-    margin-top: 6px;
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: width 0.15s ease-in-out;
-}
-
-.Link:hover div {
-    width: 100%;
+.Lang div {
+    margin-top: 0;
 }
 
 @media screen and (max-width: 1000px) {

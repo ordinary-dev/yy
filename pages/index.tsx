@@ -14,12 +14,14 @@ const Home: NextPage = () => {
     if (error)
         return (
             <div className={styles.Container}>
+                <Meta />
                 <ExclamationCircleOutlined />
             </div>
         )
     if (!data)
         return (
             <div className={styles.Container}>
+                <Meta />
                 <LoadingOutlined spin={true} />
             </div>
         )

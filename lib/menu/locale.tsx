@@ -18,7 +18,7 @@ const Locale = ({ isVisible }: { isVisible: boolean }) => {
             <Link href={router.asPath} locale="ru" passHref>
                 <StyledLink>RU</StyledLink>
             </Link>
-            /
+            <div>/</div>
             <Link href={router.asPath} locale="en" passHref>
                 <StyledLink>EN</StyledLink>
             </Link>

@@ -1,15 +1,21 @@
 import useSWR from "swr"
 import { useRouter } from "next/router"
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { Role } from "@prisma/client"
 import StyledLink from "lib/link"
 import { Ru, En } from "lib/interpreter"
+import styles from "./artists.module.css"
 import { ArtistsAPIGoodResponse, ArtistWithExtras } from "pages/api/artists"
 
-const Artists = () => {
-    const [isOpen, setIsOpen] = useState(false)
-
+const Artists = (props: {
+    isOpen: boolean
+    setIsOpen: (arg0: boolean) => void
+    forcedVisibility: boolean
+    showTitle: boolean
+    showMainMenu: boolean
+    showAllLinks: boolean
+}) => {
     // Variables needed to track page switching
     const router = useRouter()
 
@@ -17,24 +23,47 @@ const Artists = () => {
     // It shows the menu if the user is viewing the artist's page, and hides it otherwise.
     useEffect(() => {
         if (router.isReady) {
-            setIsOpen(router.asPath.startsWith("/artists"))
+            props.setIsOpen(router.asPath.startsWith("/artists"))
         }
     }, [router.isReady, router.asPath])
 
+    const titleStyle = props.showTitle ? { display: "block" } : {}
+    const style = props.forcedVisibility ? { display: "flex" } : {}
+
     return (
-        <>
-            <StyledLink
-                isActive={isOpen && !router.asPath.startsWith("/artists")}
-                onClick={() => setIsOpen(!isOpen)}>
-                <Ru>ТАЛАНТЫ</Ru>
-                <En>ARTISTS</En>
-            </StyledLink>
-            <Roles isOpen={isOpen} />
-        </>
+        <div
+            style={style}
+            onClick={() => props.setIsOpen(!props.isOpen)}
+            className={styles.artists}>
+            {props.showMainMenu && (
+                <div style={titleStyle}>
+                    <StyledLink
+                        isActive={
+                            props.isOpen &&
+                            !router.asPath.startsWith("/artists")
+                        }>
+                        <Ru>ТАЛАНТЫ</Ru>
+                        <En>ARTISTS</En>
+                    </StyledLink>
+                </div>
+            )}
+            {(!props.showTitle || props.isOpen) && (
+                <Roles
+                    isOpen={props.isOpen}
+                    showAllLinks={props.showAllLinks}
+                />
+            )}
+        </div>
     )
 }
 
-const Roles = ({ isOpen }: { isOpen: boolean }) => {
+const Roles = ({
+    isOpen,
+    showAllLinks,
+}: {
+    isOpen: boolean
+    showAllLinks: boolean
+}) => {
     const router = useRouter()
     const { data, error } = useSWR<ArtistsAPIGoodResponse, Error>(
         "/api/artists"
@@ -53,29 +82,35 @@ const Roles = ({ isOpen }: { isOpen: boolean }) => {
                         // Save role
                         usedRoles.add(artist.role.url)
                         // Return a link to the first person with this role
-                        return (
-                            <>
-                                <Link
-                                    href={`/artists/${artist.role.url}/${artist.person.url}`}
-                                    passHref>
-                                    <StyledLink light>
-                                        <En>
-                                            {artist.role.nameEn.toUpperCase()}
-                                        </En>
-                                        <Ru>
-                                            {artist.role.nameRu.toUpperCase()}
-                                        </Ru>
-                                    </StyledLink>
-                                </Link>
-                                <People
-                                    artists={data.artists}
-                                    role={artist.role}
-                                    isVisible={
-                                        router.query.role === artist.role.url
-                                    }
-                                />
-                            </>
+                        if (
+                            router.query.role === artist.role.url ||
+                            showAllLinks
                         )
+                            return (
+                                <>
+                                    <Link
+                                        href={`/artists/${artist.role.url}/${artist.person.url}`}>
+                                        <StyledLink light>
+                                            <En>
+                                                {artist.role.nameEn.toUpperCase()}
+                                            </En>
+                                            <Ru>
+                                                {artist.role.nameRu.toUpperCase()}
+                                            </Ru>
+                                        </StyledLink>
+                                    </Link>
+                                    <People
+                                        artists={data.artists}
+                                        role={artist.role}
+                                        isVisible={
+                                            router.query.role ===
+                                            artist.role.url
+                                        }
+                                        showAllLinks={showAllLinks}
+                                    />
+                                </>
+                            )
+                        return <></>
                     }
                     // Return nothing if the role was already shown
                     return <></>
@@ -90,10 +125,12 @@ const People = ({
     artists,
     role,
     isVisible,
+    showAllLinks,
 }: {
     artists: ArtistWithExtras[]
     role: Role
     isVisible: boolean
+    showAllLinks: boolean
 }) => {
     const usedPersons = new Set()
     const router = useRouter()
@@ -104,26 +141,34 @@ const People = ({
                     if (artist.role.id === role.id) {
                         if (!usedPersons.has(artist.person.id)) {
                             usedPersons.add(artist.person.id)
-                            return (
-                                <Link
-                                    key={artist.person.id}
-                                    href={`/artists/${role.url}/${artist.person.url}`}
-                                    passHref>
-                                    <StyledLink
-                                        light
-                                        isActive={
-                                            router.query.name ===
-                                            artist.person.url
-                                        }>
-                                        <En>
-                                            {artist.person.nameEn.toUpperCase()}
-                                        </En>
-                                        <Ru>
-                                            {artist.person.nameRu.toUpperCase()}
-                                        </Ru>
-                                    </StyledLink>
-                                </Link>
+                            if (
+                                router.query.name === artist.person.url ||
+                                showAllLinks
                             )
+                                return (
+                                    <Link
+                                        key={artist.person.id}
+                                        href={`/artists/${role.url}/${artist.person.url}`}
+                                        passHref>
+                                        <StyledLink
+                                            key={artist.person.id}
+                                            light={
+                                                router.query.name !==
+                                                artist.person.url
+                                            }
+                                            isActive={
+                                                router.query.name ===
+                                                artist.person.url
+                                            }>
+                                            <En>
+                                                {artist.person.nameEn.toUpperCase()}
+                                            </En>
+                                            <Ru>
+                                                {artist.person.nameRu.toUpperCase()}
+                                            </Ru>
+                                        </StyledLink>
+                                    </Link>
+                                )
                         }
                     }
                     return <></>

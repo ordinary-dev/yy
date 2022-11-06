@@ -9,7 +9,7 @@ const Meta = (props: { title?: string }) => {
     const description =
         "YY studios is a full service and talent representation agency, a modern representative, able to satisfy all the needs of the artist and the client"
 
-    const image = "https://yy-studios.ru/preview.webp"
+    const image = "https://yy-studios.ru/preview.jpg"
 
     return (
         <Head>
@@ -24,6 +24,7 @@ const Meta = (props: { title?: string }) => {
             <meta property="og:image" content={image} />
 
             <meta property="twitter:card" content="summary_large_image" />
+            <meta property="twitter:domain" content="yy-studios.ru" />
             <meta property="twitter:url" content={url} />
             <meta property="twitter:title" content={title} />
             <meta property="twitter:description" content={description} />

@@ -25,8 +25,8 @@ const Tracking = () => {
             />
             <noscript>
                 <Image
-                    width="1px"
-                    height="1px"
+                    width={1}
+                    height={1}
                     src="https://stats.altweb.tech/ingress/494db2b8-6ed0-4bb2-b7a6-d2fb9b63a9fd/pixel.gif"
                     unoptimized={true}
                     alt="Pixel"

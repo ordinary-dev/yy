@@ -6,16 +6,8 @@ import styles from "./logo.module.css"
 // YY
 const Logo = () => {
     return (
-        <Link href="/" passHref>
-            <a className={styles.Logo}>
-                <Image
-                    src={YY}
-                    alt="Logo"
-                    layout="fill"
-                    objectFit="contain"
-                    placeholder="blur"
-                />
-            </a>
+        <Link href="/" className={styles.Logo}>
+            <Image src={YY} alt="Logo" placeholder="blur" fill />
         </Link>
     )
 }

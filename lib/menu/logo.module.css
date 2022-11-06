@@ -4,6 +4,10 @@
     position: relative;
 }
 
+.Logo img {
+    object-fit: contain;
+}
+
 @media screen and (max-width: 1000px) {
     .Logo {
         width: 80px;
