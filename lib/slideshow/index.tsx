@@ -85,15 +85,7 @@ const Slideshow = ({
                     <LeftOutlined />
                 </Button>
 
-                <div className={styles.Placeholder}>
-                    <div className={styles.FullscreenButton} onClick={prev}>
-                        <LeftOutlined />
-                    </div>
-                    {currentSlides}
-                    <div className={styles.FullscreenButton} onClick={next}>
-                        <RightOutlined />
-                    </div>
-                </div>
+                <div className={styles.Placeholder}>{currentSlides}</div>
 
                 <Button onClick={next}>
                     <RightOutlined />
