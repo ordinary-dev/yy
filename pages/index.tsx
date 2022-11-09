@@ -1,40 +1,52 @@
-import type { NextPage } from "next"
-import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons"
-import useSWR from "swr"
+import type { NextPage, GetServerSideProps } from "next"
 import { useRouter } from "next/router"
+import { Photo } from "@prisma/client"
+import { prisma } from "lib/prisma"
 import Slideshow from "lib/slideshow"
-import styles from "styles/index.module.css"
-import { PhotoAPI } from "./api/photo"
 import Meta from "lib/meta"
+import styles from "styles/index.module.css"
 
-const Home: NextPage = () => {
-    const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
+type PageProps = {
+    photos: Photo[]
+}
+
+export const getServerSideProps: GetServerSideProps = async () => {
+    try {
+        const photos = await prisma.photo.findMany({
+            where: {
+                visibleOnHomepage: true,
+            },
+            orderBy: {
+                order: "asc",
+            },
+        })
+
+        if (photos === undefined) throw new Error("Can't load photos")
+
+        const props: PageProps = {
+            photos,
+        }
+        return {
+            props,
+        }
+    } catch {
+        const props: PageProps = {
+            photos: [],
+        }
+        return {
+            props,
+        }
+    }
+}
+
+const Home: NextPage<PageProps> = props => {
     const router = useRouter()
 
-    if (error)
-        return (
-            <div className={styles.Container}>
-                <Meta />
-                <ExclamationCircleOutlined />
-            </div>
-        )
-    if (!data)
-        return (
-            <div className={styles.Container}>
-                <Meta />
-                <LoadingOutlined spin={true} />
-            </div>
-        )
-
-    const urls = data.photos
-        .filter(photo => photo.visibleOnHomepage)
-        .map(photo => `/photos/${photo.id}/original.${photo.ext}`)
-    const descEn = data.photos
-        .filter(photo => photo.visibleOnHomepage)
-        .map(photo => photo.descriptionEn)
-    const descRu = data.photos
-        .filter(photo => photo.visibleOnHomepage)
-        .map(photo => photo.descriptionRu)
+    const urls = props.photos.map(
+        photo => `/photos/${photo.id}/original.${photo.ext}`
+    )
+    const descEn = props.photos.map(photo => photo.descriptionEn)
+    const descRu = props.photos.map(photo => photo.descriptionRu)
 
     return (
         <div className={styles.Container}>
