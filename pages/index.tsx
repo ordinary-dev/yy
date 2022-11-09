@@ -1,16 +1,16 @@
-import type { NextPage, GetServerSideProps } from "next"
-import { useRouter } from "next/router"
-import { Photo } from "@prisma/client"
+import type { NextPage, GetStaticProps } from "next"
 import { prisma } from "lib/prisma"
 import Slideshow from "lib/slideshow"
 import Meta from "lib/meta"
 import styles from "styles/index.module.css"
 
 type PageProps = {
-    photos: Photo[]
+    links: string[]
+    descriptions: (string | null)[]
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+// Get a list of photos from db
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
     try {
         const photos = await prisma.photo.findMany({
             where: {
@@ -20,41 +20,47 @@ export const getServerSideProps: GetServerSideProps = async () => {
                 order: "asc",
             },
         })
-
         if (photos === undefined) throw new Error("Can't load photos")
 
+        // Generate links to files
+        const links = photos.map(
+            photo => `/photos/${photo.id}/original.${photo.ext}`
+        )
+
+        // Generate an array of descriptions
+        const descriptions =
+            locale === "en"
+                ? photos.map(photo => photo.descriptionEn)
+                : photos.map(photo => photo.descriptionRu)
+
         const props: PageProps = {
-            photos,
+            links,
+            descriptions,
         }
         return {
             props,
+            // Next.js will attempt to re-generate the page:
+            // - When a request comes in
+            // - At most once every 60 seconds
+            revalidate: 60,
         }
     } catch {
         const props: PageProps = {
-            photos: [],
+            links: [],
+            descriptions: [],
         }
         return {
             props,
+            revalidate: 15,
         }
     }
 }
 
 const Home: NextPage<PageProps> = props => {
-    const router = useRouter()
-
-    const urls = props.photos.map(
-        photo => `/photos/${photo.id}/original.${photo.ext}`
-    )
-    const descEn = props.photos.map(photo => photo.descriptionEn)
-    const descRu = props.photos.map(photo => photo.descriptionRu)
-
     return (
         <div className={styles.Container}>
             <Meta />
-            <Slideshow
-                urls={urls}
-                descriptions={router.locale == "en" ? descEn : descRu}
-            />
+            <Slideshow urls={props.links} descriptions={props.descriptions} />
         </div>
     )
 }
