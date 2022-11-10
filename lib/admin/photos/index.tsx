@@ -14,6 +14,7 @@ import { PhotoAPI } from "pages/api/photo"
 import { DeleteAPI } from "pages/api/delete"
 import { UpdateAPI } from "pages/api/update"
 import { UploadAPI } from "pages/api/upload"
+import getImagePath from "lib/imagepath"
 import styles from "./photos.module.css"
 import Info from "./info"
 import Artists from "./artists"
@@ -92,7 +93,7 @@ const Photo = (props: {
         <div>
             <div className={styles.Photo}>
                 <Image
-                    src={`/photos/${props.id}/original.${props.ext}`}
+                    src={getImagePath(props.id, props.ext)}
                     width={width}
                     height={height}
                     alt="Uploaded photo"

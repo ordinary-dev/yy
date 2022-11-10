@@ -3,6 +3,7 @@ import { GetServerSideProps } from "next"
 import { Photo } from "@prisma/client"
 import { prisma } from "lib/prisma"
 import Meta from "lib/meta"
+import getImagePath from "lib/imagepath"
 import styles from "styles/artists.module.css"
 
 type PageProps = {
@@ -85,7 +86,7 @@ const ImageWrapper = ({ data }: { data: Photo }) => {
     return (
         <div className={styles.Photo}>
             <Image
-                src={`/api/photos/${data.id}.${data.ext}`}
+                src={getImagePath(data.id, data.ext)}
                 width={width}
                 height={height}
                 alt={data.descriptionEn ? data.descriptionEn : "Photo"}
