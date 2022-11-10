@@ -27,33 +27,33 @@ Create a docker-compose file with the following content:
 
 ```yml
 services:
-    yy:
-        image: ghcr.io/alt-web/yy
-        volumes:
-            - yy-photos:/app/photos
-        restart: unless-stopped
-        ports:
-            - 3000:3000
-        depends_on:
-            - postgres
-        environment:
-            - DATABASE_URL=postgresql://username:password@postgres:5432/yydb?schema=public
+  yy:
+    image: ghcr.io/alt-web/yy
+    volumes:
+      - yy-photos:/app/photos
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+    environment:
+      - DATABASE_URL=postgresql://username:password@postgres:5432/yydb?schema=public
 
-    postgres:
-        image: postgres
-        volumes:
-            - yy-postgres-prod:/var/lib/postgresql/data
-        environment:
-            - POSTGRES_USER=username
-            - POSTGRES_PASSWORD=password
-            - POSTGRES_DB=yydb
-        restart: unless-stopped
+  postgres:
+    image: postgres
+    volumes:
+      - yy-postgres-prod:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=username
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=yydb
+    restart: unless-stopped
 
 volumes:
-    yy-postgres-prod:
-    yy-photos:
+  yy-postgres-prod:
+  yy-photos:
 ```
 
 ## Authors
 
--   Ivan Reshetnikov <ordinarydev@protonmail.com>
+- Ivan Reshetnikov <ordinarydev@protonmail.com>
