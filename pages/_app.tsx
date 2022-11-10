@@ -5,7 +5,7 @@ import type { AppProps } from "next/app"
 import Head from "next/head"
 import { SWRConfig } from "swr"
 import Tracking from "lib/tracking"
-import Layout from "lib/menu"
+import Menu from "lib/menu"
 import "styles/globals.css"
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
@@ -20,9 +20,9 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
                 <Favicons />
             </Head>
             <Tracking />
-            <Layout>
+            <Menu>
                 <Component {...pageProps} />
-            </Layout>
+            </Menu>
         </SWRConfig>
     )
 }

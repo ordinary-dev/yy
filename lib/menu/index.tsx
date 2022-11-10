@@ -9,23 +9,21 @@ import Locale from "./locale"
 import styles from "./index.module.css"
 import StyledLink from "lib/link"
 
-//
-// Written in a desperate attempt to get everything done on time.
-// TODO: refactor this mess
-//
-
-const Layout = (props: { children: ReactNode }) => {
+const Menu = (props: { children: ReactNode }) => {
     // Used in mobile version,
-    // forced to true in desktop version (with CSS)
+    // Has no effect on a large screen
     const [isOpen, setIsOpen] = useState(false)
 
-    const [isArtOpen, setIsArtOpen] = useState(false)
-    const [showMainMenu, setShowMainMenu] = useState(true)
+    // Menu has 2 tabs
+    // 1: artists, about and contacts
+    // 2: current artist
+    const [showFirstTab, setShowFirstTab] = useState(true)
+
     const router = useRouter()
 
     useEffect(() => {
         setIsOpen(false)
-        setShowMainMenu(!router.asPath.startsWith("/artists"))
+        setShowFirstTab(!router.asPath.startsWith("/artists"))
     }, [router.asPath])
 
     const linkStyle = isOpen
@@ -39,13 +37,6 @@ const Layout = (props: { children: ReactNode }) => {
           }
         : {}
 
-    const mmbtn = isOpen && !showMainMenu ? { display: "block" } : {}
-    const isArtistsVisible = isOpen || router.asPath.startsWith("/artists")
-    const isAboutVisible =
-        (isOpen && showMainMenu) || router.asPath.startsWith("/about")
-    const isContactsVisible =
-        (isOpen && showMainMenu) || router.asPath.startsWith("/contacts")
-
     return (
         <div className={styles.Container}>
             <div className={styles.Menu}>
@@ -57,46 +48,13 @@ const Layout = (props: { children: ReactNode }) => {
                     />
                 </div>
                 <div style={linkStyle} className={styles.Links}>
-                    {!showMainMenu && (
-                        <div
-                            onClick={() => {
-                                setShowMainMenu(true)
-                                setIsArtOpen(false)
-                            }}
-                            style={mmbtn}>
-                            <StyledLink>
-                                <En>MENU</En>
-                                <Ru>МЕНЮ</Ru>
-                            </StyledLink>
-                        </div>
-                    )}
-
-                    <Artists
-                        isOpen={isArtOpen}
-                        setIsOpen={(v: boolean) => setIsArtOpen(v)}
-                        forcedVisibility={isArtistsVisible}
-                        showTitle={showMainMenu && isOpen}
-                        showMainMenu={showMainMenu}
-                        showAllLinks={showMainMenu}
+                    <SecondTab
+                        onReturn={() => setShowFirstTab(true)}
+                        isMenuOpen={isOpen}
+                        isVisible={!showFirstTab}
                     />
 
-                    {showMainMenu && (
-                        <PageLink
-                            href="/about"
-                            forcedVisibility={isAboutVisible}>
-                            <En>ABOUT</En>
-                            <Ru>О НАС</Ru>
-                        </PageLink>
-                    )}
-
-                    {showMainMenu && (
-                        <PageLink
-                            href="/contacts"
-                            forcedVisibility={isContactsVisible}>
-                            <En>CONTACTS</En>
-                            <Ru>КОНТАКТЫ</Ru>
-                        </PageLink>
-                    )}
+                    <FirstTab isVisible={showFirstTab} isMenuOpen={isOpen} />
 
                     <div
                         style={separatorStyle}
@@ -111,4 +69,81 @@ const Layout = (props: { children: ReactNode }) => {
     )
 }
 
-export default Layout
+// About and contacts
+const FirstTab = (props: { isVisible: boolean; isMenuOpen: boolean }) => {
+    const router = useRouter()
+
+    const isAboutVisible =
+        props.isMenuOpen || router.asPath.startsWith("/about")
+    const isContactsVisible =
+        props.isMenuOpen || router.asPath.startsWith("/contacts")
+
+    if (props.isVisible)
+        return (
+            <>
+                <Artists forcedVisibility={props.isMenuOpen} />
+                <PageLink href="/about" forcedVisibility={isAboutVisible}>
+                    <En>ABOUT</En>
+                    <Ru>О НАС</Ru>
+                </PageLink>
+                <PageLink href="/contacts" forcedVisibility={isContactsVisible}>
+                    <En>CONTACTS</En>
+                    <Ru>КОНТАКТЫ</Ru>
+                </PageLink>
+            </>
+        )
+    return <></>
+}
+
+// Menu button
+const SecondTab = (props: {
+    onReturn: () => void
+    isMenuOpen: boolean
+    isVisible: boolean
+}) => {
+    if (props.isVisible)
+        return (
+            <>
+                <MenuButton
+                    onClick={props.onReturn}
+                    isVisible={props.isMenuOpen}
+                />
+                <CurrentArtist />
+            </>
+        )
+    return <></>
+}
+
+// Button that opens the first tab
+const MenuButton = (props: { onClick: () => void; isVisible: boolean }) => {
+    return (
+        <div
+            onClick={props.onClick}
+            style={props.isVisible ? { display: "block" } : {}}>
+            <StyledLink>
+                <En>MENU</En>
+                <Ru>МЕНЮ</Ru>
+            </StyledLink>
+        </div>
+    )
+}
+
+// Shows current artist
+const CurrentArtist = () => {
+    const router = useRouter()
+    if (!router.query.role || !router.query.name) return <></>
+
+    const fmt = (s: string) => s.replace(/-/g, " ").toUpperCase()
+
+    const role = fmt(router.query.role.toString())
+    const name = fmt(router.query.name.toString())
+
+    return (
+        <>
+            <p>{role}</p>
+            <p>{name}</p>
+        </>
+    )
+}
+
+export default Menu
