@@ -24,7 +24,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
         // Generate links to files
         const links = photos.map(
-            photo => `/photos/${photo.id}/original.${photo.ext}`
+            photo => `/api/photos/${photo.id}.${photo.ext}`
         )
 
         // Generate an array of descriptions
