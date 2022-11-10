@@ -16,7 +16,7 @@ Open [localhost:3000](http://localhost:3000) with your browser to see the result
 Build the production server:
 
 ```bash
-podman build -f docker/docker-prod.yml .
+podman build -f docker/prod.Dockerfile .
 ```
 
 Note: you can replace `podman` with `sudo docker`.
