@@ -85,7 +85,7 @@ const ImageWrapper = ({ data }: { data: Photo }) => {
     return (
         <div className={styles.Photo}>
             <Image
-                src={`/photos/${data.id}/original.${data.ext}`}
+                src={`/api/photos/${data.id}.${data.ext}`}
                 width={width}
                 height={height}
                 alt={data.descriptionEn ? data.descriptionEn : "Photo"}
