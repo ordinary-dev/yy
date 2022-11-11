@@ -1,0 +1,10 @@
+.Lang {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-weight: 300;
+}
+
+.Lang div {
+    margin-top: 0;
+}

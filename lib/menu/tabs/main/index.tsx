@@ -1,32 +1,53 @@
+import Link from "next/link"
 import { useRouter } from "next/router"
+import { ReactNode } from "react"
 import { En, Ru } from "lib/interpreter"
+import StyledLink from "lib/link"
 import Artists from "./artists"
-import PageLink from "./link"
 
 // Artists. about and contacts
 const MainTab = (props: { isVisible: boolean; isMenuOpen: boolean }) => {
-    const router = useRouter()
-
-    const isAboutVisible =
-        props.isMenuOpen || router.asPath.startsWith("/about")
-    const isContactsVisible =
-        props.isMenuOpen || router.asPath.startsWith("/contacts")
-
     if (props.isVisible)
         return (
             <>
-                <Artists forcedVisibility={props.isMenuOpen} />
-                <PageLink href="/about" forcedVisibility={isAboutVisible}>
+                <Artists forceVisibility={props.isMenuOpen} />
+                <MyLink href="/about" isMenuOpen={props.isMenuOpen}>
                     <En>ABOUT</En>
                     <Ru>О НАС</Ru>
-                </PageLink>
-                <PageLink href="/contacts" forcedVisibility={isContactsVisible}>
+                </MyLink>
+                <MyLink href="/contacts" isMenuOpen={props.isMenuOpen}>
                     <En>CONTACTS</En>
                     <Ru>КОНТАКТЫ</Ru>
-                </PageLink>
+                </MyLink>
             </>
         )
     return <></>
+}
+
+const MyLink = ({
+    href,
+    isMenuOpen,
+    children,
+}: {
+    href: string
+    isMenuOpen: boolean
+    children: ReactNode
+}) => {
+    // Underline link when page is open
+    const router = useRouter()
+    const pathsMatch = router.asPath === href
+
+    // Menu items are hidden by default in mobile version.
+    // Has no effect on large screens.
+    const style = isMenuOpen || pathsMatch ? { display: "block" } : {}
+
+    return (
+        <div style={style}>
+            <Link href={href}>
+                <StyledLink isActive={pathsMatch}>{children}</StyledLink>
+            </Link>
+        </div>
+    )
 }
 
 export default MainTab

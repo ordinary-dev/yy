@@ -1,6 +1,8 @@
+import useSWR from "swr"
 import { useRouter } from "next/router"
 import { En, Ru } from "lib/interpreter"
 import StyledLink from "lib/link"
+import { ArtistsAPI } from "pages/api/artists"
 
 // Menu button
 const SecondaryTab = (props: {
@@ -38,17 +40,33 @@ const MenuButton = (props: { onClick: () => void; isVisible: boolean }) => {
 // Shows current artist
 const CurrentArtist = () => {
     const router = useRouter()
+
+    // Load list of artists
+    const { data, error } = useSWR<ArtistsAPI, Error>("/api/artists")
+    if (error || !data || !data.artists) return <></>
+
+    // Get the url of selected artist
     if (!router.query.role || !router.query.name) return <></>
 
-    const fmt = (s: string) => s.replace(/-/g, " ").toUpperCase()
+    const roleUrl = router.query.role.toString()
+    const nameUrl = router.query.name.toString()
 
-    const role = fmt(router.query.role.toString())
-    const name = fmt(router.query.name.toString())
+    // Find artist
+    const artist = data.artists.filter(
+        v => v.role.url === roleUrl && v.person.url === nameUrl
+    )[0]
+    if (!artist) return <></>
 
     return (
         <>
-            <p>{role}</p>
-            <p>{name}</p>
+            <p>
+                <En>{artist.role.nameEn.toUpperCase()}</En>
+                <Ru>{artist.role.nameRu.toUpperCase()}</Ru>
+            </p>
+            <p>
+                <En>{artist.person.nameEn.toUpperCase()}</En>
+                <Ru>{artist.person.nameRu.toUpperCase()}</Ru>
+            </p>
         </>
     )
 }

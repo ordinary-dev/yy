@@ -38,7 +38,6 @@
     flex-direction: column;
     gap: 8px;
     overflow: hidden;
-    transition: height 0.1s ease-in-out;
     line-height: 19px;
 }
 
@@ -46,15 +45,6 @@
     margin-top: 12px;
     margin-bottom: 4px;
     font-weight: 200;
-}
-
-.Separator {
-    height: 1px;
-    width: 100%;
-    background-color: transparent;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: none;
 }
 
 .Space {
@@ -105,9 +95,5 @@
 
     .Links > div {
         display: none;
-    }
-
-    .Separator {
-        background-color: black;
     }
 }

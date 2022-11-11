@@ -8,21 +8,16 @@ import { getErrorMessage } from "lib/error"
 // An artist is a record of how a person is related to a particular photo.
 // Allowed methods: GET, POST, DELETE.
 
-export type ArtistWithExtras = {
+export type ArtistRecord = {
     id: number
     person: Person
     role: Role
 }
 
-export type ArtistsAPIGoodResponse = {
-    artists: ArtistWithExtras[]
+export type ArtistsAPI = {
+    artists?: ArtistRecord[]
+    msg?: string
 }
-
-type BadResponse = {
-    msg: string
-}
-
-type ArtistsAPI = ArtistsAPIGoodResponse | BadResponse
 
 // Check authorization (but don't require it)
 export default withIronSessionApiRoute(parseRequestMethod, sessionOptions)

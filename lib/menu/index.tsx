@@ -2,9 +2,10 @@ import { useState, useEffect, ReactNode } from "react"
 import { useRouter } from "next/router"
 import Logo from "./logo"
 import Controls from "./controls"
-import Locale from "./locale"
+import LocaleSwitcher from "./locale"
 import MainTab from "./tabs/main"
 import SecondaryTab from "./tabs/secondary"
+import Separator from "./separator"
 import styles from "./index.module.css"
 
 const Menu = (props: { children: ReactNode }) => {
@@ -17,21 +18,19 @@ const Menu = (props: { children: ReactNode }) => {
     // 2: current artist
     const [showFirstTab, setShowFirstTab] = useState(true)
 
+    // Hides menu and switches tabs when moving to another page
     const router = useRouter()
-
     useEffect(() => {
         setIsOpen(false)
         setShowFirstTab(!router.asPath.startsWith("/artists"))
     }, [router.asPath])
 
+    // The height of the link container.
+    // It also acts as a background for the menu.
+    // Min-height: fit-content.
     const linkStyle = isOpen
         ? {
               height: "100vh",
-          }
-        : {}
-    const separatorStyle = isOpen
-        ? {
-              display: "block",
           }
         : {}
 
@@ -46,19 +45,19 @@ const Menu = (props: { children: ReactNode }) => {
                     />
                 </div>
                 <div style={linkStyle} className={styles.Links}>
+                    <MainTab isVisible={showFirstTab} isMenuOpen={isOpen} />
+
                     <SecondaryTab
                         onReturn={() => setShowFirstTab(true)}
                         isMenuOpen={isOpen}
                         isVisible={!showFirstTab}
                     />
 
-                    <MainTab isVisible={showFirstTab} isMenuOpen={isOpen} />
+                    <Separator isVisible={isOpen} />
 
-                    <div
-                        style={separatorStyle}
-                        className={styles.Separator}></div>
                     <div className={styles.Space}></div>
-                    <Locale isVisible={isOpen} />
+
+                    <LocaleSwitcher forceVisibility={isOpen} />
                 </div>
             </div>
             <div className={styles.FakeContainer}></div>
