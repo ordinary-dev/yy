@@ -14,7 +14,7 @@ async function generateSiteMap() {
     // This set helps to remove duplicates.
     const uniqueArtists = new Set()
     for (const artist of artists) {
-        const link = `${artist.role.url}/${artist.person.url}`
+        const link = `${artist.role.url}/${artist.person.url}`.replace(/&/g, "&amp;")
         uniqueArtists.add(link)
     }
 
