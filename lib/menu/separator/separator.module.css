@@ -1,0 +1,14 @@
+.Separator {
+    height: 1px;
+    width: 100%;
+    background-color: transparent;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: none;
+}
+
+@media screen and (max-width: 1000px) {
+    .Separator {
+        background-color: black;
+    }
+}

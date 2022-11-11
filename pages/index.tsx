@@ -1,48 +1,65 @@
-import type { NextPage } from "next"
-import { ExclamationCircleOutlined, LoadingOutlined } from "@ant-design/icons"
-import useSWR from "swr"
-import { useRouter } from "next/router"
+import type { NextPage, GetStaticProps } from "next"
+import { prisma } from "lib/prisma"
 import Slideshow from "lib/slideshow"
-import styles from "styles/index.module.css"
-import { PhotoAPI } from "./api/photo"
 import Meta from "lib/meta"
+import getImagePath from "lib/imagepath"
+import styles from "styles/index.module.css"
 
-const Home: NextPage = () => {
-    const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
-    const router = useRouter()
+type PageProps = {
+    links: string[]
+    descriptions: (string | null)[]
+}
 
-    if (error)
-        return (
-            <div className={styles.Container}>
-                <Meta />
-                <ExclamationCircleOutlined />
-            </div>
-        )
-    if (!data)
-        return (
-            <div className={styles.Container}>
-                <Meta />
-                <LoadingOutlined spin={true} />
-            </div>
-        )
+// Get a list of photos from db
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+    try {
+        const photos = await prisma.photo.findMany({
+            where: {
+                visibleOnHomepage: true,
+            },
+            orderBy: {
+                order: "asc",
+            },
+        })
+        if (photos === undefined) throw new Error("Can't load photos")
 
-    const urls = data.photos
-        .filter(photo => photo.visibleOnHomepage)
-        .map(photo => `/photos/${photo.id}/original.${photo.ext}`)
-    const descEn = data.photos
-        .filter(photo => photo.visibleOnHomepage)
-        .map(photo => photo.descriptionEn)
-    const descRu = data.photos
-        .filter(photo => photo.visibleOnHomepage)
-        .map(photo => photo.descriptionRu)
+        // Generate links to files
+        const links = photos.map(photo => getImagePath(photo.id, photo.ext))
 
+        // Generate an array of descriptions
+        const descriptions =
+            locale === "en"
+                ? photos.map(photo => photo.descriptionEn)
+                : photos.map(photo => photo.descriptionRu)
+
+        const props: PageProps = {
+            links,
+            descriptions,
+        }
+        return {
+            props,
+            // Next.js will attempt to re-generate the page:
+            // - When a request comes in
+            // - At most once every 60 seconds
+            revalidate: 60,
+        }
+    } catch {
+        const props: PageProps = {
+            links: [],
+            descriptions: [],
+        }
+        return {
+            props,
+            revalidate: 15,
+        }
+    }
+}
+
+const Home: NextPage<PageProps> = props => {
     return (
         <div className={styles.Container}>
             <Meta />
-            <Slideshow
-                urls={urls}
-                descriptions={router.locale == "en" ? descEn : descRu}
-            />
+            <Slideshow urls={props.links} descriptions={props.descriptions} />
         </div>
     )
 }

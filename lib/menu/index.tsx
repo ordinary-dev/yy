@@ -1,50 +1,38 @@
 import { useState, useEffect, ReactNode } from "react"
 import { useRouter } from "next/router"
-import { En, Ru } from "lib/interpreter"
 import Logo from "./logo"
 import Controls from "./controls"
-import Artists from "./artists"
-import PageLink from "./link"
-import Locale from "./locale"
+import LocaleSwitcher from "./locale"
+import MainTab from "./tabs/main"
+import SecondaryTab from "./tabs/secondary"
+import Separator from "./separator"
 import styles from "./index.module.css"
-import StyledLink from "lib/link"
 
-//
-// Written in a desperate attempt to get everything done on time.
-// TODO: refactor this mess
-//
-
-const Layout = (props: { children: ReactNode }) => {
+const Menu = (props: { children: ReactNode }) => {
     // Used in mobile version,
-    // forced to true in desktop version (with CSS)
+    // Has no effect on a large screen
     const [isOpen, setIsOpen] = useState(false)
 
-    const [isArtOpen, setIsArtOpen] = useState(false)
-    const [showMainMenu, setShowMainMenu] = useState(true)
-    const router = useRouter()
+    // Menu has 2 tabs
+    // 1: artists, about and contacts
+    // 2: current artist
+    const [showFirstTab, setShowFirstTab] = useState(true)
 
+    // Hides menu and switches tabs when moving to another page
+    const router = useRouter()
     useEffect(() => {
         setIsOpen(false)
-        setShowMainMenu(!router.asPath.startsWith("/artists"))
+        setShowFirstTab(!router.asPath.startsWith("/artists"))
     }, [router.asPath])
 
+    // The height of the link container.
+    // It also acts as a background for the menu.
+    // Min-height: fit-content.
     const linkStyle = isOpen
         ? {
               height: "100vh",
           }
         : {}
-    const separatorStyle = isOpen
-        ? {
-              display: "block",
-          }
-        : {}
-
-    const mmbtn = isOpen && !showMainMenu ? { display: "block" } : {}
-    const isArtistsVisible = isOpen || router.asPath.startsWith("/artists")
-    const isAboutVisible =
-        (isOpen && showMainMenu) || router.asPath.startsWith("/about")
-    const isContactsVisible =
-        (isOpen && showMainMenu) || router.asPath.startsWith("/contacts")
 
     return (
         <div className={styles.Container}>
@@ -57,52 +45,19 @@ const Layout = (props: { children: ReactNode }) => {
                     />
                 </div>
                 <div style={linkStyle} className={styles.Links}>
-                    {!showMainMenu && (
-                        <div
-                            onClick={() => {
-                                setShowMainMenu(true)
-                                setIsArtOpen(false)
-                            }}
-                            style={mmbtn}>
-                            <StyledLink>
-                                <En>MENU</En>
-                                <Ru>МЕНЮ</Ru>
-                            </StyledLink>
-                        </div>
-                    )}
+                    <MainTab isVisible={showFirstTab} isMenuOpen={isOpen} />
 
-                    <Artists
-                        isOpen={isArtOpen}
-                        setIsOpen={(v: boolean) => setIsArtOpen(v)}
-                        forcedVisibility={isArtistsVisible}
-                        showTitle={showMainMenu && isOpen}
-                        showMainMenu={showMainMenu}
-                        showAllLinks={showMainMenu}
+                    <SecondaryTab
+                        onReturn={() => setShowFirstTab(true)}
+                        isMenuOpen={isOpen}
+                        isVisible={!showFirstTab}
                     />
 
-                    {showMainMenu && (
-                        <PageLink
-                            href="/about"
-                            forcedVisibility={isAboutVisible}>
-                            <En>ABOUT</En>
-                            <Ru>О НАС</Ru>
-                        </PageLink>
-                    )}
+                    <Separator isVisible={isOpen} />
 
-                    {showMainMenu && (
-                        <PageLink
-                            href="/contacts"
-                            forcedVisibility={isContactsVisible}>
-                            <En>CONTACTS</En>
-                            <Ru>КОНТАКТЫ</Ru>
-                        </PageLink>
-                    )}
-
-                    <div
-                        style={separatorStyle}
-                        className={styles.Separator}></div>
                     <div className={styles.Space}></div>
-                    <Locale isVisible={isOpen} />
+
+                    <LocaleSwitcher forceVisibility={isOpen} />
                 </div>
             </div>
             <div className={styles.FakeContainer}></div>
@@ -111,4 +66,4 @@ const Layout = (props: { children: ReactNode }) => {
     )
 }
 
-export default Layout
+export default Menu

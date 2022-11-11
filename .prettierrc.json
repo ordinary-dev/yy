@@ -3,5 +3,13 @@
     "semi": false,
     "bracketSpacing": true,
     "bracketSameLine": true,
-    "arrowParens": "avoid"
+    "arrowParens": "avoid",
+    "overrides": [
+        {
+            "files": ["*.yml", "*.md"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }

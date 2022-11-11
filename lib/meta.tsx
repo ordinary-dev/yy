@@ -1,13 +1,19 @@
+import { useRouter } from "next/router"
 import Head from "next/head"
 
 const Meta = (props: { title?: string }) => {
-    const url = "https://yy-studios.ru"
+    const router = useRouter()
 
+    const url = "https://yy-studios.ru"
     let title = "YY Studios"
     if (props.title) title = props.title + " - " + title
 
+    // Generate description
+    // Default language is English
     const description =
-        "YY studios is a full service and talent representation agency, a modern representative, able to satisfy all the needs of the artist and the client"
+        router.locale === "ru"
+            ? "YY Studios - это агентство полного цикла и репрезентации талантов, современный представитель, способный удовлетворить все потребности художника и клиента"
+            : "YY Studios is a full service and talent representation agency, a modern representative, able to satisfy all the needs of the artist and the client"
 
     const image = "https://yy-studios.ru/preview.jpg"
 
