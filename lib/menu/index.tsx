@@ -27,7 +27,7 @@ const Menu = (props: { children: ReactNode }) => {
 
     // The height of the link container.
     // It also acts as a background for the menu.
-    // Min-height: fit-content.
+    // Min-height: min-content.
     const linkStyle = isOpen
         ? {
               height: "100vh",

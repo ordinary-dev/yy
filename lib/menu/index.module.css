@@ -74,14 +74,14 @@
 
     .FakeContainer {
         width: 100vw;
-        height: 155px;
+        height: 160px;
     }
 
     .Links {
         position: fixed;
         left: 0;
         top: 0;
-        min-height: fit-content;
+        min-height: min-content;
         width: 100vw;
         backdrop-filter: blur(10px);
         background-color: #fff8;
