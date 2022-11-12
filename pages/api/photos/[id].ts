@@ -11,6 +11,10 @@ const handle = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!req.query.id) throw new Error("Photo id is undefined")
         const [id, ext] = req.query.id.toString().split(".")
 
+        // For safety
+        if (ext.includes("."))
+            throw new Error("Invalid characters in extension")
+
         // Try to read the image
         const filepath = `photos/${id}/original.${ext}`
         const stat = fs.statSync(filepath)
