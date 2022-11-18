@@ -14,7 +14,7 @@ type PageProps = {
     isAdmin: boolean
 }
 
-export const getServerSideProps = withIronSessionSsr(async context => {
+export const getServerSideProps = withIronSessionSsr(async (context) => {
     const user = context.req.session.user
 
     const props: PageProps = {
@@ -23,7 +23,7 @@ export const getServerSideProps = withIronSessionSsr(async context => {
     return { props }
 }, sessionOptions)
 
-const AdminPage: NextPage<PageProps> = props => {
+const AdminPage: NextPage<PageProps> = (props) => {
     // Redirect to login page
     // If user is not authorized
     useEffect(() => {

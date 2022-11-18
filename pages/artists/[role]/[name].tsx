@@ -65,14 +65,14 @@ const Artist = (props: PageProps) => {
             <div>
                 {props.photos
                     .filter((_v, i) => i % 2 == 0)
-                    .map(photo => (
+                    .map((photo) => (
                         <ImageWrapper key={photo.id} data={photo} />
                     ))}
             </div>
             <div>
                 {props.photos
                     .filter((_v, i) => i % 2 == 1)
-                    .map(photo => (
+                    .map((photo) => (
                         <ImageWrapper key={photo.id} data={photo} />
                     ))}
             </div>

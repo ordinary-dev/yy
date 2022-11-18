@@ -24,13 +24,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         if (photos === undefined) throw new Error("Can't load photos")
 
         // Generate links to files
-        const links = photos.map(photo => getImagePath(photo.id, photo.ext))
+        const links = photos.map((photo) => getImagePath(photo.id, photo.ext))
 
         // Generate an array of descriptions
         const descriptions =
             locale === "en"
-                ? photos.map(photo => photo.descriptionEn)
-                : photos.map(photo => photo.descriptionRu)
+                ? photos.map((photo) => photo.descriptionEn)
+                : photos.map((photo) => photo.descriptionRu)
 
         const props: PageProps = {
             links,
@@ -55,7 +55,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 }
 
-const Home: NextPage<PageProps> = props => {
+const Home: NextPage<PageProps> = (props) => {
     return (
         <div className={styles.Container}>
             <Meta />

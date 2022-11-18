@@ -14,7 +14,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             value={{
                 refreshInterval: 60000,
                 fetcher: (resource, init) =>
-                    fetch(resource, init).then(res => res.json()),
+                    fetch(resource, init).then((res) => res.json()),
             }}>
             <Head>
                 <Favicons />

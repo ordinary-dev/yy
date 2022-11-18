@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return { props }
 }
 
-const About: NextPage<PageProps> = props => {
+const About: NextPage<PageProps> = (props) => {
     return (
         <div className={styles.Info}>
             <Meta title={props.title} />

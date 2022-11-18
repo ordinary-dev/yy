@@ -17,7 +17,7 @@ const Roles = () => {
     return (
         <div>
             <h4>Roles</h4>
-            {data.roles.map(role => (
+            {data.roles.map((role) => (
                 <Role
                     key={role.id}
                     nameEn={role.nameEn}
@@ -51,7 +51,7 @@ const Role = (props: {
     return (
         <div>
             <form
-                onSubmit={e =>
+                onSubmit={(e) =>
                     updateRole(e, props.id, nameEn, nameRu, props.onChange)
                 }>
                 <input
@@ -108,7 +108,7 @@ const deleteRole = async (id: number, onSuccess: () => void) => {
 
 const NewRole = ({ onSuccess }: { onSuccess: () => void }) => {
     return (
-        <form onSubmit={e => submitNewRole(e, onSuccess)}>
+        <form onSubmit={(e) => submitNewRole(e, onSuccess)}>
             <input
                 required
                 type="text"

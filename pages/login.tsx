@@ -11,7 +11,7 @@ type PageProps = {
     isAdmin: boolean
 }
 
-export const getServerSideProps = withIronSessionSsr(async context => {
+export const getServerSideProps = withIronSessionSsr(async (context) => {
     const user = context.req.session.user
 
     return {
@@ -21,7 +21,7 @@ export const getServerSideProps = withIronSessionSsr(async context => {
     }
 }, sessionOptions)
 
-const LoginPage: NextPage<PageProps> = props => {
+const LoginPage: NextPage<PageProps> = (props) => {
     // Redirect to admin panel
     // if user is authorized
     useEffect(() => {
@@ -32,7 +32,7 @@ const LoginPage: NextPage<PageProps> = props => {
         <div className={styles.Container}>
             <Meta title="Login" />
             <div>&#47;&#47; Login form</div>
-            <form className={styles.Form} onSubmit={e => handleSubmit(e)}>
+            <form className={styles.Form} onSubmit={(e) => handleSubmit(e)}>
                 <input placeholder="Login" type="text" name="login" required />
                 <input
                     placeholder="Password"

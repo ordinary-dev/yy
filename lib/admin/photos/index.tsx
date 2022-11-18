@@ -103,13 +103,13 @@ const Photo = (props: {
                     <input
                         placeholder="English description"
                         value={descEn}
-                        onChange={e => setDescEn(e.target.value)}
+                        onChange={(e) => setDescEn(e.target.value)}
                         type="text"
                     />
                     <input
                         placeholder="Russian description"
                         value={descRu}
-                        onChange={e => setDescRu(e.target.value)}
+                        onChange={(e) => setDescRu(e.target.value)}
                         type="text"
                     />
                     <button
@@ -186,7 +186,7 @@ const UploadForm = (props: { updateList: () => void }) => {
     return (
         <>
             <div>Upload new photo</div>
-            <form onSubmit={e => handleSubmit(e, props.updateList)}>
+            <form onSubmit={(e) => handleSubmit(e, props.updateList)}>
                 <input
                     type="file"
                     accept="image/png, image/jpeg, image/webp"

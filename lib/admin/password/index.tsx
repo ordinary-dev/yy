@@ -7,7 +7,7 @@ const PasswordManager = () => {
     return (
         <div className={styles.Container}>
             <div>Password manager</div>
-            <form onSubmit={e => handleSubmit(e)}>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <input
                     name="currentPassword"
                     placeholder="Current password"

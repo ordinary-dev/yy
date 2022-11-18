@@ -17,7 +17,7 @@ const People = () => {
     return (
         <div>
             <h4>People</h4>
-            {data.people.map(person => (
+            {data.people.map((person) => (
                 <Person
                     key={person.id}
                     nameEn={person.nameEn}
@@ -51,7 +51,7 @@ const Person = (props: {
     return (
         <div>
             <form
-                onSubmit={e =>
+                onSubmit={(e) =>
                     updatePerson(e, props.id, nameEn, nameRu, props.onChange)
                 }>
                 <input
@@ -108,7 +108,7 @@ const deletePerson = async (id: number, onSuccess: () => void) => {
 
 const NewPerson = ({ onSuccess }: { onSuccess: () => void }) => {
     return (
-        <form onSubmit={e => submitNewPerson(e, onSuccess)}>
+        <form onSubmit={(e) => submitNewPerson(e, onSuccess)}>
             <input
                 required
                 type="text"

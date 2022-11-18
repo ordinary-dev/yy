@@ -38,7 +38,7 @@ async function generateSiteMap() {
         <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
             ${loc("", 0.9)}
             ${Array.from(uniqueArtists)
-                .map(link => loc(`/artists/${link}`, 0.7))
+                .map((link) => loc(`/artists/${link}`, 0.7))
                 .join("")}
             ${loc("/about", 0.5)}
             ${loc("/contacts", 0.5)}
@@ -50,7 +50,7 @@ function SiteMap() {
     // getServerSideProps will do the heavy lifting
 }
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     const sitemap = await generateSiteMap()
 
     context.res.setHeader("Content-Type", "application/xml")
