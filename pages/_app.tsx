@@ -4,7 +4,7 @@ import "@fontsource/montserrat/200.css"
 import type { AppProps } from "next/app"
 import Head from "next/head"
 import { SWRConfig } from "swr"
-import Tracking from "lib/tracking"
+import Shynet from "next-shynet"
 import Menu from "lib/menu"
 import "styles/globals.css"
 
@@ -19,7 +19,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
             <Head>
                 <Favicons />
             </Head>
-            <Tracking />
+            <Shynet scriptSrc="https://stats.altweb.tech/ingress/494db2b8-6ed0-4bb2-b7a6-d2fb9b63a9fd/script.js" />
             <Menu>
                 <Component {...pageProps} />
             </Menu>
