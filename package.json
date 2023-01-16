@@ -9,7 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
-        "@ant-design/icons": "^4.8.0",
+        "@ant-design/icons": "^5.0.0",
         "@fontsource/montserrat": "^4.5.13",
         "@prisma/client": "^4.7.1",
         "formidable": "^2.1.1",
