@@ -11,7 +11,7 @@
     "dependencies": {
         "@ant-design/icons": "^5.0.1",
         "@fontsource/montserrat": "^4.5.14",
-        "@prisma/client": "^4.9.0",
+        "@prisma/client": "^4.10.1",
         "formidable": "^2.1.1",
         "iron-session": "^6.3.1",
         "next": "13.1.6",
