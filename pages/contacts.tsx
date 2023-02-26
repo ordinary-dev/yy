@@ -26,48 +26,35 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
                   forParticipants: "ДЛЯ УЧАСТНИКОВ",
                   socialMedia: "СОЦСЕТИ",
               }
-    return {
-        props,
-    }
+    return { props }
 }
 
-const Contacts: NextPage<PageProps> = (props) => {
-    return (
-        <div className={styles.Info}>
-            <Meta title={props.title} />
+const Contacts: NextPage<PageProps> = (props) => (
+    <div className={styles.Info}>
+        <Meta title={props.title} />
 
-            <h2>{props.title.toUpperCase()}</h2>
-            <p>{props.name}</p>
-            <a href="tel:+79824500926">
-                <StyledLink>+7 (982) 450-09-26</StyledLink>
-            </a>
-            <a
-                href="mailto:info@yy-studios.ru"
-                target="_blank"
-                rel="noreferrer">
-                <StyledLink>INFO@YY-STUDIOS.RU</StyledLink>
-            </a>
+        <h1>{props.title.toUpperCase()}</h1>
+        <p>{props.name}</p>
+        <a href="tel:+79824500926">
+            <StyledLink>+7 (982) 450-09-26</StyledLink>
+        </a>
+        <a href="mailto:info@yy-studios.ru" target="_blank" rel="noreferrer">
+            <StyledLink>INFO@YY-STUDIOS.RU</StyledLink>
+        </a>
 
-            <h2>{props.forParticipants}</h2>
-            <a
-                href="mailto:casting@yy-studios.ru"
-                target="_blank"
-                rel="noreferrer">
-                <StyledLink>CASTING@YY-STUDIOS.RU</StyledLink>
-            </a>
+        <h1>{props.forParticipants}</h1>
+        <a href="mailto:casting@yy-studios.ru" target="_blank" rel="noreferrer">
+            <StyledLink>CASTING@YY-STUDIOS.RU</StyledLink>
+        </a>
 
-            <h2>{props.socialMedia}</h2>
-            <a
-                href="https://instagram.com/yy_studios"
-                target="_blank"
-                rel="noreferrer">
-                <StyledLink>INSTAGRAM</StyledLink>
-            </a>
-            <a href="https://t.me/yy_studios" target="_blank" rel="noreferrer">
-                <StyledLink>TELEGRAM</StyledLink>
-            </a>
-        </div>
-    )
-}
+        <h1>{props.socialMedia}</h1>
+        <a href="https://instagram.com/yy_studios" target="_blank" rel="noreferrer">
+            <StyledLink>INSTAGRAM</StyledLink>
+        </a>
+        <a href="https://t.me/yy_studios" target="_blank" rel="noreferrer">
+            <StyledLink>TELEGRAM</StyledLink>
+        </a>
+    </div>
+)
 
 export default Contacts
