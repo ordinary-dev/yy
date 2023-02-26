@@ -28,7 +28,7 @@ const Artists = (props: {
                 <div>I don&apos;t know anything about the authors :(</div>
             )}
             <form onSubmit={(e) => addArtist(e, props.id, props.onChange)}>
-                <select name="role">
+                <select name="artistRole">
                     {props.roles.map((role) => (
                         <option key={role.id} value={role.id}>
                             {role.nameEn}
@@ -64,7 +64,7 @@ const deleteArtist = async (id: number, onSuccess: () => void) => {
 
 interface ArtistForm extends HTMLFormElement {
     person: HTMLSelectElement
-    role: HTMLSelectElement
+    artistRole: HTMLSelectElement
 }
 
 const addArtist = async (
@@ -81,7 +81,7 @@ const addArtist = async (
         },
         body: JSON.stringify({
             personId: Number(target.person.value),
-            roleId: Number(target.role.value),
+            roleId: Number(target.artistRole.value),
             photoId: photoId,
         }),
     }
