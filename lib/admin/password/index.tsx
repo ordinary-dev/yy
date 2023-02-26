@@ -1,33 +1,30 @@
 import { FormEvent } from "react"
-
 import styles from "./password.module.css"
-import { PasswordAPI } from "pages/api/password"
 
-const PasswordManager = () => {
-    return (
-        <div className={styles.Container}>
-            <div>Password manager</div>
-            <form onSubmit={(e) => handleSubmit(e)}>
-                <input
-                    name="currentPassword"
-                    placeholder="Current password"
-                    type="password"
-                />
-                <input
-                    name="newPassword"
-                    placeholder="New password"
-                    type="password"
-                />
-                <input
-                    name="repeatedPassword"
-                    placeholder="Repeat password"
-                    type="password"
-                />
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-    )
-}
+const PasswordManager = () => (
+    <div className={styles.Container}>
+        <h2>Password manager</h2>
+        <form onSubmit={handleSubmit}>
+            <input name="currentPassword"
+                   placeholder="Current password"
+                   type="password"
+                   required
+            />
+            <input name="newPassword"
+                   placeholder="New password"
+                   type="password"
+                   required
+            />
+            <input
+                   name="repeatedPassword"
+                   placeholder="Repeat password"
+                   type="password"
+                   required
+            />
+            <button type="submit">Change password</button>
+        </form>
+    </div>
+)
 
 interface PasswordForm extends HTMLFormElement {
     currentPassword: HTMLInputElement
@@ -40,6 +37,7 @@ const handleSubmit = async (e: FormEvent) => {
 
     const target = e.target as PasswordForm
     if (target.newPassword.value !== target.repeatedPassword.value) {
+        alert("Passwords don't match")
         return
     }
 
@@ -55,9 +53,12 @@ const handleSubmit = async (e: FormEvent) => {
     }
 
     const response = await fetch("/api/password", options)
-    const res: PasswordAPI = await response.json()
-    if (!res.ok) console.error("Request failed")
-    else target.reset()
+    if (!response.ok) {
+        alert("Request failed")
+        return
+    }
+    alert('Password was changed')
+    target.reset()
 }
 
 export default PasswordManager
