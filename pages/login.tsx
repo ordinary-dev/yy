@@ -3,9 +3,8 @@ import Router from "next/router"
 import { useEffect, FormEvent } from "react"
 import { withIronSessionSsr } from "iron-session/next"
 import { sessionOptions } from "lib/session"
-import styles from "styles/login.module.css"
-import { LoginAPI } from "./api/login"
 import Meta from "lib/meta"
+import styles from "styles/login.module.css"
 
 type PageProps = {
     isAdmin: boolean
@@ -31,15 +30,10 @@ const LoginPage: NextPage<PageProps> = (props) => {
     return (
         <div className={styles.Container}>
             <Meta title="Login" />
-            <div>&#47;&#47; Login form</div>
-            <form className={styles.Form} onSubmit={(e) => handleSubmit(e)}>
+            <h1>YY</h1>
+            <form className={styles.Form} onSubmit={handleSubmit}>
                 <input placeholder="Login" type="text" name="login" required />
-                <input
-                    placeholder="Password"
-                    type="password"
-                    name="password"
-                    required
-                />
+                <input placeholder="Password" type="password" name="password" required />
                 <button type="submit">Let me in!</button>
             </form>
         </div>
@@ -70,9 +64,7 @@ const handleSubmit = async (e: FormEvent) => {
     }
 
     const response = await fetch("/api/login", options)
-    const res: LoginAPI = await response.json()
-
-    if (!res.ok) console.error("Wrong credentials")
+    if (!response.ok) alert("Wrong credentials")
     else Router.push("/admin")
 }
 
