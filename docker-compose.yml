@@ -20,7 +20,7 @@ services:
       - DATABASE_URL=postgresql://ordinary-dev:e2t6dm0f@postgres:5432/yydb?schema=public
 
   postgres:
-    image: postgres
+    image: postgres:15.2-alpine
     volumes:
       - yy-postgres-dev:/var/lib/postgresql/data
     environment:
