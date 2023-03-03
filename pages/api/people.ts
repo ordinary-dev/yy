@@ -2,59 +2,57 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { withIronSessionApiRoute } from "iron-session/next"
 import { Person } from "@prisma/client"
 import { prisma } from "lib/prisma"
-import { sessionOptions } from "lib/session"
 import { getErrorMessage } from "lib/error"
+import { sessionOptions } from "lib/session"
 import { toUrl } from "lib/url"
 
 // Person API.
 // Avaiable methods: GET, POST, PUT, DELETE.
 
-export type PeopleAPI = {
-    people?: Person[]
-    msg?: string
-}
+export type PersonBadResponse = { error: string }
+export type PersonGetResponse = Person[] | PersonBadResponse
+export type PersonPostResponse = Person | PersonBadResponse
+export type PersonPutResponse = Person | PersonBadResponse
+export type PersonDeleteResponse = {} | PersonBadResponse
+export type PersonAPI = PersonGetResponse | PersonPostResponse | PersonPutResponse | PersonDeleteResponse
 
 // Check authorization (but don't require it)
 export default withIronSessionApiRoute(parseRequestMethod, sessionOptions)
 
-async function parseRequestMethod(
-    req: NextApiRequest,
-    res: NextApiResponse<PeopleAPI>
-) {
+async function parseRequestMethod(req: NextApiRequest, res: NextApiResponse<PersonAPI>) {
     if (req.method === "GET") await getPeople(res)
     else if (req.method === "POST") await createPerson(req, res)
     else if (req.method === "PUT") await updatePerson(req, res)
     else if (req.method === "DELETE") await deletePerson(req, res)
-    else res.status(405).json({ msg: "Method not avaiable" })
+    else res.status(405).json({ error: "Method not avaiable" })
 }
 
 // GET request
-const getPeople = async (res: NextApiResponse<PeopleAPI>) => {
+const getPeople = async (res: NextApiResponse<PersonGetResponse>) => {
     try {
         const people = await prisma.person.findMany({})
         if (people === undefined) throw new Error("Can't find people")
-        res.status(200).json({ people })
+        res.status(200).json(people)
     } catch (err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }
 
 // POST request
-const createPerson = async (
-    req: NextApiRequest,
-    res: NextApiResponse<PeopleAPI>
-) => {
+async function createPerson(req: NextApiRequest, res: NextApiResponse<PersonPostResponse>) {
     try {
         // Check request
         if (!req.session.user) {
-            res.status(401).json({ msg: "Unauthorized" })
+            res.status(403).json({ error: "Forbidden" })
             return
         }
-        if (!req.body.nameEn || !req.body.nameRu)
-            throw new Error(
-                "Please provide person name in english and russian (nameEn and nameRu)"
-            )
+        if (!req.body.nameEn || !req.body.nameRu) {
+            res.status(400).json({
+                error: "Please provide person name in english and russian (nameEn and nameRu)"
+            })
+            return
+        }
 
         // Create person
         const newPerson = await prisma.person.create({
@@ -66,30 +64,31 @@ const createPerson = async (
         })
         if (newPerson === undefined) throw new Error("Can't create new person")
 
-        // Send response
-        res.status(200).json({ people: [newPerson] })
+        res.status(201).json(newPerson)
     } catch (err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }
 
 // PUT request
-const updatePerson = async (
-    req: NextApiRequest,
-    res: NextApiResponse<PeopleAPI>
-) => {
+async function updatePerson(req: NextApiRequest, res: NextApiResponse<PersonPutResponse>) {
     try {
         // Check request
         if (!req.session.user) {
-            res.status(401).json({ msg: "Unauthorized" })
+            res.status(403).json({ error: "Forbidden" })
             return
         }
-        if (!req.body.id) throw new Error("Please provide person id")
-        if (!req.body.nameEn || !req.body.nameRu)
-            throw new Error(
-                "Please provide person name in english and russian (nameEn and nameRu)"
-            )
+        if (!req.body.id) {
+            res.status(400).json({ error: "Please provide person id" })
+            return
+        }
+        if (!req.body.nameEn || !req.body.nameRu) {
+            res.status(400).json({
+                error: "Please provide person name in english and russian (nameEn and nameRu)"
+            })
+            return
+        }
 
         // Update person
         const updatedPerson = await prisma.person.update({
@@ -104,26 +103,25 @@ const updatePerson = async (
         })
         if (updatedPerson === undefined) throw new Error("Can't update person")
 
-        // Send response
-        res.status(200).json({ people: [updatedPerson] })
-    } catch (err) {
+        res.status(200).json(updatedPerson)
+    } catch(err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }
 
 // DELETE request
-const deletePerson = async (
-    req: NextApiRequest,
-    res: NextApiResponse<PeopleAPI>
-) => {
+async function deletePerson(req: NextApiRequest, res: NextApiResponse<PersonDeleteResponse>) {
     try {
         // Check request
         if (!req.session.user) {
-            res.status(401).json({ msg: "Unauthorized" })
+            res.status(403).json({ error: "Forbidden" })
             return
         }
-        if (!req.body.id) throw new Error("Please provide person id")
+        if (!req.body.id) {
+            res.status(400).json({ error: "Please provide person id" })
+            return
+        }
 
         // Delete person
         const deletedPerson = await prisma.person.delete({
@@ -133,10 +131,9 @@ const deletePerson = async (
         })
         if (deletedPerson === undefined) throw new Error("Can't delete person")
 
-        // Send response
-        res.status(200).json({ people: [deletedPerson] })
-    } catch (err) {
+        res.status(204).json({})
+    } catch(err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }

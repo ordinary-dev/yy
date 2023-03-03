@@ -1,19 +1,14 @@
 import { withIronSessionApiRoute } from "iron-session/next"
 import { NextApiRequest, NextApiResponse } from "next"
-
 import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 
-export type DeleteAPI = {
-    ok: boolean
-}
-
 export default withIronSessionApiRoute(handle, sessionOptions)
 
-async function handle(req: NextApiRequest, res: NextApiResponse<DeleteAPI>) {
+async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         // Check request method
-        if (req.method !== "POST") throw new Error("Wrong request method")
+        if (req.method !== "DELETE") throw new Error("Wrong request method")
 
         // Check auth
         const user = req.session.user
@@ -30,11 +25,8 @@ async function handle(req: NextApiRequest, res: NextApiResponse<DeleteAPI>) {
         })
         if (!deletedPhoto) throw new Error("Cannot delete photo")
 
-        res.send({ ok: true })
-    } catch (err) {
-        console.error(
-            err instanceof Error ? err.message : "/api/delete: Unknown error"
-        )
-        res.send({ ok: false })
+        res.status(204).send({})
+    } catch {
+        res.status(400).send({})
     }
 }

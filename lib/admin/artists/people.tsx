@@ -1,23 +1,22 @@
 import useSWR, { useSWRConfig } from "swr"
-import { FormEvent, ChangeEvent, useState } from "react"
-import { PeopleAPI } from "pages/api/people"
+import { FormEvent } from "react"
+import { SaveOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons"
+import { PersonGetResponse } from "pages/api/people"
+import styles from "./artists.module.css"
 
-const People = () => {
-    const { data, error } = useSWR<PeopleAPI, Error>("/api/people")
+export default function People() {
+    const { data, error } = useSWR<PersonGetResponse, Error>("/api/people")
     const { mutate } = useSWRConfig()
+    const reload = () => mutate("/api/people")
 
     if (error) return <div>Error</div>
     if (!data) return <div>Loading</div>
-    if (!data.people) return <div>Server error</div>
-
-    const reload = () => {
-        mutate("/api/people")
-    }
+    if (!Array.isArray(data)) return <div>Error</div>
 
     return (
         <div>
             <h4>People</h4>
-            {data.people.map(person => (
+            {data.map((person) => (
                 <Person
                     key={person.id}
                     nameEn={person.nameEn}
@@ -36,65 +35,72 @@ const Person = (props: {
     nameRu: string
     id: number
     onChange: () => void
-}) => {
-    const [nameEn, setNameEn] = useState(props.nameEn)
-    const [nameRu, setNameRu] = useState(props.nameRu)
+}) => (
+    <form
+        className={styles.Container}
+        onSubmit={e => updatePerson(e, props.onChange)}
+    >
+        <input
+            type="hidden"
+            name="personID"
+            value={props.id}
+            readOnly
+        />
+        <input
+            name="personNameEn"
+            defaultValue={props.nameEn}
+            placeholder="Name in english"
+            required
+        />
+        <input
+            name="personNameRu"
+            defaultValue={props.nameRu}
+            placeholder="Name in russian"
+            required
+        />
+        <button type="submit">
+            <SaveOutlined />
+        </button>
+        <button type="button" onClick={() => deletePerson(props.id, props.onChange)}>
+            <DeleteOutlined />
+        </button>
+    </form>
+)
 
-    const changeEnName = (e: ChangeEvent<HTMLInputElement>) => {
-        setNameEn(e.target.value)
-    }
-
-    const changeRuName = (e: ChangeEvent<HTMLInputElement>) => {
-        setNameRu(e.target.value)
-    }
-
-    return (
-        <div>
-            <form
-                onSubmit={e =>
-                    updatePerson(e, props.id, nameEn, nameRu, props.onChange)
-                }>
-                <input
-                    value={nameEn}
-                    onChange={changeEnName}
-                    placeholder="English name"
-                    required
-                />
-                <input
-                    value={nameRu}
-                    onChange={changeRuName}
-                    placeholder="Russian name"
-                    required
-                />
-                <input type="submit" value="Save" />
-            </form>
-            <button onClick={() => deletePerson(props.id, props.onChange)}>
-                Delete
-            </button>
-        </div>
-    )
+interface PersonForm extends HTMLFormElement {
+    personID: HTMLInputElement
+    personNameEn: HTMLInputElement
+    personNameRu: HTMLInputElement
 }
 
-const updatePerson = async (
+async function updatePerson(
     e: FormEvent,
-    id: number,
-    nameEn: string,
-    nameRu: string,
     onChange: () => void
-) => {
+) {
     e.preventDefault()
+
+    const target = e.target as PersonForm
     const options = {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id, nameEn, nameRu }),
+        body: JSON.stringify({
+            id: parseInt(target.personID.value, 10),
+            nameEn: target.personNameEn.value,
+            nameRu: target.personNameRu.value,
+        }),
     }
     const response = await fetch("/api/people", options)
-    if (response.status === 200) onChange()
+    if (!response.ok) {
+        alert(`Request failed, code ${response.status}`)
+        return
+    }
+
+    onChange()
 }
 
-const deletePerson = async (id: number, onSuccess: () => void) => {
+async function deletePerson(id: number, onSuccess: () => void) {
     const options = {
         method: "DELETE",
         headers: {
@@ -102,38 +108,47 @@ const deletePerson = async (id: number, onSuccess: () => void) => {
         },
         body: JSON.stringify({ id }),
     }
+
     const response = await fetch("/api/people", options)
-    if (response.status === 200) onSuccess()
+    if (!response.ok) {
+        alert(`Request failed, code ${response.status}`)
+        return
+    }
+    
+    onSuccess()
 }
 
-const NewPerson = ({ onSuccess }: { onSuccess: () => void }) => {
-    return (
-        <form onSubmit={e => submitNewPerson(e, onSuccess)}>
-            <input
-                required
-                type="text"
-                name="personNameEn"
-                placeholder="Name in english"
-            />
-            <input
-                required
-                type="text"
-                name="personNameRu"
-                placeholder="Name in russian"
-            />
-            <input type="submit" value="Add" />
-        </form>
-    )
-}
+const NewPerson = ({ onSuccess }: { onSuccess: () => void }) => (
+    <form
+        className={styles.Container}
+        onSubmit={e => submitNewPerson(e, onSuccess)}
+    >
+        <input
+            type="text"
+            name="personNameEn"
+            placeholder="Name in english"
+            required
+        />
+        <input
+            type="text"
+            name="personNameRu"
+            placeholder="Name in russian"
+            required
+        />
+        <button type="submit">
+            <PlusOutlined />
+        </button>
+    </form>
+)
 
-interface PersonForm extends HTMLFormElement {
+interface NewPersonForm extends HTMLFormElement {
     personNameEn: HTMLInputElement
     personNameRu: HTMLInputElement
 }
 
-const submitNewPerson = async (e: FormEvent, onSuccess: () => void) => {
+async function submitNewPerson(e: FormEvent, onSuccess: () => void) {
     e.preventDefault()
-    const target = e.target as PersonForm
+    const target = e.target as NewPersonForm
     const options = {
         method: "POST",
         headers: {
@@ -144,11 +159,13 @@ const submitNewPerson = async (e: FormEvent, onSuccess: () => void) => {
             nameRu: target.personNameRu.value,
         }),
     }
+    
     const response = await fetch("/api/people", options)
-    if (response.status === 200) {
-        onSuccess()
-        target.reset()
+    if (!response.ok) {
+        alert(`Request failed, code ${response.status}`)
+        return
     }
-}
 
-export default People
+    target.reset()
+    onSuccess()
+}

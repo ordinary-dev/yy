@@ -1,17 +1,10 @@
 import { withIronSessionApiRoute } from "iron-session/next"
 import { NextApiRequest, NextApiResponse } from "next"
-
 import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 import { getHash } from "lib/password"
 
-export type PasswordAPI = {
-    ok: boolean
-}
-
-export default withIronSessionApiRoute(handle, sessionOptions)
-
-async function handle(req: NextApiRequest, res: NextApiResponse<PasswordAPI>) {
+async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         // Check request method
         if (req.method !== "PUT") throw new Error("Wrong request method")
@@ -49,8 +42,10 @@ async function handle(req: NextApiRequest, res: NextApiResponse<PasswordAPI>) {
         })
         if (!updatedProfile) throw new Error("Cannot update password")
 
-        res.send({ ok: true })
+        res.status(200).send({})
     } catch {
-        res.status(400).send({ ok: false })
+        res.status(400).send({})
     }
 }
+
+export default withIronSessionApiRoute(handle, sessionOptions)

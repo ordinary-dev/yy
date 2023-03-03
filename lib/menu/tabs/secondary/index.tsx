@@ -53,7 +53,7 @@ const CurrentArtist = () => {
 
     // Find artist
     const artist = data.artists.filter(
-        v => v.role.url === roleUrl && v.person.url === nameUrl
+        (v) => v.role.url === roleUrl && v.person.url === nameUrl
     )[0]
     if (!artist) return <></>
 

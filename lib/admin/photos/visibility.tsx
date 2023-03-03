@@ -12,7 +12,6 @@ const Visibility = ({
 }) => {
     return (
         <div className={styles.Container}>
-            Visibility on homepage:
             <button
                 onClick={() =>
                     setVisibility(id, !visibleOnHomepage, updateList)

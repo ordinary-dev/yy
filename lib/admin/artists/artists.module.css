@@ -1,0 +1,29 @@
+.Container {
+    display: flex;
+    gap: 10px;
+    margin-top: 1em;
+}
+
+.Container input {
+    outline: none;
+}
+
+.Container input:hover,
+.Container input:active,
+.Container button:hover {
+    border: 1px solid black;
+}
+
+.Container button,
+.Container input {
+    font-size: inherit;
+    font-family: inherit;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: transparent;
+    padding: 5px;
+}
+
+.Container button {
+    cursor: pointer;
+}

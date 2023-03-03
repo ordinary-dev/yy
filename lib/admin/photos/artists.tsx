@@ -12,8 +12,7 @@ const Artists = (props: {
 }) => {
     return (
         <div className={styles.Artists}>
-            <h3>Artists:</h3>
-            {props.artists.map(artist => (
+            {props.artists.map((artist) => (
                 <div className={styles.Entry} key={artist.id}>
                     <div>
                         {artist.role.nameEn}: {artist.person.nameEn}
@@ -25,18 +24,18 @@ const Artists = (props: {
                 </div>
             ))}
             {props.artists.length === 0 && (
-                <div>I don&apos;t know anything about the authors :(</div>
+                <div>Artists:</div>
             )}
-            <form onSubmit={e => addArtist(e, props.id, props.onChange)}>
-                <select name="role">
-                    {props.roles.map(role => (
+            <form onSubmit={(e) => addArtist(e, props.id, props.onChange)}>
+                <select name="artistRole">
+                    {props.roles.map((role) => (
                         <option key={role.id} value={role.id}>
                             {role.nameEn}
                         </option>
                     ))}
                 </select>
                 <select name="person">
-                    {props.people.map(person => (
+                    {props.people.map((person) => (
                         <option key={person.id} value={person.id}>
                             {person.nameEn}
                         </option>
@@ -64,7 +63,7 @@ const deleteArtist = async (id: number, onSuccess: () => void) => {
 
 interface ArtistForm extends HTMLFormElement {
     person: HTMLSelectElement
-    role: HTMLSelectElement
+    artistRole: HTMLSelectElement
 }
 
 const addArtist = async (
@@ -81,7 +80,7 @@ const addArtist = async (
         },
         body: JSON.stringify({
             personId: Number(target.person.value),
-            roleId: Number(target.role.value),
+            roleId: Number(target.artistRole.value),
             photoId: photoId,
         }),
     }

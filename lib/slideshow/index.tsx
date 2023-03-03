@@ -1,18 +1,24 @@
 import Image from "next/image"
+import { useRouter } from "next/router"
 import { useState, useEffect, ReactNode, useCallback } from "react"
 import { LeftOutlined, RightOutlined } from "@ant-design/icons"
-
+import sanitizeHtml from 'sanitize-html'
 import styles from "./slideshow.module.css"
 
+export interface SlideProps {
+    url: string
+    description: string | null
+}
+
 const Slideshow = ({
-    urls,
-    descriptions,
+    slides,
     onSlideChange,
 }: {
-    urls: string[]
-    descriptions: (string | null)[]
+    slides: SlideProps[]
     onSlideChange?: (arg0: number) => void
 }) => {
+    const router = useRouter()
+    
     // Current slide number
     const [index, setIndex] = useState(0)
 
@@ -21,9 +27,14 @@ const Slideshow = ({
     }, [onSlideChange, index])
 
     // List of all slides
-    const slideList = urls.map((url, itemIndex) => (
-        <Slide key={url} index={itemIndex} activeIndex={index}>
-            <Image src={url} alt="Photo" unoptimized={true} fill />
+    const slideList = slides.map((slide, slideIndex) => (
+        <Slide key={slide.url} isVisible={slideIndex === index}>
+            <Image
+                src={slide.url}
+                alt={slide.description || (router.locale === "ru" ? "Фото от YY Studios" : "Photo by YY Studios")}
+                unoptimized
+                fill
+            />
         </Slide>
     ))
 
@@ -71,12 +82,11 @@ const Slideshow = ({
     // Load only 3 slides: current, previous and next
     const prevIndex = index > 0 ? index - 1 : slideList.length - 1
     const nextIndex = index + 1 < slideList.length ? index + 1 : 0
-    const currentSlides = slideList.filter(
-        (_item, itemIndex) =>
-            itemIndex === index ||
-            itemIndex === prevIndex ||
-            itemIndex === nextIndex
-    )
+    const currentSlides = slideList.filter((_, slideIndex) => (
+        slideIndex === index ||
+        slideIndex === prevIndex ||
+        slideIndex === nextIndex
+    ))
 
     return (
         <>
@@ -91,22 +101,21 @@ const Slideshow = ({
                     <RightOutlined />
                 </Button>
             </div>
-            <Description text={descriptions[index]} />
+            <Description text={slides[index]?.description} />
         </>
     )
 }
 
-const Slide = (props: {
+const Slide = ({children, isVisible}: {
     children: ReactNode
-    index: number
-    activeIndex: number
+    isVisible: boolean
 }) => {
     const style = {
-        opacity: props.activeIndex === props.index ? 1 : 0,
+        opacity: isVisible ? 1 : 0,
     }
     return (
         <div style={style} className={styles.Slide}>
-            {props.children}
+            {children}
         </div>
     )
 }
@@ -119,24 +128,22 @@ const Button = (props: { onClick: () => void; children: ReactNode }) => {
     )
 }
 
-// The component processes the string and replaces the '<b>' tag with a real <span> tag.
-// TODO: Add checks
+// The component processes the string
+// and returns description with safe html tags.
 const Description = ({ text }: { text: string | null }) => {
-    const Body = ({ children }: { children?: ReactNode }) => (
-        <div className={styles.Description}>{children}</div>
-    )
+    if (!text) return <div className={styles.Description} />
 
-    if (!text) return <Body></Body>
-
-    // Split string using regular expression
-    const array = text.split(/<b>|<\/b>/)
     return (
-        <Body>
-            {array.map((st, index) => {
-                if (index % 2 === 0) return st
-                return <span key={index}>{st}</span>
-            })}
-        </Body>
+        <div
+            className={styles.Description}
+            dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(
+                    text,
+                    {
+                        allowedTags: ['b', 'i', 'u', 'em', 'strong'],
+                    })
+            }}
+        />
     )
 }
 

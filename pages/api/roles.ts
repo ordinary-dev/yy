@@ -11,52 +11,50 @@ import { toUrl } from "lib/url"
 
 // Allowed methods: GET, POST, PUT, DELETE
 
-export type RolesAPI = {
-    roles?: Role[]
-    msg?: string
-}
+export type RoleBadResponse = { error: string }
+export type RoleGetResponse = Role[] | RoleBadResponse
+export type RolePostResponse = Role | RoleBadResponse
+export type RolePutResponse = Role | RoleBadResponse
+export type RoleDeleteResponse = {} | RoleBadResponse
+export type RoleAPI = RoleGetResponse | RolePostResponse | RolePutResponse | RoleDeleteResponse
 
 // Check authorization (but don't require it)
 export default withIronSessionApiRoute(parseRequestMethod, sessionOptions)
 
-async function parseRequestMethod(
-    req: NextApiRequest,
-    res: NextApiResponse<RolesAPI>
-) {
+async function parseRequestMethod(req: NextApiRequest, res: NextApiResponse<RoleAPI>) {
     if (req.method === "GET") await getRoles(res)
     else if (req.method === "POST") await createRole(req, res)
     else if (req.method === "PUT") await updateRole(req, res)
     else if (req.method === "DELETE") await deleteRole(req, res)
-    else res.status(405).json({ msg: "Method not allowed" })
+    else res.status(405).json({ error: "Method not allowed" })
 }
 
 // GET request
-const getRoles = async (res: NextApiResponse<RolesAPI>) => {
+const getRoles = async (res: NextApiResponse<RoleGetResponse>) => {
     try {
         const roles = await prisma.role.findMany({})
         if (roles === undefined) throw new Error("Can't find roles")
-        res.status(200).json({ roles })
-    } catch (err) {
+        res.status(200).json(roles)
+    } catch(err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }
 
 // POST request
-const createRole = async (
-    req: NextApiRequest,
-    res: NextApiResponse<RolesAPI>
-) => {
+async function createRole(req: NextApiRequest, res: NextApiResponse<RolePostResponse>) {
     try {
         // Check request
         if (!req.session.user) {
-            res.status(401).json({ msg: "Unauthorized" })
+            res.status(401).json({ error: "Unauthorized" })
             return
         }
-        if (!req.body.nameEn || !req.body.nameRu)
-            throw new Error(
-                "Please provide role name in english and russian (nameEn and nameRu)"
-            )
+        if (!req.body.nameEn || !req.body.nameRu) {
+            res.status(400).json({
+                error: "Please provide role name in english and russian (nameEn and nameRu)"
+            })
+            return
+        }
 
         // Create new role
         const newRole = await prisma.role.create({
@@ -69,27 +67,29 @@ const createRole = async (
         if (newRole === undefined) throw new Error("Can't create new role")
 
         // Send response
-        res.status(200).json({ roles: [newRole] })
-    } catch (err) {
+        res.status(200).json(newRole)
+    } catch(err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }
 
 // PUT request
-const updateRole = async (
-    req: NextApiRequest,
-    res: NextApiResponse<RolesAPI>
-) => {
+async function updateRole(req: NextApiRequest, res: NextApiResponse<RolePutResponse>) {
     try {
         // Check request
         if (!req.session.user) {
-            res.status(401).json({ msg: "Unauthorized" })
+            res.status(403).json({ error: "Forbidden" })
             return
         }
-        if (!req.body.id) throw new Error("Please provide role id")
-        if (!req.body.nameEn || !req.body.nameRu)
-            throw new Error("Please provide role name")
+        if (!req.body.id) {
+            res.status(400).json({ error: "Please provide role id" })
+            return
+        }
+        if (!req.body.nameEn || !req.body.nameRu) {
+            res.status(400).json({ error: "Please provide role name" })
+            return
+        }
 
         // Update role
         const updatedRole = await prisma.role.update({
@@ -105,24 +105,23 @@ const updateRole = async (
         if (updatedRole === undefined) throw new Error("Can't update role")
 
         // Send response
-        res.status(200).json({ roles: [updatedRole] })
-    } catch (err) {
+        res.status(200).json(updatedRole)
+    } catch(err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }
 // DELETE request
-const deleteRole = async (
-    req: NextApiRequest,
-    res: NextApiResponse<RolesAPI>
-) => {
+async function deleteRole(req: NextApiRequest, res: NextApiResponse<RoleDeleteResponse>) {
     try {
         // Check request
         if (!req.session.user) {
-            res.status(401).json({ msg: "Unauthorized" })
+            res.status(403).json({ msg: "Forbidden" })
             return
         }
-        if (!req.body.id) throw new Error("Please provide role id")
+        if (!req.body.id) {
+            res.status(400).json({ error: "Please provide role id" })
+        }
 
         // Delete role
         const deletedRole = await prisma.role.delete({
@@ -133,9 +132,9 @@ const deleteRole = async (
         if (deletedRole === undefined) throw new Error("Can't delete role")
 
         // Send response
-        res.status(200).json({ roles: [deletedRole] })
-    } catch (err) {
+        res.status(200).json({})
+    } catch(err) {
         const msg = getErrorMessage(err)
-        res.status(400).json({ msg })
+        res.status(500).json({ error: msg })
     }
 }

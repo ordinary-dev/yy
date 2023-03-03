@@ -50,7 +50,7 @@ const Roles = ({ isVisible }: { isVisible: boolean }) => {
         if (!data.artists) return <>ERROR</>
         return (
             <>
-                {data.artists.map(artist => {
+                {data.artists.map((artist) => {
                     // If role wasn't shown before
                     if (!usedRoles.has(artist.role.id)) {
                         // Save role
@@ -73,7 +73,7 @@ const Roles = ({ isVisible }: { isVisible: boolean }) => {
                                     artists={
                                         data.artists
                                             ? data.artists.filter(
-                                                  v =>
+                                                  (v) =>
                                                       v.role.id ===
                                                       artist.role.id
                                               )
@@ -113,7 +113,7 @@ const People = ({
     if (isVisible)
         return (
             <>
-                {artists.map(artist => {
+                {artists.map((artist) => {
                     // If artist wasn't shown before
                     if (!usedPersons.has(artist.person.id)) {
                         // Save artist
