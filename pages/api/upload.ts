@@ -3,7 +3,6 @@ import { IncomingForm, Files } from "formidable"
 import { withIronSessionApiRoute } from "iron-session/next"
 import fs from "fs"
 import sharp from "sharp"
-
 import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 
@@ -14,14 +13,9 @@ export const config = {
     },
 }
 
-export type UploadAPI = {
-    ok: boolean
-    msg?: string
-}
-
 export default withIronSessionApiRoute(handle, sessionOptions)
 
-async function handle(req: NextApiRequest, res: NextApiResponse<UploadAPI>) {
+async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         // Check request method
         if (req.method !== "POST") throw new Error("Wrong request method")
@@ -74,10 +68,8 @@ async function handle(req: NextApiRequest, res: NextApiResponse<UploadAPI>) {
         fs.copyFileSync(image.filepath, destination)
         fs.unlinkSync(image.filepath)
 
-        res.status(200).json({ ok: true })
-    } catch (err) {
-        const msg =
-            err instanceof Error && err.message ? err.message : "Unknown error"
-        res.status(400).json({ ok: false, msg: msg })
+        res.status(200).json({})
+    } catch {
+        res.status(400).json({})
     }
 }

@@ -1,22 +1,22 @@
 import useSWR, { useSWRConfig } from "swr"
 import { FormEvent } from "react"
 import { SaveOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons"
-import { PeopleAPI } from "pages/api/people"
+import { PersonGetResponse } from "pages/api/people"
 import styles from "./artists.module.css"
 
 export default function People() {
-    const { data, error } = useSWR<PeopleAPI, Error>("/api/people")
+    const { data, error } = useSWR<PersonGetResponse, Error>("/api/people")
     const { mutate } = useSWRConfig()
     const reload = () => mutate("/api/people")
 
     if (error) return <div>Error</div>
     if (!data) return <div>Loading</div>
-    if (!data.people) return <div>Server error</div>
+    if (!Array.isArray(data)) return <div>Error</div>
 
     return (
         <div>
             <h4>People</h4>
-            {data.people.map((person) => (
+            {data.map((person) => (
                 <Person
                     key={person.id}
                     nameEn={person.nameEn}

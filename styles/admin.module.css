@@ -8,7 +8,7 @@
 }
 
 .Button {
-    padding: 8px;
+    padding: 5px;
     background-color: transparent;
     border: 1px solid black;
     border-radius: 5px;
@@ -16,6 +16,7 @@
     transition-duration: 0.1s;
     transition-property: background-color, color;
     font-family: inherit;
+    font-size: inherit;
 }
 
 .Button:hover {

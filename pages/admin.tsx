@@ -24,7 +24,6 @@ export const getServerSideProps = withIronSessionSsr(async (context) => {
 const AdminPage: NextPage = () => (
     <div className={styles.Container}>
         <Meta title="Admin" />
-        <div>Hi, admin</div>
         <ListOfPhotos />
         <Artists />
         <PasswordManager />

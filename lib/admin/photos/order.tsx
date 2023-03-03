@@ -12,7 +12,6 @@ const Order = ({
 }) => {
     return (
         <div className={styles.Container}>
-            Order:
             <button onClick={() => setOrder(id, order - 1, onChange)}>
                 <ArrowUpOutlined />
             </button>

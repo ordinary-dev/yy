@@ -12,7 +12,6 @@ const Artists = (props: {
 }) => {
     return (
         <div className={styles.Artists}>
-            <h3>Artists:</h3>
             {props.artists.map((artist) => (
                 <div className={styles.Entry} key={artist.id}>
                     <div>
@@ -25,7 +24,7 @@ const Artists = (props: {
                 </div>
             ))}
             {props.artists.length === 0 && (
-                <div>I don&apos;t know anything about the authors :(</div>
+                <div>Artists:</div>
             )}
             <form onSubmit={(e) => addArtist(e, props.id, props.onChange)}>
                 <select name="artistRole">

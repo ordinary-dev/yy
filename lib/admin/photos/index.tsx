@@ -1,4 +1,4 @@
-import { useState, FormEvent } from "react"
+import { FormEvent } from "react"
 import Image from "next/image"
 import {
     DeleteOutlined,
@@ -9,22 +9,35 @@ import {
 } from "@ant-design/icons"
 import useSWR, { useSWRConfig } from "swr"
 import { Artist, Role, Person } from "@prisma/client"
-
 import { PhotoAPI } from "pages/api/photo"
-import { DeleteAPI } from "pages/api/delete"
-import { UpdateAPI } from "pages/api/update"
-import { UploadAPI } from "pages/api/upload"
+import { RoleGetResponse } from "pages/api/roles"
+import { PersonGetResponse } from "pages/api/people"
 import getImagePath from "lib/imagepath"
-import styles from "./photos.module.css"
 import Info from "./info"
 import Artists from "./artists"
 import Order from "./order"
 import Visibility from "./visibility"
+import styles from "./photos.module.css"
 
-const ListOfPhotos = () => {
-    const photos = useSWR<PhotoAPI, Error>("/api/photo")
-    const roles = useSWR("/api/roles")
-    const people = useSWR("/api/people")
+function usePhotos(): [PhotoAPI | undefined, Error | undefined] {
+    const { data, error } = useSWR<PhotoAPI, Error>("/api/photo")
+    return [data, error]
+}
+
+function useRoles(): [RoleGetResponse | undefined, Error | undefined] {
+    const { data, error } = useSWR<RoleGetResponse, Error>("/api/roles")
+    return [data, error]
+}
+
+function usePeople(): [PersonGetResponse | undefined, Error | undefined] {
+    const { data, error } = useSWR<PersonGetResponse, Error>("/api/people")
+    return [data, error]
+}
+
+export default function ListOfPhotos() {
+    const [photos, photosErr] = usePhotos()
+    const [roles, rolesErr] = useRoles()
+    const [people, peopleErr] = usePeople()
     const { mutate } = useSWRConfig()
 
     const updateList = () => {
@@ -33,17 +46,18 @@ const ListOfPhotos = () => {
         mutate("/api/people")
     }
 
-    if (photos.error || roles.error || people.error)
+    if (photosErr || rolesErr || peopleErr)
         return <ExclamationCircleOutlined />
-    if (!photos.data || !roles.data || !people.data)
+    if (!photos || !roles || !people)
         return <LoadingOutlined spin={true} />
+    if (!Array.isArray(roles) || !Array.isArray(people))
+        return <ExclamationCircleOutlined />
 
     return (
         <div className={styles.Container}>
-            <div>List of photos:</div>
-            {photos.data.photos.map((photo, index) => (
+            {photos.photos.map(photo => (
                 <Photo
-                    key={index}
+                    key={photo.id}
                     id={photo.id}
                     ext={photo.ext}
                     descEn={photo.descriptionEn}
@@ -54,8 +68,8 @@ const ListOfPhotos = () => {
                     updateList={updateList}
                     size={photo.size}
                     artists={photo.artists}
-                    roles={roles.data.roles}
-                    people={people.data.people}
+                    roles={roles}
+                    people={people}
                     visibleOnHomepage={photo.visibleOnHomepage}
                 />
             ))}
@@ -77,140 +91,147 @@ const Photo = (props: {
     roles: Role[]
     people: Person[]
     visibleOnHomepage: boolean
-}) => {
-    const [descRu, setDescRu] = useState(props.descRu ? props.descRu : "")
-    const [descEn, setDescEn] = useState(props.descEn ? props.descEn : "")
-
-    const maxSize = 150
-    const div =
-        props.width > props.height
-            ? props.width / maxSize
-            : props.height / maxSize
-    const height = Math.floor(props.height / div)
-    const width = Math.floor(props.width / div)
-
-    return (
-        <div>
-            <div className={styles.Photo}>
+}) => (
+    <div>
+        <div className={styles.Photo}>
+            <div className={styles.PhotoContainer}>
                 <Image
                     src={getImagePath(props.id, props.ext)}
-                    width={width}
-                    height={height}
                     alt="Uploaded photo"
-                    unoptimized={true}
+                    fill
+                    unoptimized
                 />
-                <div className={styles.Stack}>
-                    <input
-                        placeholder="English description"
-                        value={descEn}
-                        onChange={(e) => setDescEn(e.target.value)}
-                        type="text"
-                    />
-                    <input
-                        placeholder="Russian description"
-                        value={descRu}
-                        onChange={(e) => setDescRu(e.target.value)}
-                        type="text"
-                    />
-                    <button
-                        className={styles.Button}
-                        onClick={() => updatePhoto(props.id, descEn, descRu)}>
-                        <SaveOutlined /> Save
-                    </button>
-                    <button
-                        className={styles.Button}
-                        onClick={() => deletePhoto(props.id, props.updateList)}>
-                        <DeleteOutlined /> Delete
-                    </button>
-                </div>
+                    
+                <Visibility
+                    id={props.id}
+                    visibleOnHomepage={props.visibleOnHomepage}
+                    updateList={props.updateList}
+                />
+                    
+                <Order
+                    id={props.id}
+                    order={props.order}
+                    onChange={props.updateList}
+                />
             </div>
-
-            <Info
-                ext={props.ext}
-                width={props.width}
-                height={props.height}
-                size={props.size}
-            />
-
-            <Artists
-                id={props.id}
-                artists={props.artists}
-                roles={props.roles}
-                people={props.people}
-                onChange={props.updateList}
-            />
-
-            <Visibility
-                id={props.id}
-                visibleOnHomepage={props.visibleOnHomepage}
-                updateList={props.updateList}
-            />
-
-            <Order
-                id={props.id}
-                order={props.order}
-                onChange={props.updateList}
-            />
+            
+            <form className={styles.Stack} onSubmit={e => updatePhoto(e, props.id)}>
+                <div className={styles.InputWithLabel}>
+                    <label htmlFor={`english-description-${props.id}`}>En</label>
+                    <input
+                        id={`english-description-${props.id}`}
+                        placeholder="English description"
+                        value={props.descEn ?? undefined}
+                        type="text"
+                        name="descEn"
+                    />
+                </div>
+                <div className={styles.InputWithLabel}>
+                    <label htmlFor={`russian-description-${props.id}`}>Ru</label>
+                    <input
+                        id={`russian-description-${props.id}`}
+                        placeholder="Russian description"
+                        defaultValue={props.descRu ?? undefined}
+                        type="text"
+                        name="descRu"
+                    />
+                </div>
+                <button type="submit">
+                    <SaveOutlined /> Save
+                </button>
+                <button type="button" onClick={() => deletePhoto(props.id, props.updateList)}>
+                    <DeleteOutlined /> Delete
+                </button>
+            </form>
         </div>
-    )
+
+        <Artists
+            id={props.id}
+            artists={props.artists}
+            roles={props.roles}
+            people={props.people}
+            onChange={props.updateList}
+        />
+
+        <Info
+            ext={props.ext}
+            width={props.width}
+            height={props.height}
+            size={props.size}
+        />
+    </div>
+)
+
+interface PhotoDescriptionForm extends HTMLFormElement {
+    descEn: HTMLInputElement
+    descRu: HTMLInputElement
 }
 
-const updatePhoto = async (id: number, descEn: string, descRu: string) => {
+async function updatePhoto(e: FormEvent, id: number) {
+    e.preventDefault()
+
+    const target = e.target as PhotoDescriptionForm
     const options = {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ id, descEn, descRu }),
+        body: JSON.stringify({
+            id,
+            descEn: target.descEn.value,
+            descRu: target.descRu.value,
+        }),
     }
     const response = await fetch("/api/update", options)
-    const res: UpdateAPI = await response.json()
-    if (!res.ok) console.error("Update failed")
+    if (!response.ok) {
+        alert("Update failed")
+    }
 }
 
-const deletePhoto = async (id: number, updateList: () => void) => {
+async function deletePhoto(id: number, updateList: () => void) {
     const options = {
-        method: "POST",
+        method: "DELETE",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({ id }),
     }
     const response = await fetch("/api/delete", options)
-    const res: DeleteAPI = await response.json()
-    if (!res.ok) console.error("Can't delete photo")
+    if (!response.ok) {
+        alert("Can't delete photo")
+        return
+    }
+
     updateList()
 }
 
-const UploadForm = (props: { updateList: () => void }) => {
-    return (
-        <>
-            <div>Upload new photo</div>
-            <form onSubmit={(e) => handleSubmit(e, props.updateList)}>
-                <input
-                    type="file"
-                    accept="image/png, image/jpeg, image/webp"
-                    name="image"
-                    required
-                />
-                <button type="submit" className={styles.Button}>
-                    <CloudUploadOutlined />
-                </button>
-            </form>
-        </>
-    )
-}
+const UploadForm = (props: { updateList: () => void }) => (
+    <form onSubmit={e => handleSubmit(e, props.updateList)}>
+        <div>Upload new photo</div>
+        <input
+            type="file"
+            accept="image/png, image/jpeg, image/webp, image/avif"
+            name="image"
+            required
+        />
+        <button type="submit" className={styles.Button}>
+            <CloudUploadOutlined />
+        </button>
+    </form>
+)
 
 interface UploadForm extends HTMLFormElement {
     image: HTMLInputElement
 }
 
-const handleSubmit = async (e: FormEvent, updateList: () => void) => {
+async function handleSubmit(e: FormEvent, updateList: () => void) {
     e.preventDefault()
 
     const target = e.target as UploadForm
-    if (!target.image.files || target.image.files.length < 1)
-        throw new Error("No files selected")
+    if (!target.image.files || target.image.files.length < 1) {
+        alert("Image list is empty")
+        return
+    }
 
     const image = target.image.files[0]
     const formData = new FormData()
@@ -224,16 +245,12 @@ const handleSubmit = async (e: FormEvent, updateList: () => void) => {
         body: formData,
     }
 
-    const res = await fetch("/api/upload", options)
-    const result: UploadAPI = await res.json()
-
-    // Server returned an error
-    if (!result.ok) throw new Error(result.msg)
+    const response = await fetch("/api/upload", options)
+    if (!response.ok) {
+        alert(`Request failed, code ${response.status}`)
+        return
+    }
 
     target.reset()
-
-    // Update photo list
     updateList()
 }
-
-export default ListOfPhotos

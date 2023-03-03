@@ -4,17 +4,12 @@ import { NextApiRequest, NextApiResponse } from "next"
 import { sessionOptions } from "lib/session"
 import { prisma } from "lib/prisma"
 
-export type UpdateAPI = {
-    ok: boolean
-    msg?: string
-}
-
 export default withIronSessionApiRoute(handle, sessionOptions)
 
-async function handle(req: NextApiRequest, res: NextApiResponse<UpdateAPI>) {
+async function handle(req: NextApiRequest, res: NextApiResponse) {
     try {
         // Check request method
-        if (req.method !== "POST") throw new Error("Wrong request method")
+        if (req.method !== "PUT") throw new Error("Wrong request method")
 
         // Check auth
         const user = req.session.user
@@ -38,10 +33,8 @@ async function handle(req: NextApiRequest, res: NextApiResponse<UpdateAPI>) {
         })
         if (!updatedPhoto) throw new Error("Cannot update photo")
 
-        res.send({ ok: true })
-    } catch (err) {
-        const msg =
-            err instanceof Error ? err.message : "/api/update: Unknown error"
-        res.send({ ok: false, msg: msg })
+        res.status(200).send({})
+    } catch {
+        res.status(400).send({})
     }
 }

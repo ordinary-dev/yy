@@ -1,22 +1,22 @@
 import useSWR, { useSWRConfig } from "swr"
 import { FormEvent } from "react"
 import { SaveOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons"
-import { RolesAPI } from "pages/api/roles"
+import { RoleGetResponse } from "pages/api/roles"
 import styles from "./artists.module.css"
 
 export default function Roles() {
-    const { data, error } = useSWR<RolesAPI, Error>("/api/roles")
+    const { data, error } = useSWR<RoleGetResponse, Error>("/api/roles")
     const { mutate } = useSWRConfig()
     const reload = () => mutate("/api/roles")
 
     if (error) return <div>Error</div>
     if (!data) return <div>Loading</div>
-    if (!data.roles) return <div>Server error</div>
+    if (!Array.isArray(data)) return <div>Error</div>
 
     return (
         <div>
             <h4>Roles</h4>
-            {data.roles.map((role) => (
+            {data.map((role) => (
                 <Role
                     key={role.id}
                     nameEn={role.nameEn}

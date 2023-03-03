@@ -7,20 +7,36 @@
     gap: 1em;
 }
 
-.Button {
-    padding: 8px;
-    background-color: transparent;
-    border: 1px solid black;
-    border-radius: 5px;
-    cursor: pointer;
-    transition-duration: 0.1s;
-    transition-property: background-color, color;
-    font-family: inherit;
+.InputWithLabel {
+    display: flex;
 }
 
-.Button:hover {
-    background-color: black;
-    color: white;
+.Stack label {
+    margin-right: 5px;
+    color: #777;
+}
+
+.Stack input,
+.Stack button {
+    padding: 5px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border 0.15s ease-in-out;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+}
+
+.Stack button {
+    cursor: pointer;
+}
+
+.Stack input:hover,
+.Stack input:focus,
+.Stack button:hover,
+.Stack button:active {
+    border: 1px solid black;
 }
 
 .Photo {
@@ -28,13 +44,19 @@
     gap: 10px;
 }
 
+.PhotoContainer {
+    width: 160px;
+    height: 160px;
+    position: relative;
+}
+
+.PhotoContainer img {
+    object-fit: cover;
+    border-radius: 5px;
+}
+
 .Stack {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-}
-
-.Stack > input {
-    min-width: 250px;
-    height: 30px;
 }
