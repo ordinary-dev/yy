@@ -1,28 +1,10 @@
 services:
-  nextjs:
-    build:
-      dockerfile: docker/dev.Dockerfile
-      context: .
-    volumes:
-      - ./lib:/app/lib:ro,z
-      - ./next.config.js:/app/next.config.js:ro,z
-      - ./prisma:/app/prisma:z
-      - ./pages:/app/pages:ro,z
-      - ./photos:/app/photos:z
-      - ./public:/app/public:z
-      - ./styles:/app/styles:ro,z
-    restart: unless-stopped
-    ports:
-      - 3000:3000
-    depends_on:
-      - postgres
-    environment:
-      - DATABASE_URL=postgresql://ordinary-dev:e2t6dm0f@postgres:5432/yydb?schema=public
-
   postgres:
-    image: postgres:15.2-alpine
+    image: postgres:16.0-alpine
     volumes:
       - yy-postgres-dev:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     environment:
       - POSTGRES_USER=ordinary-dev
       - POSTGRES_PASSWORD=e2t6dm0f
