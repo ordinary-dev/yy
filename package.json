@@ -19,7 +19,7 @@
         "react-dom": "^18.2.0",
         "sanitize-html": "^2.10.0",
         "sharp": "^0.32.1",
-        "swr": "^2.1.2"
+        "swr": "^2.2.4"
     },
     "devDependencies": {
         "@types/formidable": "^2.0.5",
